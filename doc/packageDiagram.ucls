@@ -21,20 +21,42 @@
     <position height="-1" width="-1" x="333" y="45"/>    
     <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
-  <dependency id="5">    
+  <package id="5" language="java" name="chartexport" project="HeraclitusFire" file="/HeraclitusFire/src/chartexport" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="50" width="101" x="451" y="216"/>    
+    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <package id="6" language="java" name="patternassessment" project="HeraclitusFire" 
+    file="/HeraclitusFire/src/patternassessment" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="50" width="136" x="685" y="227"/>    
+    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <dependency id="7">    
     <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="1"/>  
+    <end type="TARGET" refId="5"/>  
   </dependency>  
-  <dependency id="6">    
+  <dependency id="8">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <dependency id="9">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <dependency id="10">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <dependency id="11">    
     <end type="SOURCE" refId="4"/>    
     <end type="TARGET" refId="3"/>  
   </dependency>  
-  <dependency id="7">    
+  <dependency id="12">    
     <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="2"/>  
+    <end type="TARGET" refId="1"/>  
   </dependency>  
-  <dependency id="8">    
-    <end type="SOURCE" refId="1"/>    
+  <dependency id="13">    
+    <end type="SOURCE" refId="3"/>    
     <end type="TARGET" refId="2"/>  
   </dependency>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
