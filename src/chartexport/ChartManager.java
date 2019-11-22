@@ -21,6 +21,7 @@ public class ChartManager {
 		this.outputFolderWithFigures = outputFolderWithFigures;
 		
 		this.scatterExporters = new ArrayList<ScatterChartExporter>();
+		this.categoryScatterExporters = new ArrayList<CategoryScatterChartExporter>();
 		this.stage = primaryStage; 
 System.out.println("************************ "+this.prjName);
 	}//end constructor
@@ -53,6 +54,29 @@ System.out.println("************************ "+this.prjName);
 		ScatterChartExporter sTriangle = new ScatterChartExporter(outputFolderWithFigures+"/"+"EmptyTriangle.png", this.prjName+":\nDuration over Birth", tuplesPerLADCollection, 
 				"Birth", "Duration",	attributePositions, stage);
 		this.scatterExporters.add(sTriangle);
+		
+		///*
+		CategoryScatterChartExporter csGammaDur = new CategoryScatterChartExporter(outputFolderWithFigures+"/"+"GammaDurcategory.png", this.prjName+":\nDur over Sc.Size", tuplesPerLADCollection, 
+				"SchemaSize@Birth", "Duration",	attributePositions, stage);
+		this.categoryScatterExporters.add(csGammaDur);
+
+		CategoryScatterChartExporter csGamma = new CategoryScatterChartExporter(outputFolderWithFigures+"/"+"GammaLKVcategory.png", this.prjName+":\nLKV over Sc.Size", tuplesPerLADCollection, 
+				"SchemaSize@Birth", "LastKnownVersion",	attributePositions, stage);
+		this.categoryScatterExporters.add(csGamma);
+
+		CategoryScatterChartExporter csComet = new CategoryScatterChartExporter(outputFolderWithFigures+"/"+"Cometcategory.png", this.prjName+":\nUpdates over Sc.Size", tuplesPerLADCollection, 
+				"SchemaSize@Birth", "SumUpd",	attributePositions, stage);
+		this.categoryScatterExporters.add(csComet);
+
+		CategoryScatterChartExporter csInvGamma = new CategoryScatterChartExporter(outputFolderWithFigures+"/"+"InvGammaLKVcategory.png", this.prjName+":\nUpdates over LKV", tuplesPerLADCollection, 
+				"LastKnownVersion",	"SumUpd", attributePositions, stage);
+		this.categoryScatterExporters.add(csInvGamma);
+
+		CategoryScatterChartExporter csTriangle = new CategoryScatterChartExporter(outputFolderWithFigures+"/"+"EmptyTrianglecategory.png", this.prjName+":\nDuration over Birth", tuplesPerLADCollection, 
+				"Birth", "Duration",	attributePositions, stage);
+		this.categoryScatterExporters.add(csTriangle);
+		//*/
+		
 		launchScatterChartExporters();
 		return 0;
 	}
@@ -68,6 +92,14 @@ System.out.println("************************ "+this.prjName);
 			}
 			//s.saveChart();
 		}
+		for(CategoryScatterChartExporter s: this.categoryScatterExporters) {
+			try {
+				s.start(stage);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			//s.saveChart();
+		}
 	}
 	
 	private ArrayList<TableDetailedStatsElement> inputTupleCollection;
@@ -75,6 +107,7 @@ System.out.println("************************ "+this.prjName);
 	private HashMap<Integer, ArrayList<TableDetailedStatsElement>> tuplesPerLADCollection;
 	private String outputFolderWithFigures;
 	private ArrayList<ScatterChartExporter> scatterExporters;
+	private ArrayList<CategoryScatterChartExporter> categoryScatterExporters;
 	private Stage stage;
 	private String prjName;
 }//end class
