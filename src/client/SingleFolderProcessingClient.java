@@ -6,6 +6,7 @@ package client;
 //import java.io.File;
 
 import mainEngine.TableStatsMainEngine;
+import mainEngine.SchemaStatsMainEngine;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -13,7 +14,7 @@ import javafx.stage.Stage;
 /**
  * A simple client to process a folder containing the results of Hecate and produce pattern figures.
  * 
- * @author pvassil
+ * @author pvassil, alexvou
  * @since 2019-06-10
  * @version v.0.4
  */
@@ -41,6 +42,9 @@ public class SingleFolderProcessingClient extends Application{
 		
 		TableStatsMainEngine engine = new TableStatsMainEngine(folderOfProject, primaryStage);
 		engine.processFolder();
+		
+		SchemaStatsMainEngine sengine = new SchemaStatsMainEngine(folderOfProject, primaryStage);
+		sengine.processFolder();
 		
 		System.out.println("Done with " + folderOfProject);
 		System.out.println("#########################################\n\n");
