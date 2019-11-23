@@ -17,7 +17,7 @@ See the [copyright](copyright.md) file
 
 ## ToDo ( / is for  partially, X for full)
 - [/] Code and Tests for code for table figure extraction
-- [ ] Code and tests for schema life figure extraction
+- [/] Code and tests for schema life figure extraction
 - [ ] Code and tests for schema size pattern test (logistic equation?)
 - [ ] Code and tests for schema heartbeat pattern test (SUPER OPEN)
 - [/] Code and tests for gamma table pattern test 
@@ -27,8 +27,11 @@ See the [copyright](copyright.md) file
 - [ ] Code and tests for electrolysis table pattern test
 
 
-##History
+## History
+### v0.2 [2019 Nov. - ]
+* Alexandros Voulgaris started contributing to charting
+* P. Vassiliadis started contributing pattern testing
 
-###v0.1 [2019 Summer - ]
+### v0.1 [2019 Summer - November]
 * P. Vassiliadis. Code started being developed with data loading and extraction of figures for tables.
 
