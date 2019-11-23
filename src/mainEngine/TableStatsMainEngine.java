@@ -7,7 +7,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import chartexport.ChartManager;
+import chartexport.TablesChartManager;
 import dataload.TableDetailedStatsLoader;
 import datamodel.TableDetailedStatsElement;
 import javafx.stage.Stage;
@@ -72,7 +72,7 @@ public class TableStatsMainEngine {
 		this.organizeTuplesByLAD();
 
 		this.createChartManager();  
-		chartManager.extractScatterCharts();
+		tablesChartManager.extractScatterCharts();
 
 		//TODO ###########################################
 		//TEST THAT YOU PROCESSED INPUT FILE CORRECTLY
@@ -181,11 +181,11 @@ public class TableStatsMainEngine {
 	/**
 	 * Initializes the Chart manager
 	 * 
-	 * The reason for the separate treatment is the stage needed for the new of ChartManager.
+	 * The reason for the separate treatment is the stage needed for the new of TablesChartManager.
 	 * We keep this code separately, to facilitate testing, without the need for launching stages.
 	 */
 	protected void createChartManager() {
-		chartManager = new ChartManager(prjName, inputTupleCollection, attributePositions, tuplesPerLADCollection, outputFolderWithFigures, stage);
+		tablesChartManager = new TablesChartManager(prjName, inputTupleCollection, attributePositions, tuplesPerLADCollection, outputFolderWithFigures, stage);
 	}
 
 	private TableDetailedStatsLoader loader;
@@ -199,8 +199,8 @@ public class TableStatsMainEngine {
 	private int _NUMFIELDS;
 	private Boolean _DEBUGMODE = true;
 
-	//protected, because at testing level, where we want to avoid using stages, we will subclass it with a Stageless chartManager
-	protected ChartManager chartManager;
+	//protected, because at testing level, where we want to avoid using stages, we will subclass it with a Stageless tablesChartManager
+	protected TablesChartManager tablesChartManager;
 	protected  HashMap<String, Integer> attributePositions;
 	protected HashMap<Integer, ArrayList<TableDetailedStatsElement>> tuplesPerLADCollection;
 	protected ArrayList<TableDetailedStatsElement> inputTupleCollection;

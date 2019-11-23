@@ -6,10 +6,10 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import datamodel.TableDetailedStatsElement;
 
-public class ChartManager {
+public class TablesChartManager {
 
 	
-	public ChartManager(String prjName,
+	public TablesChartManager(String prjName,
 			ArrayList<TableDetailedStatsElement> inputTupleCollection,
 			HashMap<String, Integer> attributePositions,
 			HashMap<Integer, ArrayList<TableDetailedStatsElement>> tuplesPerLADCollection,

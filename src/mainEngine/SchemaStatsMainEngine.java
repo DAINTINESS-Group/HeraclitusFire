@@ -186,7 +186,7 @@ public class SchemaStatsMainEngine {
 	/**
 	 * Initializes the Chart manager
 	 * 
-	 * The reason for the separate treatment is the stage needed for the new of ChartManager.
+	 * The reason for the separate treatment is the stage needed for the new of TablesChartManager.
 	 * We keep this code separately, to facilitate testing, without the need for launching stages.
 	 */
 	protected void createChartManager() {
@@ -209,7 +209,7 @@ public class SchemaStatsMainEngine {
 	private Boolean _DEBUGMODE = true;
 	private Boolean _DATEMODE;  // if there are date values (running years etc.) or not, group or not, create respective charts
 
-	//protected, because at testing level, where we want to avoid using stages, we will subclass it with a Stageless chartManager
+	//protected, because at testing level, where we want to avoid using stages, we will subclass it with a Stageless tablesChartManager
 	protected SchemaChartManager chartManager;
 	protected HashMap<String, Integer> attributePositions;
 	protected HashMap<Integer, ArrayList<SchemaHeartbeatElement>> tuplesPerRYFV0Collection;

@@ -4,7 +4,7 @@
 This project retrieves histories of schemata that have been processed on how the schema and the individual tables evolve and automatically produces visualizations and statistical tests for patterns of schema evolution  
 
 ## Installation
-1. Install Java (jdk-12 is used)
+1. Install Java (jdk-13 is used)
 The folder /lib comes with all the jar needed for the software to work.
 A point of possible pain is the handling of JavaFX: all javaFx libs are included.
 Although not thoroughly tested, Java 8 should probably work, too. 
