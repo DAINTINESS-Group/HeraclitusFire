@@ -27,7 +27,7 @@ public class GammaSimpleTest {
 		inputTupleCollection = new ArrayList<TableDetailedStatsElement>();
 		ArrayList<String> header = new ArrayList<String>();
 		numRows = tableStatsMainEngine.loadData("resources/Atlas/results/tables_DetailedStats.tsv", "\t", true, 22, header, inputTupleCollection);
-		gammaAssessment = new PatternGammaAssessment(inputTupleCollection, "Atlas", "resources/test/GammaTest", "resources/test/GlobalLog.txt", ALPHA);
+		gammaAssessment = new PatternGammaAssessment(inputTupleCollection, "Atlas", "resources/test/Gamma", "resources/test/GlobalLog.txt", ALPHA);
 		result = gammaAssessment.constructResult();
 		gammaAssessment.computeContingencyTable(result);
 	}
@@ -54,7 +54,7 @@ public class GammaSimpleTest {
 
 	@Test
 	final void testDecideIfPatternHolds() {
-		assertTrue(gammaAssessment.decideIfPatternHolds(result));
+		assertFalse(gammaAssessment.decideIfPatternHolds(result));
 	}
 
 	  
@@ -62,7 +62,7 @@ public class GammaSimpleTest {
 	  final void testAssessPattern() { 
 		  assertEquals(numRows,89, "Atlas tables are 88 + 1 line header");
 		  assertEquals(inputTupleCollection.size(),88);
-		  assertTrue(gammaAssessment.assessPatternTemplateMethod()); 
+		  assertFalse(gammaAssessment.assessPatternTemplateMethod()); 
 	  }
 	 
 
