@@ -1,0 +1,14 @@
+
+NEW PRJ ----------- Atlas -------------------------
+Atlas:	GammaTest
+Geometry holds? false
+p-Value  holds? false
+holds? 	false
+------------------------------------------------
+
+NEW PRJ ----------- Atlas -------------------------
+Atlas:	GammaTest
+Geometry holds? false
+p-Value  holds? false
+holds? 	false
+------------------------------------------------

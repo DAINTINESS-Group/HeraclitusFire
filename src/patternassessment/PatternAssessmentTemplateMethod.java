@@ -121,13 +121,12 @@ public abstract class PatternAssessmentTemplateMethod {
 	 */
 	private void writeToResultFile(PatternAssessmentResult par){
 		String filePath = outputFolderWithPatterns + "/" 
-				+ this.result.getDescription() +
-				".txt"; 
+				+ this.projectName + ".txt"; 
 
 		FileOutputStream fileOutputStream=null;
 		PrintStream printStream=null; 
 		try{ 
-			fileOutputStream = new FileOutputStream(new File(filePath)); 
+			fileOutputStream = new FileOutputStream(new File(filePath), true); 
 			printStream=new PrintStream(fileOutputStream);
 
 			this.writeToResultFile(result, printStream);
