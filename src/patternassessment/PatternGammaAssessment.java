@@ -8,7 +8,7 @@ import patternassessment.fisher.exact.test.FisherExactTestWrapper;
 public class PatternGammaAssessment extends PatternAssessmentTemplateMethod {
 	private static int WIDE_TABLE_LIMIT = 10;
 	private static int MED_TABLE_LIMIT = 5;
-	private static int ACCEPTABLE_NARROW_DEAD_FOR_PATTERN_TO_HOLD = 3;
+	private static int MAX_ACCEPTABLE_NUM_WIDE_DEAD_FOR_PATTERN_TO_HOLD = 3;
 
 	private Boolean geometricalPatternTrue;
 	private Boolean pValuePatternTrue;
@@ -104,7 +104,7 @@ public class PatternGammaAssessment extends PatternAssessmentTemplateMethod {
 		Boolean fisherTestPass = pValueFisher < this.alphaAcceptanceLevel;
 		par.setFisherTestPass(fisherTestPass);
 		
-		this.geometricalPatternTrue = (survivorsWide > deadWide) && (deadWide <= ACCEPTABLE_NARROW_DEAD_FOR_PATTERN_TO_HOLD);
+		this.geometricalPatternTrue = (survivorsWide > deadWide) && (deadWide <= MAX_ACCEPTABLE_NUM_WIDE_DEAD_FOR_PATTERN_TO_HOLD);
 		this.pValuePatternTrue = (probSurvIfWide > probSurvIfNotWide) && fisherTestPass;
 		
 		return (geometricalPatternTrue || pValuePatternTrue);
