@@ -13,7 +13,7 @@ import mainEngine.TableStatsMainEngine;
 import patternassessment.PatternAssessmentResult;
 import patternassessment.PatternGammaAssessment;
 
-class GammaSimpleTest {
+public class GammaSimpleTest {
 	private static TableStatsMainEngine tableStatsMainEngine; 
 	private static ArrayList<TableDetailedStatsElement> inputTupleCollection;
 	private static int numRows;
@@ -62,7 +62,7 @@ class GammaSimpleTest {
 	  final void testAssessPattern() { 
 		  assertEquals(numRows,89, "Atlas tables are 88 + 1 line header");
 		  assertEquals(inputTupleCollection.size(),88);
-		  assertTrue(gammaAssessment.assessPattern()); 
+		  assertTrue(gammaAssessment.assessPatternTemplateMethod()); 
 	  }
 	 
 

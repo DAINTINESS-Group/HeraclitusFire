@@ -10,7 +10,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 //import java.util.HashMap;
 
-import org.apache.commons.math3.stat.inference.ChiSquareTest;
+//import org.apache.commons.math3.stat.inference.ChiSquareTest;
 
 import datamodel.TableDetailedStatsElement;
 
@@ -61,7 +61,7 @@ public abstract class PatternAssessmentTemplateMethod {
 	 * 
 	 * @return true of the pattern holds, false otherwise
 	 */
-	public Boolean assessPattern() {
+	public Boolean assessPatternTemplateMethod() {
 		//prepare matrixes -- customized for the base contingency table
 		this.result = constructResult(); //child classes must have attributes for descr, #cols, #rows
 		
@@ -89,143 +89,6 @@ public abstract class PatternAssessmentTemplateMethod {
 		//TODO: decide how to handle globalFilePath && fix the appendTo.. method()
 		//this.appendToGlobalLogFile(result, "XX globalFilePath XX");
 		return this.patternIsValid;
-	}
-
-	private final int[][] computeContingencyWithMarginals(PatternAssessmentResult par){
-		int [][] counters= par.getContingencyTable();
-		int [][] countersExtended = par.getContingencyTableWithMarginals();
-		int rows = par.getContingencyNumRows();
-		int cols = par.getContingencyNumColumns();
-
-		int totalNumTuples = 0;
-		for(int i = 0; i < rows; i++) {
-			int rowSum = 0;
-			for(int j=0; j < cols; j++) {
-				countersExtended[i][j] = counters[i][j];
-				rowSum += counters[i][j];
-			}
-			countersExtended[i][cols] = rowSum;
-			totalNumTuples += rowSum;
-		}
-		countersExtended[rows][cols] = totalNumTuples;
-
-		for (int j=0; j < cols; j++){
-			int colSum = 0;
-			for(int i = 0; i < rows; i++) {
-				colSum += counters[i][j];
-			}
-			countersExtended[rows][j] = colSum;
-		}		
-		return countersExtended;
-	}
-
-	private final double[][] computePercentagesWithMarginals(PatternAssessmentResult par){
-		int [][] countersExtended = par.getContingencyTableWithMarginals();
-		double [][] pctsOverMarginals = par.getPercentageTableWithMarginals();
-		int rows = par.getContingencyNumRows() + 1;
-		int cols = par.getContingencyNumColumns() + 1;
-		int totalNumTuples = countersExtended[rows-1][cols-1];
-
-		for(int i = 0; i < rows; i++) {
-			for(int j=0; j < cols; j++) {
-				pctsOverMarginals[i][j] = ((double) countersExtended[i][j])/totalNumTuples;
-			}
-		}
-		return pctsOverMarginals;
-	}
-
-	/**
-	 * A method to perform a Chi Square Test and output the result to a PrintStream
-	 * 
-	 * @param par A PatternAssessmentResult holding the contingency matrix with the counted values for the different classes
-	 * @param alphaAcceptanceLevel A double with the $\alpha$ level to decide if the test is passed or not
-	 * @return a Boolean value reporting whether the test is passed or not
-	 * 
-	 * See:
-	 * https://www.itl.nist.gov/div898/handbook/eda/section3/eda35f.htm
-	 * https://commons.apache.org/proper/commons-math/javadocs/api-3.6/org/apache/commons/math3/stat/inference/ChiSquareTest.html
-	 * http://commons.apache.org/proper/commons-math/userguide/stat.html#a1.8_Statistical_tests
-	 * https://github.com/apache/commons-math/blob/master/src/test/java/org/apache/commons/math4/stat/inference/ChiSquareTestTest.java
-	 * 
-	 */
-	protected final Boolean runChiSquareTests(PatternAssessmentResult par, double alphaAcceptanceLevel) {
-		int[][] counts = par.getContingencyTable();
-		int numRows = counts.length;
-		int numCols = counts[0].length;
-		long[][] countsLong = new long[numRows][numCols];
-		for(int i = 0 ; i < numRows; i++)
-			for (int j=0; j< numCols; j++)
-				countsLong[i][j] = counts[i][j];
-		
-		ChiSquareTest testStatistic = new ChiSquareTest();
-		//Double resultRaw = testStatistic.chiSquare(counts); 
-		Double pValue = testStatistic.chiSquareTest(countsLong); 
-		Boolean pTest = testStatistic.chiSquareTest(countsLong, alphaAcceptanceLevel);
-		par.setChiSquareTestPValue(pValue);
-		par.setChiSquareTestPass(pTest);
-		return pTest;
-	}//end runChiSquareTests
-
-
-	protected final Boolean runFisherExactTest(PatternAssessmentResult par, double alphaAcceptanceLevel) {
-		double prob = computeSingleProbFisherExactTest(par);
-		double pValue = 1.0;
-		Boolean pTest = false;
-		
-		//TODO: compute more extreme Fisher tests and add prob's to get a pvalue
-		
-		if (pValue < alphaAcceptanceLevel)
-			pTest = true;
-		par.setFisherTestPass(pTest);
-
-		return pTest;
-	}
-	
-	/**
-	 * Computes the probability for the Fisher Test for the given contingency table
-	 * 
-	 * @param par the PatternAssessmentResult with its cont. tables with marginals computed
-	 * @return a double with the prob of the Fisher test
-	 */
-	protected final double computeSingleProbFisherExactTest(PatternAssessmentResult par) {
-//		int rows = par.getContingencyNumRows();
-//		int cols = par.getContingencyNumColumns();
-//		int counts[][] = new int[rows+1][cols+1]; 
-//		for (int i=0;i<rows+1;i++)
-//			for (int j=0;j<cols+1;j++) {
-//				counts[i][j] = par.getContingencyTableWithMarginals()[i][j];
-//				System.out.println(i+"\t"+j+"\t"+counts[i][j]);
-//			}
-//		double prob = this.computeFisherExactTest(counts);
-		double prob = this.computeFisherExactTest(par.getContingencyTableWithMarginals());
-		par.setFisherTestPValue(prob);
-		return prob;
-	}
-
-	/**
-	 * Fisher's exact test requires a 3x3 table =  a 2x2 table with marginals
-	 * 
-	 * a	b	r1			//r1=(a+b)
-	 * c	d	r2			//r2=(c+d)
-	 * c1	c2	s			//c1=(a+c), c2=(b+d) s=a+b+c+d
-	 * 
-	 */
-	private double computeFisherExactTest(int counts[][]) {
-		//cannot work with long, have to use int[][]
-		double aF = org.apache.commons.math3.util.CombinatoricsUtils.factorialDouble(counts[0][0]);
-		double bF = org.apache.commons.math3.util.CombinatoricsUtils.factorialDouble(counts[0][1]);
-		double cF = org.apache.commons.math3.util.CombinatoricsUtils.factorialDouble(counts[1][0]);
-		double dF = org.apache.commons.math3.util.CombinatoricsUtils.factorialDouble(counts[1][1]);
-		double r1F = org.apache.commons.math3.util.CombinatoricsUtils.factorialDouble(counts[0][2]);
-		double r2F = org.apache.commons.math3.util.CombinatoricsUtils.factorialDouble(counts[1][2]);
-		double c1F = org.apache.commons.math3.util.CombinatoricsUtils.factorialDouble(counts[2][0]);
-		double c2F = org.apache.commons.math3.util.CombinatoricsUtils.factorialDouble(counts[2][1]);
-		double sF = org.apache.commons.math3.util.CombinatoricsUtils.factorialDouble(counts[2][2]);
-
-		//System.out.println(r1F * r2F * c1F * c2F);
-		//System.out.println(sF * aF * bF * cF * dF);
-		double pValue = (r1F * r2F * c1F * c2F) /(sF * aF * bF * cF * dF);
-		return pValue;
 	}
 
 	private void writeToResultFile(PatternAssessmentResult par, PrintStream outStream) {
@@ -322,6 +185,52 @@ public abstract class PatternAssessmentTemplateMethod {
 			} 
 		}
 	}//end method
+
+
+	private final int[][] computeContingencyWithMarginals(PatternAssessmentResult par){
+		int [][] counters= par.getContingencyTable();
+		int [][] countersExtended = par.getContingencyTableWithMarginals();
+		int rows = par.getContingencyNumRows();
+		int cols = par.getContingencyNumColumns();
+
+		int totalNumTuples = 0;
+		for(int i = 0; i < rows; i++) {
+			int rowSum = 0;
+			for(int j=0; j < cols; j++) {
+				countersExtended[i][j] = counters[i][j];
+				rowSum += counters[i][j];
+			}
+			countersExtended[i][cols] = rowSum;
+			totalNumTuples += rowSum;
+		}
+		countersExtended[rows][cols] = totalNumTuples;
+
+		for (int j=0; j < cols; j++){
+			int colSum = 0;
+			for(int i = 0; i < rows; i++) {
+				colSum += counters[i][j];
+			}
+			countersExtended[rows][j] = colSum;
+		}		
+		return countersExtended;
+	}
+
+	private final double[][] computePercentagesWithMarginals(PatternAssessmentResult par){
+		int [][] countersExtended = par.getContingencyTableWithMarginals();
+		double [][] pctsOverMarginals = par.getPercentageTableWithMarginals();
+		int rows = par.getContingencyNumRows() + 1;
+		int cols = par.getContingencyNumColumns() + 1;
+		int totalNumTuples = countersExtended[rows-1][cols-1];
+
+		for(int i = 0; i < rows; i++) {
+			for(int j=0; j < cols; j++) {
+				pctsOverMarginals[i][j] = ((double) countersExtended[i][j])/totalNumTuples;
+			}
+		}
+		return pctsOverMarginals;
+	}
+
+
 
 
 }//end class
