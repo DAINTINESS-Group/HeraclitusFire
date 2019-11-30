@@ -18,7 +18,8 @@ public abstract class PatternAssessmentTemplateMethod {
 	protected ArrayList<TableDetailedStatsElement> inputTupleCollection;
 	//	private	HashMap<String, Integer> attributePositions;
 	//	private	HashMap<Integer, ArrayList<TableDetailedStatsElement>> tuplesPerLADCollection;
-	protected	String outputFolderWithPatterns;
+	protected String outputFolderWithPatterns;
+	protected String globalAppendLogPath;
 	protected PatternAssessmentResult result;
 	protected double alphaAcceptanceLevel;
 	protected Boolean patternIsValid;
@@ -28,20 +29,20 @@ public abstract class PatternAssessmentTemplateMethod {
 	public abstract PatternAssessmentResult constructResult();
 	public abstract int[][] computeContingencyTable(PatternAssessmentResult par);
 	public abstract Boolean decideIfPatternHolds(PatternAssessmentResult par);
-
+	public abstract String constructResultDescription(PatternAssessmentResult par);
+	
 	public PatternAssessmentTemplateMethod(
 			ArrayList<TableDetailedStatsElement> pInputTupleCollection,
-			//HashMap<String, Integer> pAttributePositions,
-			//HashMap<Integer, ArrayList<TableDetailedStatsElement>> pTuplesPerLADCollection,
 			String projectName,
 			String pOutputFolderWithPatterns,
+			String globalAppendLogPath,
 			double alpha
 			) {
+		this.result = null;
 		this.inputTupleCollection = pInputTupleCollection;
-		//	attributePositions = pAttributePositions;
-		//	tuplesPerLADCollection = pTuplesPerLADCollection;
-		this.outputFolderWithPatterns = pOutputFolderWithPatterns;
 		this.projectName = projectName;
+		this.outputFolderWithPatterns = pOutputFolderWithPatterns;
+		this.globalAppendLogPath = globalAppendLogPath;
 		this.alphaAcceptanceLevel = alpha;
 		this.patternIsValid = false;
 	}//end constructor
@@ -80,20 +81,22 @@ public abstract class PatternAssessmentTemplateMethod {
 		//take a customized decision
 		this.patternIsValid = this.decideIfPatternHolds(this.result);
 		this.result.setPatternHolds(this.patternIsValid);
-
+		
+		String resultStr = this.constructResultDescription(result);
+		this.result.setDescription(resultStr);
+		
 		//output the results
 		this.writeToResultFile(result, System.out);
 		
 		//TODO: once happy, uncomment the following
-		//this.writeToResultFile(result);
-		//TODO: decide how to handle globalFilePath && fix the appendTo.. method()
-		//this.appendToGlobalLogFile(result, "XX globalFilePath XX");
+		this.writeToResultFile(result);
+		this.appendToGlobalLogFile(result, globalAppendLogPath);
 		return this.patternIsValid;
 	}
 
 	private void writeToResultFile(PatternAssessmentResult par, PrintStream outStream) {
 		outStream.println("\nNEW PRJ ----------- " + this.projectName + " -------------------------");
-		outStream.println("test: " + "\t" + par.getDescription());
+		outStream.println(par.getDescription());
 		outStream.println("holds? " + "\t" + this.patternIsValid);
 		//outStream.println( "chi-square test statistic: " + "\t" + resultRaw );
 		
@@ -165,8 +168,11 @@ public abstract class PatternAssessmentTemplateMethod {
 			fr = new FileWriter(file, true);
 			br = new BufferedWriter(fr);
 			pr = new PrintWriter(br);
-			//TODO Decide global output
-			pr.println("MUST DECIDE WAHT TO PUT");
+
+			String outputString = par.getDescription() + "\n" +
+					"holds? " + "\t" + this.patternIsValid + "\n"
+					+ "-------------------------\n";
+			pr.println(outputString);
 
 		} catch (IOException e) {
 			System.out.println("[PatternAssessmentTemplateMethod] There was a problem opening GLOBAL file: " + filePath);

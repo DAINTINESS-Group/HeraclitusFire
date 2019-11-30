@@ -27,7 +27,7 @@ public class GammaSimpleTest {
 		inputTupleCollection = new ArrayList<TableDetailedStatsElement>();
 		ArrayList<String> header = new ArrayList<String>();
 		numRows = tableStatsMainEngine.loadData("resources/Atlas/results/tables_DetailedStats.tsv", "\t", true, 22, header, inputTupleCollection);
-		gammaAssessment = new PatternGammaAssessment(inputTupleCollection, "Atlas", "resources/test/GammaTest", ALPHA);
+		gammaAssessment = new PatternGammaAssessment(inputTupleCollection, "Atlas", "resources/test/GammaTest", "resources/test/GlobalLog.txt", ALPHA);
 		result = gammaAssessment.constructResult();
 		gammaAssessment.computeContingencyTable(result);
 	}

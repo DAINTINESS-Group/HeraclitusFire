@@ -1,6 +1,7 @@
 package patternassessment;
 
 public class PatternAssessmentResult {
+	private String prjNameAndPattern;
 	private String description;
 	private int contingencyNumRows;
 	private int contingencyNumColumns;
@@ -15,7 +16,7 @@ public class PatternAssessmentResult {
 	//TODO: possibly add one or two more Boolean/double fields for "otherTestsPass"
 	
 	public PatternAssessmentResult(String text, int rows, int cols) {
-		this.description = text;
+		this.prjNameAndPattern = text;
 		//TODO catch <= 1 for rows/cols
 		this.contingencyNumRows = rows;
 		this.contingencyNumColumns = cols;
@@ -29,6 +30,10 @@ public class PatternAssessmentResult {
 		this.patternHolds = null;
 	}//end constructor
 
+	public String getprjNameAndPattern() {
+		return this.prjNameAndPattern;
+	}
+	
 	public String getDescription() {
 		return description;
 	}
@@ -71,6 +76,10 @@ public class PatternAssessmentResult {
 
 	public Boolean getPatternHolds() {
 		return patternHolds;
+	}
+	
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 	public void setChiSquareTestPValue(double chiSquareTestPValue) {

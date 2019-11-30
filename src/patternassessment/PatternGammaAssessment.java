@@ -9,19 +9,25 @@ public class PatternGammaAssessment extends PatternAssessmentTemplateMethod {
 	private static int WIDE_TABLE_LIMIT = 10;
 	private static int MED_TABLE_LIMIT = 5;
 	private static int ACCEPTABLE_NARROW_DEAD_FOR_PATTERN_TO_HOLD = 3;
+
+	private Boolean geometricalPatternTrue;
+	private Boolean pValuePatternTrue;
 	
 	public PatternGammaAssessment(
 			ArrayList<TableDetailedStatsElement> pInputTupleCollection,
 			String projectName,
 			String pOutputFolderWithPatterns,
+			String globalAppendLogPath,
 			double alpha
 			) {
-		super(pInputTupleCollection, projectName, pOutputFolderWithPatterns, alpha);
+		super(pInputTupleCollection, projectName, pOutputFolderWithPatterns, globalAppendLogPath, alpha);
+		this.geometricalPatternTrue = false;
+		this.pValuePatternTrue = false;
 	}
 	
 	@Override
 	public PatternAssessmentResult constructResult() {
-		this.result = new PatternAssessmentResult("GammaTest", 2, 2); 
+		this.result = new PatternAssessmentResult(this.projectName + ":\tGammaTest", 2, 2); 
 		return this.result;
 	}
 
@@ -39,25 +45,6 @@ public class PatternGammaAssessment extends PatternAssessmentTemplateMethod {
 		//TODO: throw exception if both [0][0] and [1][0], i.e., the wide ones, are zeros
 		return this.result.getContingencyTable();
 	}
-
-	@Deprecated
-	public int[][] computeContingencyTableWithThreeCols(PatternAssessmentResult par) {
-
-		for(TableDetailedStatsElement tuple: inputTupleCollection) {
-			int survivalClass = tuple.getSurvivalClass(); //20 for surv. 10 for dead
-			int schSizeAtBirth = tuple.getSchemaSizeBirth();
-			int survPos = (survivalClass / 10) - 1; 
-			int sizePos = -1;
-			if (schSizeAtBirth > WIDE_TABLE_LIMIT)
-				sizePos = 2;
-			else if (schSizeAtBirth > MED_TABLE_LIMIT)
-				sizePos = 1;
-			else sizePos = 0;
-			this.result.getContingencyTable()[sizePos][survPos]++;	
-		}
-		return this.result.getContingencyTable();
-	}
-
 
 
 	/**
@@ -117,13 +104,46 @@ public class PatternGammaAssessment extends PatternAssessmentTemplateMethod {
 		Boolean fisherTestPass = pValueFisher < this.alphaAcceptanceLevel;
 		par.setFisherTestPass(fisherTestPass);
 		
-		Boolean geometricalPatternTrue = (survivorsWide > deadWide) && (deadWide <= ACCEPTABLE_NARROW_DEAD_FOR_PATTERN_TO_HOLD);
-		Boolean pValuePatternTrue = (probSurvIfWide > probSurvIfNotWide) && fisherTestPass;
-		System.out.println("[@PatternGammaAssessment]Gamma\n" 
-				+ "Geometry holds? " + geometricalPatternTrue + "\n" 
-				+ "p-Value  holds? " + pValuePatternTrue);
+		this.geometricalPatternTrue = (survivorsWide > deadWide) && (deadWide <= ACCEPTABLE_NARROW_DEAD_FOR_PATTERN_TO_HOLD);
+		this.pValuePatternTrue = (probSurvIfWide > probSurvIfNotWide) && fisherTestPass;
 		
 		return (geometricalPatternTrue || pValuePatternTrue);
 	}
+
+	/**
+	 * Returns a String with the description of the pattern.
+	 * 
+	 *  Specifically, the result holds prjName and pattern, whether the geometrical pattern holds and whether the statistical pattern holds
+	 * 
+	 * @param par a PatternAssessmentResult with the matrices and results for the assessment of the pattern
+	 * @return a String with the description of the pattern
+	 */
+	@Override public String constructResultDescription(PatternAssessmentResult par) {
+		String prjNPattern = par.getprjNameAndPattern();
+		String resultString =  prjNPattern + "\n"  
+				+ "Geometry holds? " + geometricalPatternTrue + "\n" 
+				+ "p-Value  holds? " + pValuePatternTrue;
+		return resultString;
+	}
+
+	@Deprecated
+	public int[][] computeContingencyTableWithThreeCols(PatternAssessmentResult par) {
+
+		for(TableDetailedStatsElement tuple: inputTupleCollection) {
+			int survivalClass = tuple.getSurvivalClass(); //20 for surv. 10 for dead
+			int schSizeAtBirth = tuple.getSchemaSizeBirth();
+			int survPos = (survivalClass / 10) - 1; 
+			int sizePos = -1;
+			if (schSizeAtBirth > WIDE_TABLE_LIMIT)
+				sizePos = 2;
+			else if (schSizeAtBirth > MED_TABLE_LIMIT)
+				sizePos = 1;
+			else sizePos = 0;
+			this.result.getContingencyTable()[sizePos][survPos]++;	
+		}
+		return this.result.getContingencyTable();
+	}
+
+
 	
 }//end class
