@@ -54,7 +54,7 @@ public class GammaSimpleTest {
 
 	@Test
 	final void testDecideIfPatternHolds() {
-		assertFalse(gammaAssessment.decideIfPatternHolds(result));
+		assertTrue(gammaAssessment.decideIfPatternHolds(result));
 	}
 
 	  
@@ -62,7 +62,7 @@ public class GammaSimpleTest {
 	  final void testAssessPattern() { 
 		  assertEquals(numRows,89, "Atlas tables are 88 + 1 line header");
 		  assertEquals(inputTupleCollection.size(),88);
-		  assertFalse(gammaAssessment.assessPatternTemplateMethod()); 
+		  assertTrue(gammaAssessment.assessPatternTemplateMethod()); 
 	  }
 	 
 

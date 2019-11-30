@@ -104,7 +104,7 @@ public class PatternGammaAssessment extends PatternAssessmentTemplateMethod {
 		Boolean fisherTestPass = pValueFisher < this.alphaAcceptanceLevel;
 		par.setFisherTestPass(fisherTestPass);
 		
-		this.geometricalPatternTrue = (survivorsWide > deadWide) && (deadNotWide <= ACCEPTABLE_NARROW_DEAD_FOR_PATTERN_TO_HOLD);
+		this.geometricalPatternTrue = (survivorsWide > deadWide) && (deadWide <= ACCEPTABLE_NARROW_DEAD_FOR_PATTERN_TO_HOLD);
 		this.pValuePatternTrue = (probSurvIfWide > probSurvIfNotWide) && fisherTestPass;
 		
 		return (geometricalPatternTrue || pValuePatternTrue);
