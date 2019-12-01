@@ -1,16 +1,19 @@
 package test.chartExport;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import chartexport.TablesChartManager;
-import chartexport.ScatterChartExporter;
+import chartexport.exporters.ScatterChartExporter;
 import datamodel.TableDetailedStatsElement;
+import javafx.scene.chart.XYChart;
 import javafx.stage.Stage;
 
-public class StagelessChartManager extends TablesChartManager {
+public class StagelessTablesChartManager extends TablesChartManager {
 
-	public StagelessChartManager(String prjName,
+	public StagelessTablesChartManager(String prjName,
 			ArrayList<TableDetailedStatsElement> inputTupleCollection,
 			HashMap<String, Integer> attributePositions,
 			HashMap<Integer, ArrayList<TableDetailedStatsElement>> tuplesPerLADCollection,
@@ -21,8 +24,16 @@ public class StagelessChartManager extends TablesChartManager {
 	// @Override  
 	// Subclass and override to get rid of the stage dependency
 	// We do not call stage - so stage can be null!!
+	// We test only if the series are created right - we leave the styling untested
 	protected void launchScatterChartExporters() {
-		// TODO For now it does nothing but then it depends on the assertions
+		for(ScatterChartExporter s: this.scatterExporters) {
+			ArrayList<XYChart.Series<Number,Number>> series = s.createSeries();
+			// series is sorted by LAD value
+			assertEquals(series.get(0).getData().size(), 2);
+			assertEquals(series.get(1).getData().size(), 4);
+			assertEquals(series.get(2).getData().size(), 3);
+			assertEquals(series.get(3).getData().size(), 3);
+		}
 	}
 
 }

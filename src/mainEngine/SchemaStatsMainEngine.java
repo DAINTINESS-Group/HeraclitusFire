@@ -74,7 +74,7 @@ public class SchemaStatsMainEngine {
 		this.organizeTuplesByRYFV0();
 
 		this.createChartManager();
-		chartManager.extractCharts();
+		schemaChartManager.extractCharts();
 
 		//TODO ###########################################
 		//TEST THAT YOU PROCESSED INPUT FILE CORRECTLY
@@ -190,10 +190,7 @@ public class SchemaStatsMainEngine {
 	 * We keep this code separately, to facilitate testing, without the need for launching stages.
 	 */
 	protected void createChartManager() {
-		chartManager = new SchemaChartManager(prjName, inputTupleCollection, attributePositions,tuplesPerRYFV0Collection, outputFolderWithFigures, stage, _DATEMODE);
-		/*
-		 * if(_DEBUGMODE) { System.out.println("No figures for schema yet"); }
-		 */
+		schemaChartManager = new SchemaChartManager(prjName, inputTupleCollection, attributePositions,tuplesPerRYFV0Collection, outputFolderWithFigures, stage, _DATEMODE);
 	}
 	 
 
@@ -206,14 +203,14 @@ public class SchemaStatsMainEngine {
 	private String outputFolderWithTestResults;
 	private String _DELIMETER;
 	private int _NUMFIELDS;
-	private Boolean _DEBUGMODE = true;
-	private Boolean _DATEMODE;  // if there are date values (running years etc.) or not, group or not, create respective charts
+	private Boolean _DEBUGMODE = false;
 
 	//protected, because at testing level, where we want to avoid using stages, we will subclass it with a Stageless tablesChartManager
-	protected SchemaChartManager chartManager;
+	protected SchemaChartManager schemaChartManager;
 	protected HashMap<String, Integer> attributePositions;
 	protected HashMap<Integer, ArrayList<SchemaHeartbeatElement>> tuplesPerRYFV0Collection;
 	protected ArrayList<SchemaHeartbeatElement> inputTupleCollection;
 	protected String outputFolderWithFigures;
 	protected String prjName;
+	protected Boolean _DATEMODE;  // if there are date values (running years etc.) or not, group or not, create respective charts
 }//end class

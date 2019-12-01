@@ -26,7 +26,7 @@ import org.junit.platform.suite.api.SelectClasses;
 //import org.junit.runner.RunWith;
 //import org.junit.runners.Suite.SuiteClasses;
 
-@SelectClasses( { test.mainEngine.TableStatsMainEngineTest.class, test.mainEngine.StagelessTableStatsMainEngineTest.class, test.patternassessment.fisher.exact.test.FisherExactTestWrapperTest.class} )
+@SelectClasses( { test.mainEngine.TableStatsMainEngineTest.class, test.mainEngine.StagelessTableStatsMainEngineTest.class, test.mainEngine.SchemaStatsMainEngineTest.class, test.mainEngine.StagelessSchemaStatsMainEngineTest.class, test.patternassessment.fisher.exact.test.FisherExactTestWrapperTest.class} )
 //@SelectPackages({"test", "test.mainEngine"})
 
 //KEEP THIS SILENT:

@@ -7,7 +7,7 @@ import java.util.HashMap;
 import datamodel.TableDetailedStatsElement;
 import javafx.stage.Stage;
 import mainEngine.TableStatsMainEngine;
-import test.chartExport.StagelessChartManager;
+import test.chartExport.StagelessTablesChartManager;
 
 public class StagelessTableStatsMainEngine extends TableStatsMainEngine {
 
@@ -16,7 +16,7 @@ public class StagelessTableStatsMainEngine extends TableStatsMainEngine {
 	}
 
 	protected void createChartManager() {
-		tablesChartManager = new StagelessChartManager(prjName,
+		tablesChartManager = new StagelessTablesChartManager(prjName,
 				inputTupleCollection, attributePositions, 
 				tuplesPerLADCollection, outputFolderWithFigures, 
 				null
