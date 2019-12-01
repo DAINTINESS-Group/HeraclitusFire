@@ -1,0 +1,60 @@
+Atlas:	GammaTest
+Geometry holds? true
+p-Value  holds? false
+holds? 	true
+-------------------------
+
+Atlas:	GammaTest
+Geometry holds? true
+p-Value  holds? false
+holds? 	true
+-------------------------
+
+Atlas:	GammaTest
+Geometry holds? false
+p-Value  holds? false
+holds? 	false
+-------------------------
+
+Atlas:	GammaTest
+Geometry holds? false
+p-Value  holds? false
+holds? 	false
+-------------------------
+
+Atlas:	GammaTest
+Geometry holds? false
+p-Value  holds? false
+holds? 	false
+-------------------------
+
+Atlas:	GammaTest
+Geometry holds? false
+p-Value  holds? false
+holds? 	false
+-------------------------
+
+Atlas:	GammaTest
+Geometry holds? false
+p-Value  holds? false
+holds? 	false
+-------------------------
+
+Atlas:	GammaTest
+Geometry holds? false
+p-Value  holds? false
+holds? 	false
+-------------------------
+
+Atlas:	GammaTest
+Geometry holds? false
+p-Value  holds? false
+holds? 	false
+-------------------------
+
+Atlas:	GammaTest
+Geometry holds? true
+p-Value  holds? false
+holds? 	true
+-------------------------
+
