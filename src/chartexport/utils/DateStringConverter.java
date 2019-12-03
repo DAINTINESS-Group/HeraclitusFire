@@ -1,4 +1,4 @@
-package chartexport;
+package chartexport.utils;
 
 import java.util.HashMap;
 

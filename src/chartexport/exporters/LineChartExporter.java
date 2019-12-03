@@ -10,8 +10,8 @@ import javafx.util.StringConverter;
 
 import javax.imageio.ImageIO;
 
-import chartexport.DateStringConverter;
-import chartexport.IntegerStringConverter;
+import chartexport.utils.DateStringConverter;
+import chartexport.utils.IntegerStringConverter;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 //import javafx.application.Application;
