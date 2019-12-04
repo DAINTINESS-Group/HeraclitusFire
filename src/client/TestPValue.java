@@ -5,9 +5,6 @@ import java.io.PrintStream;
 
 import org.apache.commons.math3.stat.inference.ChiSquareTest;
 
-import jsc.contingencytables.ContingencyTable2x2;
-import jsc.contingencytables.FishersExactTest;
-
 public class TestPValue {
 
 	public static void main(String[] args) {

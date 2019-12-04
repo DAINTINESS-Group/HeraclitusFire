@@ -12,7 +12,7 @@ import chartexport.TablesChartManager;
 import dataload.TableDetailedStatsLoader;
 import datamodel.TableDetailedStatsElement;
 import javafx.stage.Stage;
-import patternassessment.PatternAssessmentFactory;
+//import patternassessment.PatternAssessmentFactory;
 import patternassessment.PatternAssessmentManager;
 import patternassessment.PatternAssessmentTypesEnum;
 
