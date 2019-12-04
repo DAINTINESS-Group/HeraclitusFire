@@ -1,0 +1,7 @@
+
+NEW PRJ ----------- Atlas -------------------------
+Atlas:	GammaAssessment
+Geometry holds? true
+p-Value  holds? false
+holds? 	true
+------------------------------------------------

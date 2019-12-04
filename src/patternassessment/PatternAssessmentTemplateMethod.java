@@ -26,6 +26,7 @@ public abstract class PatternAssessmentTemplateMethod {
 	protected String projectName;
 
 
+	public abstract String getTestName();
 	public abstract PatternAssessmentResult constructResult();
 	public abstract int[][] computeContingencyTable(PatternAssessmentResult par);
 	public abstract Boolean decideIfPatternHolds(PatternAssessmentResult par);
@@ -86,15 +87,17 @@ public abstract class PatternAssessmentTemplateMethod {
 		this.result.setDescription(resultStr);
 		
 		//output the results
-		this.writeToResultFile(result, System.out);
+		this.writeToResultPrintStream(result, System.out);
 		
 		//TODO: once happy, uncomment the following
+		//must see if there is a way to pass a global append file from the client
+		//all the way here, or we will just cat all partial results via shell scripts
 		this.writeToResultFile(result);
-		this.appendToGlobalLogFile(result, globalAppendLogPath);
+		//this.appendToGlobalLogFile(result, globalAppendLogPath);
 		return this.patternIsValid;
 	}
 
-	private void writeToResultFile(PatternAssessmentResult par, PrintStream outStream) {
+	private void writeToResultPrintStream(PatternAssessmentResult par, PrintStream outStream) {
 		outStream.println("\nNEW PRJ ----------- " + this.projectName + " -------------------------");
 		outStream.println(par.getDescription());
 		outStream.println("holds? " + "\t" + this.patternIsValid);
@@ -121,15 +124,15 @@ public abstract class PatternAssessmentTemplateMethod {
 	 */
 	private void writeToResultFile(PatternAssessmentResult par){
 		String filePath = outputFolderWithPatterns + "/" 
-				+ this.projectName + ".txt"; 
+				+ this.projectName +"_" +this.getTestName()+ ".txt"; 
 
 		FileOutputStream fileOutputStream=null;
 		PrintStream printStream=null; 
 		try{ 
-			fileOutputStream = new FileOutputStream(new File(filePath), true); 
+			fileOutputStream = new FileOutputStream(new File(filePath)); 
 			printStream=new PrintStream(fileOutputStream);
 
-			this.writeToResultFile(result, printStream);
+			this.writeToResultPrintStream(result, printStream);
 
 		} catch (Exception e) { 
 			System.out.println("[PatternAssessmentTemplateMethod] There was a problem creating/writing to the file: " + filePath);
