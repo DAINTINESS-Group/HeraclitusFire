@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import chartexport.SchemaChartManager;
-import chartexport.exporters.LineChartExporter;
+//import chartexport.exporters.LineChartExporter;
 import datamodel.SchemaHeartbeatElement;
 import javafx.scene.chart.XYChart;
 import javafx.stage.Stage;

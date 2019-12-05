@@ -1,35 +1,35 @@
 package chartexport.exporters;
 
 import java.io.File;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+//import java.io.IOException;
+//import java.text.DateFormat;
+//import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
+//import java.util.Collections;
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.Set;
-import javafx.util.StringConverter;
+//import java.util.Set;
+//import javafx.util.StringConverter;
 
-import javax.imageio.ImageIO;
+//import javax.imageio.ImageIO;
 
 import chartexport.utils.DateAxis310;
 import chartexport.utils.IntegerStringConverter;
-import javafx.scene.Node;
+//import javafx.scene.Node;
 import javafx.scene.Scene;
 //import javafx.application.Application;
 //import javafx.stage.Stage;
 //import javafx.scene.Scene;
-import javafx.scene.SnapshotParameters;
+//import javafx.scene.SnapshotParameters;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.image.WritableImage;
+//import javafx.scene.image.WritableImage;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.embed.swing.SwingFXUtils;
+//import javafx.embed.swing.SwingFXUtils;
 
 /**
  * Creates a line chart with dates at X axis using Gerrit Grunwald's DateAxis310.

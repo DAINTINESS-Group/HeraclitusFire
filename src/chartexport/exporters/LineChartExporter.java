@@ -1,32 +1,32 @@
 package chartexport.exporters;
 
 import java.io.File;
-import java.io.IOException;
+//import java.io.IOException;
 import java.util.ArrayList;
 //import java.util.Collections;
 import java.util.HashMap;
-import java.util.Set;
+//import java.util.Set;
 //import javafx.util.StringConverter;
 
-import javax.imageio.ImageIO;
+//import javax.imageio.ImageIO;
 
-import chartexport.utils.DateStringConverter;
+//import chartexport.utils.DateStringConverter;
 import chartexport.utils.IntegerStringConverter;
-import javafx.scene.Node;
+//import javafx.scene.Node;
 import javafx.scene.Scene;
 //import javafx.application.Application;
 //import javafx.stage.Stage;
 //import javafx.scene.Scene;
-import javafx.scene.SnapshotParameters;
+//import javafx.scene.SnapshotParameters;
 //import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 //import javafx.scene.chart.XYChart.Series;
-import javafx.scene.image.WritableImage;
+//import javafx.scene.image.WritableImage;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.embed.swing.SwingFXUtils;
+//import javafx.embed.swing.SwingFXUtils;
 
 
 import datamodel.SchemaHeartbeatElement;
