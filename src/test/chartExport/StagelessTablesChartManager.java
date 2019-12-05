@@ -1,7 +1,5 @@
 package test.chartExport;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -28,11 +26,7 @@ public class StagelessTablesChartManager extends TablesChartManager {
 	protected void launchScatterChartExporters() {
 		for(ScatterChartExporter s: this.scatterExporters) {
 			ArrayList<XYChart.Series<Number,Number>> series = s.createSeries();
-			// series is sorted by LAD value
-			assertEquals(series.get(0).getData().size(), 2);
-			assertEquals(series.get(1).getData().size(), 4);
-			assertEquals(series.get(2).getData().size(), 3);
-			assertEquals(series.get(3).getData().size(), 3);
+
 		}
 	}
 

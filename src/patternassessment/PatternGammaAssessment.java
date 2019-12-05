@@ -24,10 +24,16 @@ public class PatternGammaAssessment extends PatternAssessmentTemplateMethod {
 		this.geometricalPatternTrue = false;
 		this.pValuePatternTrue = false;
 	}
-	
+
+	@Override
+	public String getTestName() {
+		return "Gamma";
+	}
+
+
 	@Override
 	public PatternAssessmentResult constructResult() {
-		this.result = new PatternAssessmentResult(this.projectName + ":\tGammaTest", 2, 2); 
+		this.result = new PatternAssessmentResult(this.projectName + ":\tGammaAssessment", 2, 2); 
 		return this.result;
 	}
 
@@ -51,34 +57,38 @@ public class PatternGammaAssessment extends PatternAssessmentTemplateMethod {
 	/**
 	 * Returns true/false on whether the Gamma pattern holds.
 	 * 
-	 * 1. Typically we used duration. We could approximated it with LKV.
+	 * <p>1. Typically we used duration. We could approximated it with LKV.
 	 * This means that you the survival/dead discrimination is close
 	 * to the patterns meaning. 
-	 *  ** We lose the top duration band, and we just test survival **
+	 *  <p>** We lose the top duration band, and we just test survival **
+	 *  <p>
+	 *  <p>2. In the contingency table, you 'd probably want one of the two scenarios:
+	 *  <p>For contingency tables with small population, you want the "geometry" to work 
+	 *  <p>- wide and surv. populated
+	 *  <p>- wide and death empty
+	 *  <p>
+	 *  <p>For densely populated (where you probably gonna have many dead tables, incl., wide ones)
+	 *  <p>- p(survive|wide) > p (survive|not wide)
+	 *  <p>- p-value of Fisher/ChiSquare test for wide and notWide to be small 
 	 *  
-	 *  2. In the contingency table, you 'd probably want one of the two scenarios:
-	 *  For contingency tables with small population, you want the "geometry" to work 
-	 *  - wide and surv. populated
-	 *  - wide and death empty
+	 *  <p>We assign a true value to the pattern, if geometry OR stats is true.
 	 *  
-	 *  For densely populated (where you probably gonna have many dead tables, incl., wide ones)
-	 *  - p(survive|wide) > p (survive|not wide)
-	 *  - p-value of Fisher/ChiSquare test for wide and notWide to be small 
-	 *  
-	 *  We assign a true value to the pattern, if geometry OR stats is true.
-	 *  
-	 *  For the Fisher test: our contingency table is
+	 *  <p>For the Fisher test: our contingency table is
+	 *  <pre>
 	 *          dead | surv  
 	 *          -----------
 	 *  narrow |     |     |
 	 *          -----------
 	 *  wide   |     |     |
 	 *          -----------
+	 * </pre>          
 	 *  So, the one-tail test has
+	 *  <pre>
 	 *    H0: prob(dead|narrow) <= prob(dead|wide)
 	 *    Ha: prob(dead|narrow) > prob(dead|wide)
-	 *  Therefore, we need the one-tail test, and, via a small p-Value, reject the Ho.
-	 *  See page 133 in "Statistics in a Nutshell", 2nd Ed., O'Reilly
+	 *  </pre>
+	 *  <p>Therefore, we need the one-tail test, and, via a small p-Value, reject the Ho.
+	 *  <p>See page 133 in "Statistics in a Nutshell", 2nd Ed., O'Reilly
 	 *  
 	 * @param par a PatternAssessmentResult with the matrices and results for the assessment of the pattern
 	 * @return true if the pattern holds; false otherwise

@@ -5,12 +5,16 @@ package mainEngine;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import chartexport.TablesChartManager;
 import dataload.TableDetailedStatsLoader;
 import datamodel.TableDetailedStatsElement;
 import javafx.stage.Stage;
+//import patternassessment.PatternAssessmentFactory;
+import patternassessment.PatternAssessmentManager;
+import patternassessment.PatternAssessmentTypesEnum;
 
 /**
  * This the main engine of the tool for working with TABLE data (i.e., not SCHEMA).
@@ -23,16 +27,44 @@ import javafx.stage.Stage;
  * @since	2019-06-15
  */
 public class TableStatsMainEngine {
+	private TableDetailedStatsLoader loader;
+	private ArrayList<String> header;
 
+	private Stage stage;
+	private String projectFolder;
+	private String inputFolderWithStats;
+	private String _DELIMETER;
+	private int _NUMFIELDS;
+	private Boolean _DEBUGMODE = true;
+	protected Boolean _DATEMODE;
+
+	//protected, because at testing level, where we want to avoid using stages, we will subclass it with a Stageless tablesChartManager
+	protected PatternAssessmentManager patternAssessmentManager;
+	protected TablesChartManager tablesChartManager;
+	protected  HashMap<String, Integer> attributePositions;
+	protected HashMap<Integer, ArrayList<TableDetailedStatsElement>> tuplesPerLADCollection;
+	protected ArrayList<TableDetailedStatsElement> inputTupleCollection;
+	protected String outputFolderWithFigures;
+	protected String outputFolderWithTestResults;
+	protected String globalLogFilePath;
+	protected double _ALPHA;
+	protected String prjName;
+	
 	public TableStatsMainEngine(String anInputProjectFolder, Stage primaryStage) {		
 		File prjFolder = new File(anInputProjectFolder);
 		if (prjFolder.isDirectory()) {
+			
 			this.projectFolder = anInputProjectFolder;
 			this.inputFolderWithStats = anInputProjectFolder + "/" + "results";
 			this.outputFolderWithFigures = this.projectFolder +  "/" + "charts";
+			this.outputFolderWithTestResults = this.projectFolder +  "/" + "resultsOfPatternTests";
+			//TODO: check if this works
+			this.globalLogFilePath = prjFolder.getParent() + "resources/GlobalLog.txt";
 			_DELIMETER = "\t";
 			_NUMFIELDS = 17;//17 fields, one can be empty
-
+			_ALPHA = 0.05;
+			_DATEMODE = true;
+			
 			this.loader = new TableDetailedStatsLoader();		
 			this.inputTupleCollection = new ArrayList<TableDetailedStatsElement>();
 			this.header = new ArrayList<String>();
@@ -40,6 +72,7 @@ public class TableStatsMainEngine {
 			this.tuplesPerLADCollection= new HashMap<Integer, ArrayList<TableDetailedStatsElement>>();
 			this.stage = primaryStage;
 			this.prjName = prjFolder.getName();
+			this.patternAssessmentManager = new PatternAssessmentManager();			
 		}
 	}//end constructor
 
@@ -54,7 +87,7 @@ public class TableStatsMainEngine {
 	 * 
 	 * @return an int with the number of rows processed from tables_DetailedStats.tsv
 	 */
-	public int processFolder() {
+	public int produceTableFiguresAndStats() {
 		int numRows = 0;
 
 		this.setupFolders();
@@ -66,6 +99,10 @@ public class TableStatsMainEngine {
 			System.exit(-1);
 		}
 		if(_DEBUGMODE) System.out.println("Processed " + numRows + " rows of " + inputFileName );
+		
+		if (inputTupleCollection.get(0).getBirthDate().length() < 4 || inputTupleCollection.get(0).getYearOfBirth() < 0) {
+			_DATEMODE = false;
+		}
 
 		this.processHeader();
 
@@ -74,14 +111,11 @@ public class TableStatsMainEngine {
 		this.createChartManager();  
 		tablesChartManager.extractScatterCharts();
 
-		//TODO ###########################################
-		//TEST THAT YOU PROCESSED INPUT FILE CORRECTLY
-		//RE-TEST
-		//################################################
-
-		//TODO ###########################################
-		// PLAN AND EXECUTE STATISTICAL TESTS
-		//################################################
+		if (_DATEMODE) {
+			ArrayList<PatternAssessmentTypesEnum> testsToRun= new ArrayList <PatternAssessmentTypesEnum>(Arrays.asList(PatternAssessmentTypesEnum.GAMMA));
+			this.patternAssessmentManager.assessPatterns(testsToRun,
+				this.inputTupleCollection, this.prjName, this.outputFolderWithTestResults, this.globalLogFilePath, _ALPHA);
+		}
 
 		return numRows;
 	}//end processFolder
@@ -188,22 +222,5 @@ public class TableStatsMainEngine {
 		tablesChartManager = new TablesChartManager(prjName, inputTupleCollection, attributePositions, tuplesPerLADCollection, outputFolderWithFigures, stage);
 	}
 
-	private TableDetailedStatsLoader loader;
-	private ArrayList<String> header;
 
-	private Stage stage;
-	private String projectFolder;
-	private String inputFolderWithStats;
-	private String outputFolderWithTestResults;
-	private String _DELIMETER;
-	private int _NUMFIELDS;
-	private Boolean _DEBUGMODE = true;
-
-	//protected, because at testing level, where we want to avoid using stages, we will subclass it with a Stageless tablesChartManager
-	protected TablesChartManager tablesChartManager;
-	protected  HashMap<String, Integer> attributePositions;
-	protected HashMap<Integer, ArrayList<TableDetailedStatsElement>> tuplesPerLADCollection;
-	protected ArrayList<TableDetailedStatsElement> inputTupleCollection;
-	protected String outputFolderWithFigures;
-	protected String prjName;
 }//end class

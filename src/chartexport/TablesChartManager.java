@@ -2,7 +2,7 @@ package chartexport;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import javafx.application.Application;
+//import javafx.application.Application;
 import javafx.stage.Stage;
 import datamodel.TableDetailedStatsElement;
 

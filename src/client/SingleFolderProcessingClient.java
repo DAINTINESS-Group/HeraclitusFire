@@ -41,7 +41,7 @@ public class SingleFolderProcessingClient extends Application{
 		System.out.println("Starting with " + folderOfProject + "\n");
 		
 		TableStatsMainEngine engine = new TableStatsMainEngine(folderOfProject, primaryStage);
-		engine.processFolder();
+		engine.produceTableFiguresAndStats();
 		
 		SchemaStatsMainEngine sengine = new SchemaStatsMainEngine(folderOfProject, primaryStage);
 		sengine.processFolder();

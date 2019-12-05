@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Set;
-import javafx.util.StringConverter;
+//import javafx.util.StringConverter;
 
 import javax.imageio.ImageIO;
 
@@ -19,12 +19,12 @@ import javafx.scene.SnapshotParameters;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.chart.XYChart.Series;
+//import javafx.scene.chart.XYChart.Series;
 import javafx.scene.image.WritableImage;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.embed.swing.SwingFXUtils;
-import datamodel.SchemaHeartbeatElement;
+//import datamodel.SchemaHeartbeatElement;
 import datamodel.TableDetailedStatsElement;
 
 public class ScatterChartExporter{// extends Application{

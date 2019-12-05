@@ -2,6 +2,7 @@ package test.patternassessment;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -60,9 +61,14 @@ public class GammaSimpleTest {
 	  
 	  @Test 
 	  final void testAssessPattern() { 
+		  File fileProduced = new File("resources/test/Gamma/Atlas_Gamma.txt"); 
+		  Long originalTimeStamp = fileProduced.lastModified();
+		  
 		  assertEquals(numRows,89, "Atlas tables are 88 + 1 line header");
 		  assertEquals(inputTupleCollection.size(),88);
 		  assertTrue(gammaAssessment.assessPatternTemplateMethod()); 
+		  Long newTimeStamp = fileProduced.lastModified();
+		  assertTrue(newTimeStamp > originalTimeStamp);
 	  }
 	 
 

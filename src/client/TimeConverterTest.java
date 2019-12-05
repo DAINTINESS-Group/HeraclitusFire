@@ -1,15 +1,13 @@
 package client;
 
-import java.text.SimpleDateFormat;
+//import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.Instant;
-import java.time.LocalDate;
+//import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Period;
+//import java.time.Period;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 public class TimeConverterTest {
 
@@ -20,9 +18,6 @@ public class TimeConverterTest {
 		String formattedDate = convertEpochToHumanString(unixSeconds1);
 		System.out.println(formattedDate);
 		
-		//Date date1 = new java.util.Date(unixSeconds1*1000L); 
-		//Date date2 = new java.util.Date(unixSeconds2*1000L); 
-
 		//export a method with a swtich case flag on the units
 		//or, instead, return an array with the diff in all different kids of units.
 		//or instead return an instance of your own class with the appropriate get methods
