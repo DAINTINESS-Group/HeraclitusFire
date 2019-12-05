@@ -2,15 +2,20 @@ package chartexport.exporters;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Set;
 import javafx.util.StringConverter;
 
 import javax.imageio.ImageIO;
 
-import chartexport.utils.DateStringConverter;
+import chartexport.utils.DateAxis310;
 import chartexport.utils.IntegerStringConverter;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -18,22 +23,24 @@ import javafx.scene.Scene;
 //import javafx.stage.Stage;
 //import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
-import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.chart.XYChart.Series;
 import javafx.scene.image.WritableImage;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.embed.swing.SwingFXUtils;
 
+/**
+ * Creates a line chart with dates at X axis using Gerrit Grunwald's DateAxis310.
+ * source: https://bitbucket.org/hansolo/dateaxis310/src/master/
+ */
 
 import datamodel.SchemaHeartbeatElement;
 
-public class LineChartExporter extends AbstractLineChartExporter<Number> {// extends Application{
+public class DateLineChartExporter extends AbstractLineChartExporter<LocalDateTime> {// extends Application{
 
-	public LineChartExporter(String pOutputPath, String pTitle, HashMap<Integer, ArrayList<SchemaHeartbeatElement>> inputTupleCollection, 
+	public DateLineChartExporter(String pOutputPath, String pTitle, HashMap<Integer, ArrayList<SchemaHeartbeatElement>> inputTupleCollection, 
 			String pXAttribute, ArrayList<String> pYAttributes, HashMap<String, Integer> pAttributePositions, Stage primaryStage) {
 		super(pOutputPath, pTitle, inputTupleCollection, pXAttribute, pYAttributes, pAttributePositions, primaryStage);
 	}//end constructor
@@ -41,10 +48,10 @@ public class LineChartExporter extends AbstractLineChartExporter<Number> {// ext
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		
-		ArrayList<XYChart.Series<Number,Number>> allSeries = createSeries();
+		ArrayList<XYChart.Series<LocalDateTime,Number>> allSeries = createSeries();
 		if (allSeries.size() == 0)
 			return;
-		
+
 		//double xTickUnit = Math.round((double) (maxX - minX)/10.0);
 		//double yTickUnit = (double) (maxY - minY)/10.0;
 		//final NumberAxis xAxis = new NumberAxis(xAttribute, minX - xTickUnit, maxX + xTickUnit, xTickUnit);
@@ -52,29 +59,27 @@ public class LineChartExporter extends AbstractLineChartExporter<Number> {// ext
 
 		//EITHER the above, or the below
 		// TODO: change NumberAxis to show integer values & maybe manual scaling
-		final NumberAxis xAxis = new NumberAxis();
-		final NumberAxis yAxis = new NumberAxis();	
+		final DateAxis310 xAxis = new DateAxis310();
+		final NumberAxis yAxis = new NumberAxis();		
 		xAxis.setAutoRanging(true);
 		yAxis.setAutoRanging(true);
 
 		xAxis.setLabel(xAttribute);
+		//LocalDateTime dt = new LocalDateTime();
+		//xAxis.setTickLabelFormatter(arg0);;;
 		String yAxisLabel = yAttributes.get(0);
 		for (int i=1; i<yAttributes.size();i++) {
 			yAxisLabel += " & " + yAttributes.get(i);
 		}
 		yAxis.setLabel(yAxisLabel);
-		xAxis.setMinorTickVisible(false);
+		//xAxis.setMinorTickVisible(false);
 		yAxis.setMinorTickVisible(false);
-		//xAxis.setTickLabelFormatter(new IntegerStringConverter());
 		yAxis.setTickLabelFormatter(new IntegerStringConverter());
 
-		this.lineChart = new LineChart<Number,Number>(xAxis,yAxis);
-		//this.lineChart = new LineChart<String,Number>(xAxis,yAxis);
+		this.lineChart = new LineChart<LocalDateTime,Number>(xAxis,yAxis);
 		
-		for(XYChart.Series<Number,Number> nextSeries: allSeries)
+		for(XYChart.Series<LocalDateTime,Number> nextSeries: allSeries)
 			this.lineChart.getData().add(nextSeries);
-		//for(XYChart.Series<String,Number> nextSeries: allSeries)
-			//this.lineChart.getData().add(nextSeries);
 
 		this.lineChart.setTitle(chartTitle);
 		this.lineChart.setHorizontalGridLinesVisible(false);
@@ -86,6 +91,7 @@ public class LineChartExporter extends AbstractLineChartExporter<Number> {// ext
 		//necessary, or axis tick values do not show in dump
 		xAxis.setAnimated(false);
 		yAxis.setAnimated(false);
+		xAxis.setTickLabelRotation(-90);
 
 		Scene scene  = new Scene(this.lineChart, 500, 500);
 		stage.setScene(scene);
@@ -98,7 +104,7 @@ public class LineChartExporter extends AbstractLineChartExporter<Number> {// ext
 		this.lineChart.setLegendVisible(false);
 		
 		File f = new File("resources/stylesheets/lineChartStyle.css");
-		scene.getStylesheets().clear();
+		//scene.getStylesheets().clear();
 		this.lineChart.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
 		
 		//Export to png
@@ -111,17 +117,20 @@ public class LineChartExporter extends AbstractLineChartExporter<Number> {// ext
 	}//end lineCreation
 	
 	@Override
-	public ArrayList<XYChart.Series<Number,Number>> createSeries() {
-		ArrayList<XYChart.Series<Number,Number>> allSeries = new ArrayList<XYChart.Series<Number,Number>>();
+	public ArrayList<XYChart.Series<LocalDateTime,Number>> createSeries() {
+		ArrayList<XYChart.Series<LocalDateTime,Number>> allSeries = new ArrayList<XYChart.Series<LocalDateTime,Number>>();
+		
+		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
 		
 		for(int i=0; i<yAttributes.size();i++ ) {
-			XYChart.Series<Number,Number> newSeries = new XYChart.Series<Number,Number>();
+			XYChart.Series<LocalDateTime,Number> newSeries = new XYChart.Series<LocalDateTime,Number>();
 			newSeries.setName(yAttributes.get(i));
 			for (SchemaHeartbeatElement tuple: inputTupleCollection.get(0)) {
-					Integer xValue = tuple.getIntValueByPosition(xAttributePos);
+					String xValue = tuple.getStringValueByPosition(xAttributePos);
+					LocalDateTime xDate = LocalDateTime.parse(xValue, dateFormatter);
 					Integer yValue = tuple.getIntValueByPosition(yAttributePoss.get(i));
-					if((xValue != SchemaHeartbeatElement._ERROR_CODE) && (yValue != SchemaHeartbeatElement._ERROR_CODE)) {
-						newSeries.getData().add(new XYChart.Data<Number,Number>(xValue, yValue));
+					if(!(xValue.equals(SchemaHeartbeatElement._ERROR_STRING)) && (yValue != SchemaHeartbeatElement._ERROR_CODE)) {
+						newSeries.getData().add(new XYChart.Data<LocalDateTime,Number>(xDate, yValue));
 					}
 					//System.out.println("x:" + xValue + "\ty:" + yValue);
 			}

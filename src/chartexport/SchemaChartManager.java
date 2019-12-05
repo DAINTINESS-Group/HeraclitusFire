@@ -6,7 +6,9 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import datamodel.SchemaHeartbeatElement;
 import chartexport.exporters.AbstractBarChartExporter;
+import chartexport.exporters.AbstractLineChartExporter;
 import chartexport.exporters.BarChartExporter;
+import chartexport.exporters.DateLineChartExporter;
 import chartexport.exporters.GroupedBarChartExporter;
 import chartexport.exporters.LineChartExporter;
 
@@ -24,7 +26,7 @@ public class SchemaChartManager {
 		this.tuplesPerRYFV0Collection = tuplesPerRYFV0Collection;
 		this.outputFolderWithFigures = outputFolderWithFigures;
 		
-		this.lineExporters = new ArrayList<LineChartExporter>();
+		this.lineExporters = new ArrayList<AbstractLineChartExporter>();
 		this.barExporters = new ArrayList<AbstractBarChartExporter>();
 		this.stage = primaryStage; 
 		this._DATEMODE = dateMode;
@@ -32,18 +34,18 @@ public class SchemaChartManager {
 	}//end constructor
 	
 	public int extractCharts() {
-		// line charts
+		// version id line charts
 		HashMap<Integer, ArrayList<SchemaHeartbeatElement>> hashmapInputTupleCollection = new HashMap<Integer, ArrayList<SchemaHeartbeatElement>>();
 		hashmapInputTupleCollection.put(0, inputTupleCollection);
 		ArrayList<String> ltidYAttributes = new ArrayList<String>();  // add the attributes we want
 		ltidYAttributes.add("#numNewTables");
-		LineChartExporter mlTablesID = new LineChartExporter(outputFolderWithFigures+"/"+"NumTablesOverID.png", this.prjName+":\nSize(tables) over Time(versionID)", hashmapInputTupleCollection, 
+		AbstractLineChartExporter mlTablesID = new LineChartExporter(outputFolderWithFigures+"/"+"NumTablesOverID.png", this.prjName+":\nSize(tables) over Time(versionID)", hashmapInputTupleCollection, 
 				"trID", ltidYAttributes,	attributePositions, stage);
 		this.lineExporters.add(mlTablesID);
 		
 		ArrayList<String> laidYAttributes = new ArrayList<String>();  // add the attributes we want
 		laidYAttributes.add("#numNewAttrs");
-		LineChartExporter mlAtrrsID = new LineChartExporter(outputFolderWithFigures+"/"+"NumAtrrsOverID.png", this.prjName+":\nSize(attributes) over Time(versionID)", hashmapInputTupleCollection, 
+		AbstractLineChartExporter mlAtrrsID = new LineChartExporter(outputFolderWithFigures+"/"+"NumAtrrsOverID.png", this.prjName+":\nSize(attributes) over Time(versionID)", hashmapInputTupleCollection, 
 				"trID", laidYAttributes,	attributePositions, stage);
 		this.lineExporters.add(mlAtrrsID);
 		
@@ -63,15 +65,16 @@ public class SchemaChartManager {
 		// TODO: add more charts
 		
 		if (_DATEMODE) {
+			// human time line charts
 			ArrayList<String> ltdYAttributes = new ArrayList<String>();  // add the attributes we want
 			ltdYAttributes.add("#numNewTables");
-			LineChartExporter mlTablesDate = new LineChartExporter(outputFolderWithFigures+"/"+"NumTablesOverHT.png", this.prjName+":\nSize(tables) over Time(Human Time)", hashmapInputTupleCollection, 
+			AbstractLineChartExporter mlTablesDate = new DateLineChartExporter(outputFolderWithFigures+"/"+"NumTablesOverHT.png", this.prjName+":\nSize(tables) over Time(Human Time)", hashmapInputTupleCollection, 
 					"humanTime", ltdYAttributes,	attributePositions, stage);
 			this.lineExporters.add(mlTablesDate);
 			
 			ArrayList<String> ladYAttributes = new ArrayList<String>();  // add the attributes we want
 			ladYAttributes.add("#numNewAttrs");
-			LineChartExporter mlAtrrsDate = new LineChartExporter(outputFolderWithFigures+"/"+"NumAtrrsOverHT.png", this.prjName+":\nSize(attributes) over Time(Human Time)", hashmapInputTupleCollection, 
+			AbstractLineChartExporter mlAtrrsDate = new DateLineChartExporter(outputFolderWithFigures+"/"+"NumAtrrsOverHT.png", this.prjName+":\nSize(attributes) over Time(Human Time)", hashmapInputTupleCollection, 
 					"humanTime", ladYAttributes,	attributePositions, stage);
 			this.lineExporters.add(mlAtrrsDate);
 			
@@ -93,7 +96,7 @@ public class SchemaChartManager {
 	// ZAS: Extracted to enable the testing process
 	// ZAS: Hopefully now I can subclass and override
 	protected void launchChartExporters() {
-		for(LineChartExporter l: this.lineExporters) {
+		for(AbstractLineChartExporter l: this.lineExporters) {
 			try {
 				l.start(stage);
 			} catch (Exception e) {
@@ -115,7 +118,7 @@ public class SchemaChartManager {
 	private HashMap<String, Integer> attributePositions;
 	private HashMap<Integer, ArrayList<SchemaHeartbeatElement>> tuplesPerRYFV0Collection;
 	private String outputFolderWithFigures;
-	protected ArrayList<LineChartExporter> lineExporters;
+	protected ArrayList<AbstractLineChartExporter> lineExporters;
 	protected ArrayList<AbstractBarChartExporter> barExporters;
 	private Stage stage;
 	private String prjName;

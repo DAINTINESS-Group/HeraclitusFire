@@ -43,6 +43,7 @@ public class PatternGammaAssessment extends PatternAssessmentTemplateMethod {
 			this.result.getContingencyTable()[sizePos][survPos]++;	
 		}
 		//TODO: throw exception if both [0][0] and [1][0], i.e., the wide ones, are zeros
+		//TODO: it think you mean [1][0] and [1][1]
 		return this.result.getContingencyTable();
 	}
 
