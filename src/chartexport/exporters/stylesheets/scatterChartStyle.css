@@ -1,0 +1,50 @@
+.chart {
+	-fx-tick-label-font-size: 16pt;
+	-fx-background-color: white, white;
+}
+.axis { -fx-font-size: 16pt; }
+
+Region { -fx-background-color: white; }
+Label { -fx-font-size: 15pt; }
+Legend { -fx-background-color: white; }
+Line { -fx-opacity: 0.2; }
+
+.chart-symbol {
+	-fx-opacity: 0.4;
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 5px;
+    -fx-padding: 5px;
+}
+
+.default-color0.chart-symbol { /* LAD: 10 - triangle */
+    -fx-shape: 'M5,0 L10,8 L0,8 Z';
+    -fx-background-color: red, orange;
+}
+
+.default-color1.chart-symbol { /* LAD: 11 - diamond */
+    -fx-shape: 'M5,0 L10,9 L5,18 L0,9 Z';
+    -fx-background-color: red, orange;
+}
+
+.default-color2.chart-symbol { /* LAD: 12 - square */
+    -fx-shape: 'M 0 0 V 40 H 40 V 0 z';
+    -fx-background-color: red, orange;
+}
+
+.default-color3.chart-symbol { /* LAD: 20 - triangle */
+    -fx-shape: 'M5,0 L10,8 L0,8 Z';
+    -fx-background-color: green, lightgreen;
+}
+
+.default-color4.chart-symbol { /* LAD: 21 - diamond */
+    -fx-shape: 'M5,0 L10,9 L5,18 L0,9 Z';
+    -fx-background-color: green, lightgreen;
+}
+
+.default-color5.chart-symbol { /* LAD: 22 - square */
+    -fx-shape: 'M 0 0 V 40 H 40 V 0 z';
+    -fx-background-color: green, lightgreen;
+}
+
+/* X-shape: -fx-shape: 'M2,0 L5,4 L8,0 L10,0 L10,2 L6,5 L10,8 L10,10 L8,10 L5,6 L2, 10 L0,10 L0,8 L4,5 L0,2 L0,0 Z' */
+		

@@ -111,9 +111,11 @@ public abstract class AbstractBarChartExporter {
 		if (reportChildrenFlag)
 			reportChildrenOfChart();
 		
-		File f = new File("resources/stylesheets/barChartStyle.css");
-		scene.getStylesheets().clear();
-		this.barChart.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
+		// TODO: find how to add resources to jar and load css files from there
+		//File f = new File("resources/stylesheets/barChartStyle.css");
+		//scene.getStylesheets().clear();
+		//this.barChart.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
+		this.barChart.getStylesheets().add(getClass().getResource("stylesheets/barChartStyle.css").toExternalForm());
 
 		//Export to png
 		saveAsPng(scene, outputPath);

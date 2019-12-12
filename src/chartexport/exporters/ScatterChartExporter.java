@@ -101,9 +101,11 @@ public class ScatterChartExporter{// extends Application{
 		if (reportChildrenFlag)
 			reportChildrenOfChart();
 		
-		File f = new File("resources/stylesheets/scatterChartStyle.css");
-		scene.getStylesheets().clear();
-		this.scatterChart.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
+		// TODO: find how to add resources to jar and load css files from there
+		//File f = new File("resources/stylesheets/scatterChartStyle.css");
+		//scene.getStylesheets().clear();
+		//this.scatterChart.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
+		this.scatterChart.getStylesheets().add(getClass().getResource("stylesheets/scatterChartStyle.css").toExternalForm());
 		
 		//Export to png
 		saveAsPng(scene, outputPath);

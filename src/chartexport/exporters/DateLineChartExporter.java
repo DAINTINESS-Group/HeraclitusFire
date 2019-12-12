@@ -103,9 +103,11 @@ public class DateLineChartExporter extends AbstractLineChartExporter<LocalDateTi
 		
 		this.lineChart.setLegendVisible(false);
 		
-		File f = new File("resources/stylesheets/lineChartStyle.css");
+		// TODO: find how to add resources to jar and load css files from there
+		//File f = new File("resources/stylesheets/lineChartStyle.css");
 		//scene.getStylesheets().clear();
-		this.lineChart.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
+		//this.lineChart.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
+		this.lineChart.getStylesheets().add(getClass().getResource("stylesheets/lineChartStyle.css").toExternalForm());
 		
 		//Export to png
 		saveAsPng(scene, outputPath);
