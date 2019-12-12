@@ -11,7 +11,7 @@ import chartexport.TablesChartManager;
 import datamodel.TableDetailedStatsElement;
 import test.mainEngine.StagelessTableStatsMainEngine;
 
-class StagelessTablesChartManagerTest {
+public class StagelessTablesChartManagerTest {
 	private static StagelessTableStatsMainEngine stagelessTableStatsMainEngine;
 	private static String prjName;
 	private static ArrayList<TableDetailedStatsElement> inputTupleCollection;

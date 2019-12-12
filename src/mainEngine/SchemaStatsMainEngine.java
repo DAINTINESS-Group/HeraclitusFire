@@ -27,7 +27,8 @@ public class SchemaStatsMainEngine {
 		if (prjFolder.isDirectory()) {
 			this.projectFolder = anInputProjectFolder;
 			this.inputFolderWithStats = anInputProjectFolder + "/" + "results";
-			this.outputFolderWithFigures = this.projectFolder +  "/" + "figures/schemaFigures";//+ "chartsOfSchemas";
+//			this.outputFolderWithFigures = this.projectFolder +  "/" + "figures/schemaFigures";
+			this.setupFolders();
 			_DELIMETER = "\t";
 			_NUMFIELDS = 28;//28 fields, one can be empty, is not practicly used
 			_DATEMODE = true;
@@ -55,8 +56,6 @@ public class SchemaStatsMainEngine {
 	 */
 	public int produceSchemaFiguresAndStats() {
 		int numRows = 0;
-
-		this.setupFolders();
 
 		String inputFileName = inputFolderWithStats + File.separator + "SchemaHeartbeat.tsv";
 		numRows = this.loadData(inputFileName, _DELIMETER, true, _NUMFIELDS, this.header, this.inputTupleCollection);
@@ -108,7 +107,8 @@ public class SchemaStatsMainEngine {
 		}
 		this.outputFolderWithTestResults = testOutputFolder.getAbsolutePath();
 
-		File figureOutputFolder = new File(this.outputFolderWithFigures);//this.projectFolder + File.separator + "schemaFigures");
+		//File figureOutputFolder = new File(this.outputFolderWithFigures);//this.projectFolder + File.separator + "schemaFigures");
+		File figureOutputFolder = new File(this.projectFolder + File.separator + "figures/schemaFigures");
 		if (!figureOutputFolder.exists()) {
 			figureOutputFolder.mkdir();
 		}

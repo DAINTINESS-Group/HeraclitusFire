@@ -28,7 +28,7 @@ import org.junit.platform.suite.api.SelectClasses;
 
 @SelectClasses( { test.mainEngine.TableStatsMainEngineTest.class, test.mainEngine.StagelessTableStatsMainEngineTest.class, 
 	test.mainEngine.SchemaStatsMainEngineTest.class, test.mainEngine.StagelessSchemaStatsMainEngineTest.class, 
-	test.chartExport.StagelessSchemaChartManagerTest.class, 
+	test.chartExport.StagelessTablesChartManagerTest.class, test.chartExport.StagelessSchemaChartManagerTest.class, 
 	test.patternassessment.fisher.exact.test.FisherExactTestWrapperTest.class, test.patternassessment.GammaSimpleTest.class} )
 //@SelectPackages({"test", "test.mainEngine"})
 

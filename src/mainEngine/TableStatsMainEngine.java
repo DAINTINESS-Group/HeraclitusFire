@@ -56,8 +56,9 @@ public class TableStatsMainEngine {
 			
 			this.projectFolder = anInputProjectFolder;
 			this.inputFolderWithStats = anInputProjectFolder + "/" + "results";
-			this.outputFolderWithFigures = this.projectFolder +  "/" + "charts";
-			this.outputFolderWithTestResults = this.projectFolder +  "/" + "resultsOfPatternTests";
+//			this.outputFolderWithFigures = this.projectFolder +  "/" + "figures/tableFigures";
+//			this.outputFolderWithTestResults = this.projectFolder +  "/" + "resultsOfPatternTests";
+			this.setupFolders();
 			//TODO: check if this works
 			this.globalLogFilePath = prjFolder.getParent() + "resources/GlobalLog.txt";
 			_DELIMETER = "\t";
@@ -89,8 +90,6 @@ public class TableStatsMainEngine {
 	 */
 	public int produceTableFiguresAndStats() {
 		int numRows = 0;
-
-		this.setupFolders();
 
 		String inputFileName = inputFolderWithStats + File.separator + "tables_DetailedStats.tsv";
 		numRows = this.loadData(inputFileName, _DELIMETER, true, _NUMFIELDS, this.header, this.inputTupleCollection);
@@ -140,7 +139,7 @@ public class TableStatsMainEngine {
 		}
 		this.outputFolderWithTestResults = testOutputFolder.getAbsolutePath();
 
-		File figureOutputFolder = new File(this.projectFolder + File.separator + "figures");
+		File figureOutputFolder = new File(this.projectFolder + File.separator + "figures/tableFigures");
 		if (!figureOutputFolder.exists()) {
 			figureOutputFolder.mkdir();
 		}
