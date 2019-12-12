@@ -33,7 +33,7 @@ public class SchemaChartManager {
 		System.out.println("************************ "+this.prjName);
 	}//end constructor
 	
-	public int extractCharts() {
+	public ArrayList<ArrayList<Integer>> extractCharts() {
 		// version id line charts
 		HashMap<Integer, ArrayList<SchemaHeartbeatElement>> hashmapInputTupleCollection = new HashMap<Integer, ArrayList<SchemaHeartbeatElement>>();
 		hashmapInputTupleCollection.put(0, inputTupleCollection);
@@ -89,16 +89,19 @@ public class SchemaChartManager {
 			// TODO: add more grouped bar charts
 		}
 		//*/
-		launchChartExporters();
-		return 0;
+		return launchChartExporters();
+		//return 0;
 	}
 
 	// ZAS: Extracted to enable the testing process
 	// ZAS: Hopefully now I can subclass and override
-	protected void launchChartExporters() {
+	protected ArrayList<ArrayList<Integer>> launchChartExporters() {
+		ArrayList<ArrayList<Integer>> numOfDataPerSeriesPerChart = new ArrayList<ArrayList<Integer>>();
 		for(AbstractLineChartExporter l: this.lineExporters) {
 			try {
 				l.start(stage);
+				ArrayList<Integer> lSeries = l.getNumOfDataPerSeries();
+				numOfDataPerSeriesPerChart.add(lSeries);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -107,11 +110,14 @@ public class SchemaChartManager {
 		for(AbstractBarChartExporter b: this.barExporters) {
 			try {
 				b.start(stage);
+				ArrayList<Integer> bSeries = b.getNumOfDataPerSeries();
+				numOfDataPerSeriesPerChart.add(bSeries);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			//s.saveChart();
 		}
+		return numOfDataPerSeriesPerChart;
 	}
 	
 	private ArrayList<SchemaHeartbeatElement> inputTupleCollection;

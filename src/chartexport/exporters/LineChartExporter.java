@@ -41,8 +41,8 @@ public class LineChartExporter extends AbstractLineChartExporter<Number> {// ext
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		
-		ArrayList<XYChart.Series<Number,Number>> allSeries = createSeries();
-		if (allSeries.size() == 0)
+		createSeries();
+		if (this.allSeries.size() == 0)
 			return;
 		
 		//double xTickUnit = Math.round((double) (maxX - minX)/10.0);
@@ -71,7 +71,7 @@ public class LineChartExporter extends AbstractLineChartExporter<Number> {// ext
 		this.lineChart = new LineChart<Number,Number>(xAxis,yAxis);
 		//this.lineChart = new LineChart<String,Number>(xAxis,yAxis);
 		
-		for(XYChart.Series<Number,Number> nextSeries: allSeries)
+		for(XYChart.Series<Number,Number> nextSeries: this.allSeries)
 			this.lineChart.getData().add(nextSeries);
 		//for(XYChart.Series<String,Number> nextSeries: allSeries)
 			//this.lineChart.getData().add(nextSeries);
@@ -111,8 +111,8 @@ public class LineChartExporter extends AbstractLineChartExporter<Number> {// ext
 	}//end lineCreation
 	
 	@Override
-	public ArrayList<XYChart.Series<Number,Number>> createSeries() {
-		ArrayList<XYChart.Series<Number,Number>> allSeries = new ArrayList<XYChart.Series<Number,Number>>();
+	public void createSeries() {
+		this.allSeries = new ArrayList<XYChart.Series<Number,Number>>();
 		
 		for(int i=0; i<yAttributes.size();i++ ) {
 			XYChart.Series<Number,Number> newSeries = new XYChart.Series<Number,Number>();
@@ -125,9 +125,9 @@ public class LineChartExporter extends AbstractLineChartExporter<Number> {// ext
 					}
 					//System.out.println("x:" + xValue + "\ty:" + yValue);
 			}
-			allSeries.add(newSeries);
+			this.allSeries.add(newSeries);
 		}
-		return allSeries;
+		//return this.allSeries;
 	}
 
 

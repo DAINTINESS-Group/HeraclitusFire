@@ -23,6 +23,14 @@ public class StagelessSchemaStatsMainEngine extends SchemaStatsMainEngine{
 				);
 	}
 	
+	public String getPrjName(){
+		return this.prjName;
+	}
+	
+	public HashMap<String, Integer> getAttributePositions(){
+		return this.attributePositions;
+	}
+	
 	
 	final public HashMap<Integer, ArrayList<SchemaHeartbeatElement>> getTuplesPerRYFV0Collection(){
 		return this.tuplesPerRYFV0Collection;

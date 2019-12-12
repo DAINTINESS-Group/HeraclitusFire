@@ -59,8 +59,8 @@ public abstract class AbstractBarChartExporter {
 
 	public void start(Stage primaryStage) throws Exception {
 		
-		ArrayList<XYChart.Series<String,Number>> allSeries = createSeries();
-		if (allSeries.size() == 0)
+		createSeries();
+		if (this.allSeries.size() == 0)
 			return;
 
 		//double xTickUnit = Math.round((double) (maxX - minX)/10.0);
@@ -87,7 +87,7 @@ public abstract class AbstractBarChartExporter {
 
 		this.barChart = new BarChart<String,Number>(xAxis,yAxis);
 		
-		for(XYChart.Series<String,Number> nextSeries: allSeries)
+		for(XYChart.Series<String,Number> nextSeries: this.allSeries)
 			this.barChart.getData().add(nextSeries);
 
 		this.barChart.setTitle(chartTitle);
@@ -124,7 +124,7 @@ public abstract class AbstractBarChartExporter {
 		
 	}//end chartCreation
 	
-	public abstract ArrayList<XYChart.Series<String,Number>> createSeries();
+	public abstract void createSeries();
 	protected abstract void setLabelFormatter(NumberAxis yAxis);
 
 	/**
@@ -165,6 +165,13 @@ public abstract class AbstractBarChartExporter {
 			ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
 		} catch (IOException e){}
 	}//end saveChart
+	
+	public ArrayList<Integer> getNumOfDataPerSeries() {
+		ArrayList<Integer> numOfDataPerSeries = new ArrayList<Integer>();
+		for(XYChart.Series<String,Number> series: allSeries)
+			numOfDataPerSeries.add(series.getData().size());
+		return numOfDataPerSeries;
+	}
 
 
 	protected String xAttribute;
@@ -178,6 +185,7 @@ public abstract class AbstractBarChartExporter {
 	protected String chartTitle;
 	protected String outputPath;
 	protected Stage stage;
+	protected ArrayList<XYChart.Series<String,Number>> allSeries;
 	protected BarChart<String,Number> barChart;
 
 

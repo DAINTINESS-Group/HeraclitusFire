@@ -51,7 +51,7 @@ public abstract class AbstractLineChartExporter<X> {
 	}
 	
 	public abstract void start(Stage primaryStage) throws Exception;
-	public abstract ArrayList<XYChart.Series<X,Number>> createSeries();
+	public abstract void createSeries();
 
 	/**
 	 * SUPER USEFUL, DO NOT REMOVE: This method reports all the children nodes of the linechart
@@ -92,6 +92,13 @@ public abstract class AbstractLineChartExporter<X> {
 		} catch (IOException e){}
 	}//end saveChart
 	
+	public ArrayList<Integer> getNumOfDataPerSeries() {
+		ArrayList<Integer> numOfDataPerSeries = new ArrayList<Integer>();
+		for(XYChart.Series<X,Number> series: allSeries)
+			numOfDataPerSeries.add(series.getData().size());
+		return numOfDataPerSeries;
+	}
+	
 	protected String xAttribute;
 	protected String yAttribute;
 	protected ArrayList<String> yAttributes;
@@ -103,6 +110,7 @@ public abstract class AbstractLineChartExporter<X> {
 	protected String chartTitle;
 	protected String outputPath;
 	protected Stage stage;
+	protected ArrayList<XYChart.Series<X,Number>> allSeries;
 	protected LineChart<X,Number> lineChart;
 
 }

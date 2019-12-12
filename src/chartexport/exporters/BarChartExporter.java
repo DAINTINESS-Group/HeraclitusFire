@@ -36,8 +36,8 @@ public class BarChartExporter extends AbstractBarChartExporter{// extends Applic
 	}//end constructor
 
 	@Override
-	public ArrayList<XYChart.Series<String,Number>> createSeries() {
-		ArrayList<XYChart.Series<String,Number>> allSeries = new ArrayList<XYChart.Series<String,Number>>();
+	public void createSeries() {
+		this.allSeries = new ArrayList<XYChart.Series<String,Number>>();
 		
 		for(int i=0; i<yAttributes.size();i++ ) {
 			XYChart.Series<String,Number> newSeries = new XYChart.Series<String,Number>();
@@ -50,9 +50,9 @@ public class BarChartExporter extends AbstractBarChartExporter{// extends Applic
 					newSeries.getData().add(new XYChart.Data<String,Number>(xValue.toString(), yValue));
 				}
 			}
-			allSeries.add(newSeries);
+			this.allSeries.add(newSeries);
 		}
-		return allSeries;
+		//return this.allSeries;
 	}
 
 	@Override

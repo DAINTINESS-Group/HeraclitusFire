@@ -48,8 +48,8 @@ public class DateLineChartExporter extends AbstractLineChartExporter<LocalDateTi
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		
-		ArrayList<XYChart.Series<LocalDateTime,Number>> allSeries = createSeries();
-		if (allSeries.size() == 0)
+		createSeries();
+		if (this.allSeries.size() == 0)
 			return;
 
 		//double xTickUnit = Math.round((double) (maxX - minX)/10.0);
@@ -78,7 +78,7 @@ public class DateLineChartExporter extends AbstractLineChartExporter<LocalDateTi
 
 		this.lineChart = new LineChart<LocalDateTime,Number>(xAxis,yAxis);
 		
-		for(XYChart.Series<LocalDateTime,Number> nextSeries: allSeries)
+		for(XYChart.Series<LocalDateTime,Number> nextSeries: this.allSeries)
 			this.lineChart.getData().add(nextSeries);
 
 		this.lineChart.setTitle(chartTitle);
@@ -117,8 +117,8 @@ public class DateLineChartExporter extends AbstractLineChartExporter<LocalDateTi
 	}//end lineCreation
 	
 	@Override
-	public ArrayList<XYChart.Series<LocalDateTime,Number>> createSeries() {
-		ArrayList<XYChart.Series<LocalDateTime,Number>> allSeries = new ArrayList<XYChart.Series<LocalDateTime,Number>>();
+	public void createSeries() {
+		this.allSeries = new ArrayList<XYChart.Series<LocalDateTime,Number>>();
 		
 		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
 		
@@ -134,9 +134,9 @@ public class DateLineChartExporter extends AbstractLineChartExporter<LocalDateTi
 					}
 					//System.out.println("x:" + xValue + "\ty:" + yValue);
 			}
-			allSeries.add(newSeries);
+			this.allSeries.add(newSeries);
 		}
-		return allSeries;
+		//return this.allSeries;
 	}
 
 

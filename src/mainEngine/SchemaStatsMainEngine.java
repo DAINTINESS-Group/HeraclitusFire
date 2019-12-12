@@ -53,7 +53,7 @@ public class SchemaStatsMainEngine {
 	 * 
 	 * @return an int with the number of rows processed from SchemaHeartbeat.tsv
 	 */
-	public int processFolder() {
+	public int produceSchemaFiguresAndStats() {
 		int numRows = 0;
 
 		this.setupFolders();

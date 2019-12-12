@@ -44,7 +44,7 @@ public class SingleFolderProcessingClient extends Application{
 		engine.produceTableFiguresAndStats();
 		
 		SchemaStatsMainEngine sengine = new SchemaStatsMainEngine(folderOfProject, primaryStage);
-		sengine.processFolder();
+		sengine.produceSchemaFiguresAndStats();
 		
 		System.out.println("Done with " + folderOfProject);
 		System.out.println("#########################################\n\n");

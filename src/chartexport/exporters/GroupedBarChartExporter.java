@@ -37,14 +37,15 @@ public class GroupedBarChartExporter extends AbstractBarChartExporter{// extends
 	}//end constructor
 
 	@Override
-	public ArrayList<XYChart.Series<String,Number>> createSeries() {
-		ArrayList<XYChart.Series<String,Number>> allSeries = new ArrayList<XYChart.Series<String,Number>>();
+	public void createSeries() {
+		this.allSeries = new ArrayList<XYChart.Series<String,Number>>();
 		
 		ArrayList<Integer> RYFV0KeySet = new ArrayList<Integer>();
 		for(Integer k: inputTupleCollection.keySet())
 			RYFV0KeySet.add(k);
 		if(RYFV0KeySet.size() < 1)
-			return allSeries;
+			return;
+			//return this.allSeries;
 		Collections.sort(RYFV0KeySet);
 		
 		for(int i=0; i<yAttributes.size();i++ ) {
@@ -61,9 +62,9 @@ public class GroupedBarChartExporter extends AbstractBarChartExporter{// extends
 				//yValue /= tuples.size();  // if we want avg instead of sum
 				newSeries.getData().add(new XYChart.Data<String,Number>(RYFV0value.toString(), yValue));
 			}
-			allSeries.add(newSeries);
+			this.allSeries.add(newSeries);
 		}
-		return allSeries;
+		//return this.allSeries;
 	}
 
 	@Override
