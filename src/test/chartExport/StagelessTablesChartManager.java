@@ -6,7 +6,6 @@ import java.util.HashMap;
 import chartexport.TablesChartManager;
 import chartexport.exporters.ScatterChartExporter;
 import datamodel.TableDetailedStatsElement;
-import javafx.scene.chart.XYChart;
 import javafx.stage.Stage;
 
 public class StagelessTablesChartManager extends TablesChartManager {
@@ -23,11 +22,15 @@ public class StagelessTablesChartManager extends TablesChartManager {
 	// Subclass and override to get rid of the stage dependency
 	// We do not call stage - so stage can be null!!
 	// We test only if the series are created right - we leave the styling untested
-	protected void launchScatterChartExporters() {
+	protected ArrayList<ArrayList<Integer>> launchScatterChartExporters() {
+		ArrayList<ArrayList<Integer>> numOfDataPerSeriesPerChart = new ArrayList<ArrayList<Integer>>();
 		for(ScatterChartExporter s: this.scatterExporters) {
-			ArrayList<XYChart.Series<Number,Number>> series = s.createSeries();
+			s.createSeries();
+			ArrayList<Integer> sSeries = s.getNumOfDataPerSeries();
+			numOfDataPerSeriesPerChart.add(sSeries);
 
 		}
+		return numOfDataPerSeriesPerChart;
 	}
 
 }

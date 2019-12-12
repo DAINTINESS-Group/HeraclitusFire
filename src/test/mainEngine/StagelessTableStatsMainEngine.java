@@ -23,6 +23,14 @@ public class StagelessTableStatsMainEngine extends TableStatsMainEngine {
 				);
 	}
 	
+	public String getPrjName(){
+		return this.prjName;
+	}
+	
+	public HashMap<String, Integer> getAttributePositions(){
+		return this.attributePositions;
+	}
+	
 	
 	final public HashMap<Integer, ArrayList<TableDetailedStatsElement>> getTuplesPerLADCollection(){
 		return this.tuplesPerLADCollection;

@@ -27,7 +27,7 @@ public class TablesChartManager {
 System.out.println("************************ "+this.prjName);
 	}//end constructor
 	
-	public int extractScatterCharts() {
+	public ArrayList<ArrayList<Integer>> extractScatterCharts() {
 		/*
 		 * (String pOutputPath, String pTitle, HashMap<Integer, ArrayList<TableDetailedStatsElement>> pTuplesPerLADCollection, 
 			String pXAttribute, String pYAttribute, HashMap<String, Integer> pAttributePositions)
@@ -56,21 +56,25 @@ System.out.println("************************ "+this.prjName);
 				"Birth", "Duration",	attributePositions, stage);
 		this.scatterExporters.add(sTriangle);
 		
-		launchScatterChartExporters();
-		return 0;
+		return launchScatterChartExporters();
+		//return 0;
 	}
 
 	// ZAS: Extracted to enable the testing process
 	// ZAS: Hopefully now I can subclass and override
-	protected void launchScatterChartExporters() {
+	protected ArrayList<ArrayList<Integer>> launchScatterChartExporters() {
+		ArrayList<ArrayList<Integer>> numOfDataPerSeriesPerChart = new ArrayList<ArrayList<Integer>>();
 		for(ScatterChartExporter s: this.scatterExporters) {
 			try {
 				s.start(stage);
+				ArrayList<Integer> sSeries = s.getNumOfDataPerSeries();
+				numOfDataPerSeriesPerChart.add(sSeries);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			//s.saveChart();
 		}
+		return numOfDataPerSeriesPerChart;
 	}
 	
 	private ArrayList<TableDetailedStatsElement> inputTupleCollection;

@@ -38,10 +38,18 @@ public class StagelessSchemaChartManagerTest {
 		
 		ArrayList<ArrayList<Integer>> numOfDataPerSeriesPerChart = stagelessSchemaChartManager.extractCharts();
 		assertEquals(numOfDataPerSeriesPerChart.size(), 4);	// test number of charts
+		
+		assertEquals(numOfDataPerSeriesPerChart.get(0).size(), 1);	// test number of series in NumTablesOverID chart
 		assertEquals(numOfDataPerSeriesPerChart.get(0).get(0), 17);	// test number of data in NumTablesOverID chart
+		
+		assertEquals(numOfDataPerSeriesPerChart.get(1).size(), 1);	// test number of series in NumAtrrsOverID chart
 		assertEquals(numOfDataPerSeriesPerChart.get(1).get(0), 17);	// test number of data in NumAtrrsOverID chart
+		
+		assertEquals(numOfDataPerSeriesPerChart.get(2).size(), 2);	// test number of series in ExpansionMaintenanceOverID chart
 		assertEquals(numOfDataPerSeriesPerChart.get(2).get(0), 17);	// test number of data in ExpansionOverID chart
 		assertEquals(numOfDataPerSeriesPerChart.get(2).get(1), 17);	// test number of data in MaintenanceOverID chart
+		
+		assertEquals(numOfDataPerSeriesPerChart.get(3).size(), 1);	// test number of series in TotalActivityOverID chart
 		assertEquals(numOfDataPerSeriesPerChart.get(3).get(0), 17);	// test number of data in TotalActivityOverID chart
 		
 	}
@@ -58,13 +66,27 @@ public class StagelessSchemaChartManagerTest {
 		
 		ArrayList<ArrayList<Integer>> numOfDataPerSeriesPerChart = stagelessSchemaChartManager.extractCharts();
 		assertEquals(numOfDataPerSeriesPerChart.size(), 7);	// test number of charts
+		
+		assertEquals(numOfDataPerSeriesPerChart.get(0).size(), 1);	// test number of series in NumTablesOverID chart
 		assertEquals(numOfDataPerSeriesPerChart.get(0).get(0), 85);	// test number of data in NumTablesOverID chart
+		
+		assertEquals(numOfDataPerSeriesPerChart.get(1).size(), 1);	// test number of series in NumAtrrsOverID chart
 		assertEquals(numOfDataPerSeriesPerChart.get(1).get(0), 85);	// test number of data in NumAtrrsOverID chart
+		
+		assertEquals(numOfDataPerSeriesPerChart.get(2).size(), 1);	// test number of series in NumTablesOverHT chart
 		assertEquals(numOfDataPerSeriesPerChart.get(2).get(0), 85);	// test number of data in NumTablesOverHT chart
+		
+		assertEquals(numOfDataPerSeriesPerChart.get(3).size(), 1);	// test number of series in NumAtrrsOverHT chart
 		assertEquals(numOfDataPerSeriesPerChart.get(3).get(0), 85);	// test number of data in NumAtrrsOverHT chart
+		
+		assertEquals(numOfDataPerSeriesPerChart.get(4).size(), 2);	// test number of series in ExpansionMaintenanceOverID chart
 		assertEquals(numOfDataPerSeriesPerChart.get(4).get(0), 85);	// test number of data in ExpansionOverID chart
 		assertEquals(numOfDataPerSeriesPerChart.get(4).get(1), 85);	// test number of data in MaintenanceOverID chart
+		
+		assertEquals(numOfDataPerSeriesPerChart.get(5).size(), 1);	// test number of series in TotalActivityOverID chart
 		assertEquals(numOfDataPerSeriesPerChart.get(5).get(0), 85);	// test number of data in TotalActivityOverID chart
+		
+		assertEquals(numOfDataPerSeriesPerChart.get(6).size(), 2);	// test number of series in TableActivityPerYear chart
 		assertEquals(numOfDataPerSeriesPerChart.get(6).get(0), 4);	// test number of data in TablesInsPerYear chart
 		assertEquals(numOfDataPerSeriesPerChart.get(6).get(1), 4);	// test number of data in TablesDelPerYear chart
 		

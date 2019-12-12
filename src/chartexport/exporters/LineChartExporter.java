@@ -65,7 +65,7 @@ public class LineChartExporter extends AbstractLineChartExporter<Number> {// ext
 		yAxis.setLabel(yAxisLabel);
 		xAxis.setMinorTickVisible(false);
 		yAxis.setMinorTickVisible(false);
-		//xAxis.setTickLabelFormatter(new IntegerStringConverter());
+		xAxis.setTickLabelFormatter(new IntegerStringConverter());
 		yAxis.setTickLabelFormatter(new IntegerStringConverter());
 
 		this.lineChart = new LineChart<Number,Number>(xAxis,yAxis);

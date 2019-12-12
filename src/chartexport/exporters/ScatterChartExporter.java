@@ -56,8 +56,8 @@ public class ScatterChartExporter{// extends Application{
 
 	public void start(Stage primaryStage) throws Exception {
 
-		ArrayList<XYChart.Series<Number,Number>> allSeries = createSeries();
-		if (allSeries.size() == 0)
+		createSeries();
+		if (this.allSeries.size() == 0)
 			return;
 
 		//double xTickUnit = Math.round((double) (maxX - minX)/10.0);
@@ -78,7 +78,7 @@ public class ScatterChartExporter{// extends Application{
 
 		this.scatterChart = new ScatterChart<Number,Number>(xAxis,yAxis);
 
-		for(XYChart.Series<Number,Number> nextSeries: allSeries)
+		for(XYChart.Series<Number,Number> nextSeries: this.allSeries)
 			this.scatterChart.getData().add(nextSeries);
 
 		this.scatterChart.setTitle(chartTitle);
@@ -114,8 +114,8 @@ public class ScatterChartExporter{// extends Application{
 		
 	}//end scatterCreation
 	
-	public ArrayList<XYChart.Series<Number,Number>> createSeries() {
-		ArrayList<XYChart.Series<Number,Number>> allSeries = new ArrayList<XYChart.Series<Number,Number>>();
+	public void createSeries() {
+		this.allSeries = new ArrayList<XYChart.Series<Number,Number>>();
 		
 		HashMap<Integer, String> ladLabels = new HashMap<Integer, String>();
 		ladLabels.put(10, "Rigid.Dead");
@@ -150,9 +150,9 @@ public class ScatterChartExporter{// extends Application{
 				if((xValue != TableDetailedStatsElement._ERROR_CODE) && (yValue != TableDetailedStatsElement._ERROR_CODE))
 					newSeries.getData().add(new XYChart.Data<Number,Number>(xValue, yValue));
 			}
-			allSeries.add(newSeries);
+			this.allSeries.add(newSeries);
 		}//end for i = nextLAD value
-		return allSeries;
+		//return this.allSeries;
 	}
 
 	/**
@@ -193,6 +193,13 @@ public class ScatterChartExporter{// extends Application{
 			ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
 		} catch (IOException e){}
 	}//end saveChart
+	
+	public ArrayList<Integer> getNumOfDataPerSeries() {
+		ArrayList<Integer> numOfDataPerSeries = new ArrayList<Integer>();
+		for(XYChart.Series<Number,Number> series: allSeries)
+			numOfDataPerSeries.add(series.getData().size());
+		return numOfDataPerSeries;
+	}
 
 
 	private String xAttribute;
@@ -204,6 +211,7 @@ public class ScatterChartExporter{// extends Application{
 	private String chartTitle;
 	private String outputPath;
 	private Stage stage;
+	private ArrayList<XYChart.Series<Number,Number>> allSeries;
 	private ScatterChart<Number,Number> scatterChart;
 
 

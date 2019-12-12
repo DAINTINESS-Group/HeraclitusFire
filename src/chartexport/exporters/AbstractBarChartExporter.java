@@ -168,7 +168,7 @@ public abstract class AbstractBarChartExporter {
 	
 	public ArrayList<Integer> getNumOfDataPerSeries() {
 		ArrayList<Integer> numOfDataPerSeries = new ArrayList<Integer>();
-		for(XYChart.Series<String,Number> series: allSeries)
+		for(XYChart.Series<String,Number> series: this.allSeries)
 			numOfDataPerSeries.add(series.getData().size());
 		return numOfDataPerSeries;
 	}

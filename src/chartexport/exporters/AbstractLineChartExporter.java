@@ -94,7 +94,7 @@ public abstract class AbstractLineChartExporter<X> {
 	
 	public ArrayList<Integer> getNumOfDataPerSeries() {
 		ArrayList<Integer> numOfDataPerSeries = new ArrayList<Integer>();
-		for(XYChart.Series<X,Number> series: allSeries)
+		for(XYChart.Series<X,Number> series: this.allSeries)
 			numOfDataPerSeries.add(series.getData().size());
 		return numOfDataPerSeries;
 	}
