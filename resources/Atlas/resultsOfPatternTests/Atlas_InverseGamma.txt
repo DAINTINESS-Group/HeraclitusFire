@@ -1,0 +1,6 @@
+
+NEW PRJ ----------- Atlas -------------------------
+Atlas:	InverseGamma	holds? 	true
+Atlas:	InverseGamma	Geometry? 	true
+Atlas:	InverseGamma	p-Value? 	true
+------------------------------------------------

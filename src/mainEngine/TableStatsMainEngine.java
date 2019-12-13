@@ -21,8 +21,8 @@ import patternassessment.tablepatterns.PatternAssessmentTypesEnum;
  * Its role is to process the load the table data, extract charts for TABLE patterns
  * TODO: extract patterns for tables too
  *  
- * @author	pvassil, zarras
- * @date	2019-07-16
+ * @author	pvassil, zarras, alexvou
+ * @date	2019-12-14
  * @since	2019-06-15
  */
 public class TableStatsMainEngine {
@@ -110,7 +110,8 @@ public class TableStatsMainEngine {
 		tablesChartManager.extractScatterCharts();
 
 		if (_DATEMODE) {
-			ArrayList<PatternAssessmentTypesEnum> testsToRun= new ArrayList <PatternAssessmentTypesEnum>(Arrays.asList(PatternAssessmentTypesEnum.GAMMA));
+			ArrayList<PatternAssessmentTypesEnum> testsToRun= new ArrayList <PatternAssessmentTypesEnum>(
+					Arrays.asList(PatternAssessmentTypesEnum.GAMMA, PatternAssessmentTypesEnum.INVERSE_GAMMA));
 			this.patternAssessmentManager.assessPatterns(testsToRun,
 				this.inputTupleCollection, this.prjName, this.outputFolderWithTestResults, this.globalLogFilePath, _ALPHA);
 		}
