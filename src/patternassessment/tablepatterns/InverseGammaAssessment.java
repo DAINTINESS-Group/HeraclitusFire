@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import datamodel.TableDetailedStatsElement;
 
+
 public class InverseGammaAssessment extends PatternAssessmentTemplateMethod {
 
 	public InverseGammaAssessment(ArrayList<TableDetailedStatsElement> pInputTupleCollection, String projectName,
