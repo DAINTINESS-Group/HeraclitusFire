@@ -1,4 +1,4 @@
-package patternassessment;
+package patternassessment.tablepatterns;
 
 import java.util.List;
 import java.util.ArrayList;

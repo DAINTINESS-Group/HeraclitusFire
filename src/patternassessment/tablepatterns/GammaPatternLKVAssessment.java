@@ -1,11 +1,11 @@
-package patternassessment;
+package patternassessment.tablepatterns;
 
 import java.util.ArrayList;
 
 import datamodel.TableDetailedStatsElement;
 import patternassessment.fisher.exact.test.FisherExactTestWrapper;
 
-public class PatternGammaAssessment extends PatternAssessmentTemplateMethod {
+public class GammaPatternLKVAssessment extends PatternAssessmentTemplateMethod {
 	private static int WIDE_TABLE_LIMIT = 10;
 	private static int MED_TABLE_LIMIT = 5;
 	private static int MAX_ACCEPTABLE_NUM_WIDE_DEAD_FOR_PATTERN_TO_HOLD = 3;
@@ -13,7 +13,7 @@ public class PatternGammaAssessment extends PatternAssessmentTemplateMethod {
 	private Boolean geometricalPatternTrue;
 	private Boolean pValuePatternTrue;
 	
-	public PatternGammaAssessment(
+	public GammaPatternLKVAssessment(
 			ArrayList<TableDetailedStatsElement> pInputTupleCollection,
 			String projectName,
 			String pOutputFolderWithPatterns,
@@ -33,7 +33,7 @@ public class PatternGammaAssessment extends PatternAssessmentTemplateMethod {
 
 	@Override
 	public PatternAssessmentResult constructResult() {
-		this.result = new PatternAssessmentResult(this.projectName + ":\tGammaAssessment", 2, 2); 
+		this.result = new PatternAssessmentResult(this.projectName + ":\tGamma", 2, 2); 
 		return this.result;
 	}
 
@@ -48,8 +48,7 @@ public class PatternGammaAssessment extends PatternAssessmentTemplateMethod {
 				sizePos = 1;
 			this.result.getContingencyTable()[sizePos][survPos]++;	
 		}
-		//TODO: throw exception if both [0][0] and [1][0], i.e., the wide ones, are zeros
-		//TODO: it think you mean [1][0] and [1][1]
+		//TODO: throw exception if both [1][0] and [1][1], i.e., the wide ones, are zeros
 		return this.result.getContingencyTable();
 	}
 
@@ -131,9 +130,8 @@ public class PatternGammaAssessment extends PatternAssessmentTemplateMethod {
 	 */
 	@Override public String constructResultDescription(PatternAssessmentResult par) {
 		String prjNPattern = par.getprjNameAndPattern();
-		String resultString =  prjNPattern + "\n"  
-				+ "Geometry holds? " + geometricalPatternTrue + "\n" 
-				+ "p-Value  holds? " + pValuePatternTrue;
+		String resultString =  prjNPattern + "\t" + "Geometry? \t" + geometricalPatternTrue + "\n" + 
+				prjNPattern + "\t" + "p-Value? \t" + pValuePatternTrue;
 		return resultString;
 	}
 

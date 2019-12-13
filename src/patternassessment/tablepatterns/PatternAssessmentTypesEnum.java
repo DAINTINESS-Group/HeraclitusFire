@@ -1,7 +1,7 @@
 /**
  * 
  */
-package patternassessment;
+package patternassessment.tablepatterns;
 
 /**
  *  Types of patterns that can be assessed

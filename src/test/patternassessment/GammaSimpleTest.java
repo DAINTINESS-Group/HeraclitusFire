@@ -11,14 +11,14 @@ import org.junit.jupiter.api.Test;
 
 import datamodel.TableDetailedStatsElement;
 import mainEngine.TableStatsMainEngine;
-import patternassessment.PatternAssessmentResult;
-import patternassessment.PatternGammaAssessment;
+import patternassessment.tablepatterns.PatternAssessmentResult;
+import patternassessment.tablepatterns.GammaPatternLKVAssessment;
 
 public class GammaSimpleTest {
 	private static TableStatsMainEngine tableStatsMainEngine; 
 	private static ArrayList<TableDetailedStatsElement> inputTupleCollection;
 	private static int numRows;
-	private static PatternGammaAssessment gammaAssessment;
+	private static GammaPatternLKVAssessment gammaAssessment;
 	private static double ALPHA = 0.001;
 	private static PatternAssessmentResult result;
 	
@@ -28,7 +28,7 @@ public class GammaSimpleTest {
 		inputTupleCollection = new ArrayList<TableDetailedStatsElement>();
 		ArrayList<String> header = new ArrayList<String>();
 		numRows = tableStatsMainEngine.loadData("resources/Atlas/results/tables_DetailedStats.tsv", "\t", true, 22, header, inputTupleCollection);
-		gammaAssessment = new PatternGammaAssessment(inputTupleCollection, "Atlas", "resources/test/Gamma", "resources/test/GlobalLog.txt", ALPHA);
+		gammaAssessment = new GammaPatternLKVAssessment(inputTupleCollection, "Atlas", "resources/test/Gamma", "resources/test/GlobalLog.txt", ALPHA);
 		result = gammaAssessment.constructResult();
 		gammaAssessment.computeContingencyTable(result);
 	}

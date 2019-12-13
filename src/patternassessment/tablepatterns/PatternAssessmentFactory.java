@@ -1,4 +1,4 @@
-package patternassessment;
+package patternassessment.tablepatterns;
 
 import java.util.ArrayList;
 
@@ -16,7 +16,7 @@ public class PatternAssessmentFactory {
 			double alpha) {
 
 		switch(testType) {
-		case GAMMA: return new PatternGammaAssessment(pInputTupleCollection,projectName, pOutputFolderWithPatterns, globalAppendLog, alpha);
+		case GAMMA: return new GammaPatternLKVAssessment(pInputTupleCollection,projectName, pOutputFolderWithPatterns, globalAppendLog, alpha);
 
 		default: return null; 
 		}

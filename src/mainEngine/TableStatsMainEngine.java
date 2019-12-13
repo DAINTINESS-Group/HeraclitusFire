@@ -12,9 +12,8 @@ import chartexport.TablesChartManager;
 import dataload.TableDetailedStatsLoader;
 import datamodel.TableDetailedStatsElement;
 import javafx.stage.Stage;
-//import patternassessment.PatternAssessmentFactory;
-import patternassessment.PatternAssessmentManager;
-import patternassessment.PatternAssessmentTypesEnum;
+import patternassessment.tablepatterns.PatternAssessmentManager;
+import patternassessment.tablepatterns.PatternAssessmentTypesEnum;
 
 /**
  * This the main engine of the tool for working with TABLE data (i.e., not SCHEMA).

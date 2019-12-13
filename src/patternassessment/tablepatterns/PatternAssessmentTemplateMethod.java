@@ -1,4 +1,4 @@
-package patternassessment;
+package patternassessment.tablepatterns;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -99,8 +99,8 @@ public abstract class PatternAssessmentTemplateMethod {
 
 	private void writeToResultPrintStream(PatternAssessmentResult par, PrintStream outStream) {
 		outStream.println("\nNEW PRJ ----------- " + this.projectName + " -------------------------");
+		outStream.println(this.projectName + ":\t" + getTestName()+ "\tholds? " + "\t" + this.patternIsValid);
 		outStream.println(par.getDescription());
-		outStream.println("holds? " + "\t" + this.patternIsValid);
 		//outStream.println( "chi-square test statistic: " + "\t" + resultRaw );
 		
 		//Not useful for small numbers
@@ -172,7 +172,7 @@ public abstract class PatternAssessmentTemplateMethod {
 			pr = new PrintWriter(br);
 
 			String outputString = par.getDescription() + "\n" +
-					"holds? " + "\t" + this.patternIsValid + "\n"
+					this.projectName + "\t" + getTestName()+ "\tholds? " + "\t" + this.patternIsValid + "\n"
 					+ "-------------------------\n";
 			pr.println(outputString);
 

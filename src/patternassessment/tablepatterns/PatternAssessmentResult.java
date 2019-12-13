@@ -1,4 +1,4 @@
-package patternassessment;
+package patternassessment.tablepatterns;
 
 public class PatternAssessmentResult {
 	private String prjNameAndPattern;
