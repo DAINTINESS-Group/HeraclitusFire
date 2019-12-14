@@ -14,8 +14,9 @@ Must configure correctly the paths for
 - java executable
 - javafx lib
 - location of the target HeraclitusFireRunable jar
+Then, you can massively work with multiple data sets, nested under the same 'mother' folder as follows.
 
-For Shell
+For shell, cd to the 'mother' folder, edit the aforementioned variables in the following script and run it
 
 ``` Shell
 #!/bin/sh
@@ -26,7 +27,10 @@ usage()
 } 
 
 libpath="/home/pvassil/bin/javafx-sdk-13/lib"
-echo $libpath
+runnableJar="./HeraclitusFireRunable_v0-4-3.jar"
+echo libpath is: $libpath
+echo runnableJar is: $runnableJar
+echo
 
 Xvfb :92 -screen 0 1024x768x16 &> xvfb.log &
 export DISPLAY=:92.0
@@ -34,17 +38,17 @@ export DISPLAY=:92.0
 for D in *; do
     if [ -d "${D}" ]; then
 	echo "${D}/"   
-        java --module-path="$libpath" --add-modules="javafx.controls" --add-exports="javafx.controls/com.sun.javafx.charts=ALL-UNNAMED" -jar ./HeraclitusFireRunable_v0-4-3.jar $D
+        java --module-path "$libpath" --add-modules "javafx.controls"   --add-exports javafx.controls/com.sun.javafx.charts=ALL-UNNAMED  -jar "$runnableJar" $D
      fi
 done
 ```
 
-For DOS
+For DOS, cd to the mother folder, edit the aforementioned variables and paste into the cmd prompt line.
 
 ``` DOS
 for /d %i in (.\*) 
 do (
-"C:\Program Files\Java\jdk-13\bin\java" --module-path="C:\\Program Files\\Java\\JavaFX\\javafx-sdk-12.0.1\\lib" --add-modules="javafx.controls" --add-exports="javafx.controls/com.sun.javafx.charts=ALL-UNNAMED" -jar ./HeraclitusFireRunable_v0-4-3.jar %i
+"C:\Program Files\Java\jdk-13\bin\java" --module-path "C:\\Program Files\\Java\\JavaFX\\javafx-sdk-12.0.1\\lib" --add-modules "javafx.controls"  --add-exports javafx.controls/com.sun.javafx.charts=ALL-UNNAMED -jar ./HeraclitusFireRunable_v0-4-3.jar %i
 )
 ```
 

@@ -38,11 +38,11 @@ public class StagelessTablesChartManagerTest {
 		
 		ArrayList<ArrayList<Integer>> numOfDataPerSeriesPerChart = stagelessTablesChartManager.extractScatterCharts();
 		for(ArrayList<Integer> numOfdataPerSeries: numOfDataPerSeriesPerChart) {
-			assertEquals(numOfdataPerSeries.size(), 4);	// test number of series
+			assertEquals(numOfdataPerSeries.size(), 6);	// test number of series
 			assertEquals(numOfdataPerSeries.get(0), 2);	// test number of data in LAD 10
-			assertEquals(numOfdataPerSeries.get(1), 4);	// test number of data in LAD 20
-			assertEquals(numOfdataPerSeries.get(2), 3);	// test number of data in LAD 21
-			assertEquals(numOfdataPerSeries.get(3), 3);	// test number of data in LAD 22
+			assertEquals(numOfdataPerSeries.get(3), 4);	// test number of data in LAD 20
+			assertEquals(numOfdataPerSeries.get(4), 3);	// test number of data in LAD 21
+			assertEquals(numOfdataPerSeries.get(5), 3);	// test number of data in LAD 22
 		}
 		
 	}
