@@ -130,11 +130,18 @@ public class ScatterChartExporter{// extends Application{
 		//double maxX = Integer.MIN_VALUE; double maxY = Integer.MIN_VALUE;
 		//double minX = Integer.MAX_VALUE; double minY = Integer.MAX_VALUE;
 
-		ArrayList<Integer> LADKeySet = new ArrayList<Integer>();
-		for(Integer k: tuplesPerLADCollection.keySet())
-			LADKeySet.add(k);
-//		if(LADKeySet.size() < 1)
-//			return allSeries;
+		ArrayList<Integer> LADKeySet = new ArrayList<Integer>() ;
+		//ATTN: added __all__ the values. Otherwise, if one class is missing, the style loader puts the next
+		//style available and the colors are messed up...
+		LADKeySet.add(10);LADKeySet.add(11);LADKeySet.add(12);LADKeySet.add(20);LADKeySet.add(21);LADKeySet.add(22);
+		
+
+		
+//		for(Integer k: tuplesPerLADCollection.keySet()) {
+//			LADKeySet.add(k);
+//		}
+////		if(LADKeySet.size() < 1)
+////			return allSeries;
 		Collections.sort(LADKeySet);			//very important!!! now we know that data series are sorted by their LAD asc
 												//therefore 0th is LAD = 10, 1st = LAD = 11, ...
 		
@@ -144,14 +151,16 @@ public class ScatterChartExporter{// extends Application{
 			//newSeries.setName(String.valueOf(LADvalue));
 			newSeries.setName(ladLabels.get(LADvalue));
 			ArrayList<TableDetailedStatsElement> tuples = tuplesPerLADCollection.get(LADvalue);
-			for (TableDetailedStatsElement tuple: tuples) {
-				Integer xValue = tuple.getIntValueByPosition(xAttributePos);
-				Integer yValue = tuple.getIntValueByPosition(yAttributePos);
-				//if (xValue > maxX) maxX = xValue; if (xValue < minX) minX = xValue;
-				//if (yValue > maxY) maxY = yValue; if (yValue < minY) minY = yValue;
-				if((xValue != TableDetailedStatsElement._ERROR_CODE) && (yValue != TableDetailedStatsElement._ERROR_CODE))
-					newSeries.getData().add(new XYChart.Data<Number,Number>(xValue, yValue));
-			}
+			if (tuples != null) {
+				for (TableDetailedStatsElement tuple: tuples) {
+					Integer xValue = tuple.getIntValueByPosition(xAttributePos);
+					Integer yValue = tuple.getIntValueByPosition(yAttributePos);
+					//if (xValue > maxX) maxX = xValue; if (xValue < minX) minX = xValue;
+					//if (yValue > maxY) maxY = yValue; if (yValue < minY) minY = yValue;
+					if((xValue != TableDetailedStatsElement._ERROR_CODE) && (yValue != TableDetailedStatsElement._ERROR_CODE))
+						newSeries.getData().add(new XYChart.Data<Number,Number>(xValue, yValue));
+				}
+				}
 			this.allSeries.add(newSeries);
 		}//end for i = nextLAD value
 		//return this.allSeries;
