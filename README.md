@@ -51,6 +51,7 @@ do (
 ## License
 See the [copyright](copyright.md) file
 
+<<<<<<< HEAD
 ## ToDo ( / is for  partially, x for full, ! for important)
 - [x] Code and Tests for code for table figure extraction
 - [x] Code and tests for schema life figure extraction
