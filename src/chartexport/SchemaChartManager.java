@@ -1,5 +1,6 @@
 package chartexport;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 //import javafx.application.Application;
@@ -39,15 +40,15 @@ public class SchemaChartManager {
 		hashmapInputTupleCollection.put(0, inputTupleCollection);
 		ArrayList<String> ltidYAttributes = new ArrayList<String>();  // add the attributes we want
 		ltidYAttributes.add("#numNewTables");
-		AbstractLineChartExporter mlTablesID = new LineChartExporter(outputFolderWithFigures+"/"+"NumTablesOverID.png", this.prjName+":\nSize(tables) over Time(versionID)", hashmapInputTupleCollection, 
+		AbstractLineChartExporter<Number> mlTablesID = new LineChartExporter(outputFolderWithFigures+"/"+"NumTablesOverID.png", this.prjName+":\nSize(tables) over Time(versionID)", hashmapInputTupleCollection, 
 				"trID", ltidYAttributes,	attributePositions, stage);
 		this.lineExporters.add(mlTablesID);
 		
 		ArrayList<String> laidYAttributes = new ArrayList<String>();  // add the attributes we want
 		laidYAttributes.add("#numNewAttrs");
-		AbstractLineChartExporter mlAtrrsID = new LineChartExporter(outputFolderWithFigures+"/"+"NumAtrrsOverID.png", this.prjName+":\nSize(attributes) over Time(versionID)", hashmapInputTupleCollection, 
+		AbstractLineChartExporter<Number> mlAttrsID = new LineChartExporter(outputFolderWithFigures+"/"+"NumAttrsOverID.png", this.prjName+":\nSize(attributes) over Time(versionID)", hashmapInputTupleCollection, 
 				"trID", laidYAttributes,	attributePositions, stage);
-		this.lineExporters.add(mlAtrrsID);
+		this.lineExporters.add(mlAttrsID);
 		
 		// bar charts
 		ArrayList<String> emYAttributes = new ArrayList<String>();  // add the attributes we want
@@ -68,15 +69,15 @@ public class SchemaChartManager {
 			// human time line charts
 			ArrayList<String> ltdYAttributes = new ArrayList<String>();  // add the attributes we want
 			ltdYAttributes.add("#numNewTables");
-			AbstractLineChartExporter mlTablesDate = new DateLineChartExporter(outputFolderWithFigures+"/"+"NumTablesOverHT.png", this.prjName+":\nSize(tables) over Time(Human Time)", hashmapInputTupleCollection, 
+			AbstractLineChartExporter<LocalDateTime> mlTablesDate = new DateLineChartExporter(outputFolderWithFigures+"/"+"NumTablesOverHT.png", this.prjName+":\nSize(tables) over Time(Human Time)", hashmapInputTupleCollection, 
 					"humanTime", ltdYAttributes,	attributePositions, stage);
 			this.lineExporters.add(mlTablesDate);
 			
 			ArrayList<String> ladYAttributes = new ArrayList<String>();  // add the attributes we want
 			ladYAttributes.add("#numNewAttrs");
-			AbstractLineChartExporter mlAtrrsDate = new DateLineChartExporter(outputFolderWithFigures+"/"+"NumAtrrsOverHT.png", this.prjName+":\nSize(attributes) over Time(Human Time)", hashmapInputTupleCollection, 
+			AbstractLineChartExporter<LocalDateTime> mlAttrsDate = new DateLineChartExporter(outputFolderWithFigures+"/"+"NumAttrsOverHT.png", this.prjName+":\nSize(attributes) over Time(Human Time)", hashmapInputTupleCollection, 
 					"humanTime", ladYAttributes,	attributePositions, stage);
-			this.lineExporters.add(mlAtrrsDate);
+			this.lineExporters.add(mlAttrsDate);
 			
 			// grouped bar charts
 			ArrayList<String> tidpyYAttributes = new ArrayList<String>();  // add the attributes we want

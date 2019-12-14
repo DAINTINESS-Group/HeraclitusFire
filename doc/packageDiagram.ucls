@@ -1,54 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.2.3" icons="true" automaticImage="PNG" always-add-relationships="true" generalizations="true" 
   realizations="true" associations="true" dependencies="true" nesting-relationships="true" router="FAN">  
-  <package id="1" language="java" name="datamodel" project="HeraclitusFire" file="/HeraclitusFire/src/datamodel" 
+  <package id="1" language="java" name="chartexport" project="HeraclitusFire" file="/HeraclitusFire/src/chartexport" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="327" y="426"/>    
+    <position height="50" width="101" x="291" y="291"/>    
     <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
-  <package id="2" language="java" name="mainEngine" project="HeraclitusFire" file="/HeraclitusFire/src/mainEngine" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="333" y="147"/>    
+  <package id="2" language="java" name="patternassessment" project="HeraclitusFire" 
+    file="/HeraclitusFire/src/patternassessment" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="910" y="293"/>    
     <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
   <package id="3" language="java" name="client" project="HeraclitusFire" file="/HeraclitusFire/src/client" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="333" y="45"/>    
+    <position height="50" width="101" x="459" y="111"/>    
     <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
-  <package id="4" language="java" name="chartexport" project="HeraclitusFire" file="/HeraclitusFire/src/chartexport" 
+  <package id="4" language="java" name="dataload" project="HeraclitusFire" file="/HeraclitusFire/src/dataload" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="50" width="101" x="451" y="216"/>    
+    <position height="50" width="101" x="432" y="291"/>    
     <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
-  <package id="5" language="java" name="patternassessment" project="HeraclitusFire" 
-    file="/HeraclitusFire/src/patternassessment" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="50" width="136" x="685" y="227"/>    
+  <package id="5" language="java" name="mainEngine" project="HeraclitusFire" file="/HeraclitusFire/src/mainEngine" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="50" width="101" x="459" y="201"/>    
     <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
-  <dependency id="6">    
+  <package id="6" language="java" name="datamodel" project="HeraclitusFire" file="/HeraclitusFire/src/datamodel" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="510" y="462"/>    
+    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <package id="7" language="java" name="patternassessment.tablepatterns" project="HeraclitusFire" 
+    file="/HeraclitusFire/src/patternassessment/tablepatterns" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="704" y="304"/>    
+    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <package id="8" language="java" name="patternassessment.fisher.exact.test" project="HeraclitusFire" 
+    file="/HeraclitusFire/src/patternassessment/fisher/exact/test" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="809" y="407"/>    
+    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <package id="9" language="java" name="chartexport.exporters" project="HeraclitusFire" 
+    file="/HeraclitusFire/src/chartexport/exporters" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="270" y="388"/>    
+    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <package id="10" language="java" name="chartexport.utils" project="HeraclitusFire" 
+    file="/HeraclitusFire/src/chartexport/utils" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="221" y="458"/>    
+    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <dependency id="11">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="10"/>  
+  </dependency>  
+  <dependency id="12">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="6"/>  
+  </dependency>  
+  <dependency id="13">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="9"/>  
+  </dependency>  
+  <dependency id="14">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="6"/>  
+  </dependency>  
+  <dependency id="15">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="5"/>  
+  </dependency>  
+  <dependency id="16">    
+    <bendpoint x="563" y="291"/>    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="6"/>  
+  </dependency>  
+  <dependency id="17">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="7"/>  
+  </dependency>  
+  <dependency id="18">    
     <end type="SOURCE" refId="5"/>    
     <end type="TARGET" refId="1"/>  
   </dependency>  
-  <dependency id="7">    
-    <end type="SOURCE" refId="2"/>    
-    <end type="TARGET" refId="1"/>  
+  <dependency id="19">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="6"/>  
   </dependency>  
-  <dependency id="8">    
-    <end type="SOURCE" refId="2"/>    
-    <end type="TARGET" refId="5"/>  
-  </dependency>  
-  <dependency id="9">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="1"/>  
-  </dependency>  
-  <dependency id="10">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="2"/>  
-  </dependency>  
-  <dependency id="11">    
-    <end type="SOURCE" refId="2"/>    
+  <dependency id="20">    
+    <end type="SOURCE" refId="5"/>    
     <end type="TARGET" refId="4"/>  
+  </dependency>  
+  <dependency id="21">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="8"/>  
+  </dependency>  
+  <dependency id="22">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="6"/>  
   </dependency>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    
