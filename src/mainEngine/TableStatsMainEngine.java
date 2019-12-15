@@ -109,12 +109,12 @@ public class TableStatsMainEngine {
 		this.createChartManager();  
 		tablesChartManager.extractScatterCharts();
 
-		if (_DATEMODE) {
+//		if (_DATEMODE) {
 			ArrayList<PatternAssessmentTypesEnum> testsToRun= new ArrayList <PatternAssessmentTypesEnum>(
 					Arrays.asList(PatternAssessmentTypesEnum.GAMMA, PatternAssessmentTypesEnum.INVERSE_GAMMA));
 			this.patternAssessmentManager.assessPatterns(testsToRun,
 				this.inputTupleCollection, this.prjName, this.outputFolderWithTestResults, this.globalLogFilePath, _ALPHA);
-		}
+	//	}
 
 		return numRows;
 	}//end processFolder
@@ -139,6 +139,10 @@ public class TableStatsMainEngine {
 		}
 		this.outputFolderWithTestResults = testOutputFolder.getAbsolutePath();
 
+		File figureGlobalOutputFolder = new File(this.projectFolder + File.separator + "figures");
+		if (!figureGlobalOutputFolder.exists()) {
+			figureGlobalOutputFolder.mkdir();
+		}
 		File figureOutputFolder = new File(this.projectFolder + File.separator + "figures/tableFigures");
 		if (!figureOutputFolder.exists()) {
 			figureOutputFolder.mkdir();

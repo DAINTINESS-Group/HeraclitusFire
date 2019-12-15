@@ -1,0 +1,7 @@
+
+NEW PRJ ----------- Egee -------------------------
+Egee:	Gamma	holds? 	true
+Egee:	Gamma	Geometry? 	true
+Egee:	Gamma	FisherExecuted? 	false
+Egee:	Gamma	p-Value? 	true
+------------------------------------------------

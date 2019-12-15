@@ -136,7 +136,10 @@ public class SchemaStatsMainEngine {
 		}
 		this.outputFolderWithTestResults = testOutputFolder.getAbsolutePath();
 
-		//File figureOutputFolder = new File(this.outputFolderWithFigures);//this.projectFolder + File.separator + "schemaFigures");
+		File figureGlobalOutputFolder = new File(this.projectFolder + File.separator + "figures");
+		if (!figureGlobalOutputFolder.exists()) {
+			figureGlobalOutputFolder.mkdir();
+		}
 		File figureOutputFolder = new File(this.projectFolder + File.separator + "figures/schemaFigures");
 		if (!figureOutputFolder.exists()) {
 			figureOutputFolder.mkdir();

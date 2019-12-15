@@ -1,0 +1,7 @@
+
+NEW PRJ ----------- Egee -------------------------
+Egee:	InverseGamma	holds? 	true
+Egee:	InverseGamma	Geometry? 	true
+Egee:	InverseGamma	FisherExecuted? 	false
+Egee:	InverseGamma	p-Value? 	false
+------------------------------------------------
