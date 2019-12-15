@@ -4,12 +4,18 @@
 package mainEngine;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import chartexport.SchemaChartManager;
 import dataload.SchemaHeartbeatLoader;
 import datamodel.SchemaHeartbeatElement;
+import datamodel.SchemaLevelInfo;
 import javafx.stage.Stage;
 
 /**
@@ -74,6 +80,8 @@ public class SchemaStatsMainEngine {
 
 		this.createChartManager();
 		schemaChartManager.extractCharts();
+		
+		this.extractSchemaLevelInfo();
 
 		//TODO ###########################################
 		//TEST THAT YOU PROCESSED INPUT FILE CORRECTLY
@@ -113,6 +121,12 @@ public class SchemaStatsMainEngine {
 			figureOutputFolder.mkdir();
 		}
 		this.outputFolderWithFigures = figureOutputFolder.getAbsolutePath();
+		
+		File globalsOutputFolder = new File("resources/globalStats");
+		if (!globalsOutputFolder.exists()) {
+			globalsOutputFolder.mkdir();
+		}
+		this.globalStatsOutputFolder = globalsOutputFolder.getAbsolutePath();
 
 		return parentAbsolute;
 	}//end setupFolders
@@ -192,6 +206,101 @@ public class SchemaStatsMainEngine {
 	protected void createChartManager() {
 		schemaChartManager = new SchemaChartManager(prjName, inputTupleCollection, attributePositions,tuplesPerRYFV0Collection, outputFolderWithFigures, stage, _DATEMODE);
 	}
+	
+	public void extractSchemaLevelInfo() {
+		String projectName = this.prjName;
+		int projectDurationInDays = -1;
+		int projectDurationInMonths = -1;
+		int projectDureationInYears = -1;
+		if (_DATEMODE) {
+			projectDurationInDays = this.inputTupleCollection.get(this.inputTupleCollection.size()-1).getIntValueByPosition(5);
+			projectDurationInMonths = this.inputTupleCollection.get(this.inputTupleCollection.size()-1).getIntValueByPosition(6);
+			projectDureationInYears = this.inputTupleCollection.get(this.inputTupleCollection.size()-1).getIntValueByPosition(7);
+		}
+		
+		int numCommits = this.inputTupleCollection.size();
+		int numTablesAtStart = this.inputTupleCollection.get(0).getIntValueByPosition(9);
+		int numTablesAtEnd = this.inputTupleCollection.get(this.inputTupleCollection.size()-1).getIntValueByPosition(9);
+		int numAttrsAtStart = this.inputTupleCollection.get(0).getIntValueByPosition(11);
+		int numAttrsAtEnd = this.inputTupleCollection.get(this.inputTupleCollection.size()-1).getIntValueByPosition(11);
+		
+		int totalTableInsertions = 0;
+		//int totalTableInsertions = this.inputTupleCollection.get(0).getIntValueByPosition(12);
+		int totalTableDeletions = 0;
+		int totalAttrInsWithTableIns = 0;
+		//int totalAttrInsWithTableIns = this.inputTupleCollection.get(0).getIntValueByPosition(14);
+		int totalAttrbDelWithTableDel = 0;
+		int totalAttrInjected = 0;
+		int totalAttrEjected = 0;
+		int tatalAttrWithTypeUpd = 0;
+		int totalAttrInPKUpd = 0;
+		
+		int totalExpansion = this.inputTupleCollection.get(0).getIntValueByPosition(25);
+		int totalMaintenance = this.inputTupleCollection.get(0).getIntValueByPosition(26);
+		int totalTotalAttrActivity = this.inputTupleCollection.get(0).getIntValueByPosition(27);
+		
+		for (int i=1; i < this.inputTupleCollection.size(); i++) {
+			totalTableInsertions += this.inputTupleCollection.get(i).getIntValueByPosition(12);
+			totalTableDeletions += this.inputTupleCollection.get(i).getIntValueByPosition(13);
+			totalAttrInsWithTableIns += this.inputTupleCollection.get(i).getIntValueByPosition(14);
+			totalAttrbDelWithTableDel += this.inputTupleCollection.get(i).getIntValueByPosition(15);
+			totalAttrInjected += this.inputTupleCollection.get(i).getIntValueByPosition(16);
+			totalAttrEjected += this.inputTupleCollection.get(i).getIntValueByPosition(17);
+			tatalAttrWithTypeUpd += this.inputTupleCollection.get(i).getIntValueByPosition(18);
+			totalAttrInPKUpd += this.inputTupleCollection.get(i).getIntValueByPosition(19);
+			
+			totalExpansion += this.inputTupleCollection.get(i).getIntValueByPosition(25);
+			totalMaintenance += this.inputTupleCollection.get(i).getIntValueByPosition(26);
+			totalTotalAttrActivity += this.inputTupleCollection.get(i).getIntValueByPosition(27);
+		}
+		
+		double expansionRatePerCommit = totalExpansion / (double)numCommits;
+		double expansionRatePerMonth = -1;
+		double expansionRatePeryear = -1;
+		double maintenanceRatePerCommit = totalMaintenance / (double)numCommits;
+		double maintenanceRatePerMonth = -1;
+		double maintenanceRatePeryear = -1;
+		double totalAttrActivityRatePerCommit = totalTotalAttrActivity / (double)numCommits;
+		double totalAttrActivityRatePerMonth = -1;
+		double totalAttrActivityRatePeryear = -1;
+		if (_DATEMODE) {
+			expansionRatePerMonth = totalExpansion / (double)projectDurationInMonths;
+			expansionRatePeryear = totalExpansion / (double)projectDureationInYears;
+			maintenanceRatePerMonth = totalMaintenance / (double)projectDurationInMonths;
+			maintenanceRatePeryear = totalMaintenance / (double)projectDureationInYears;
+			totalAttrActivityRatePerMonth = totalTotalAttrActivity / (double)projectDurationInMonths;
+			totalAttrActivityRatePeryear = totalTotalAttrActivity / (double)projectDureationInYears;
+		}
+		double resizingratio = numTablesAtEnd / (double)numTablesAtStart;
+		
+		SchemaLevelInfo schemaLevelInfo = new SchemaLevelInfo(projectName, projectDurationInDays, projectDurationInMonths,
+				projectDureationInYears, numCommits, numTablesAtStart, numTablesAtEnd, numAttrsAtStart,
+				numAttrsAtEnd, totalTableInsertions, totalTableDeletions, totalAttrInsWithTableIns,
+				totalAttrbDelWithTableDel, totalAttrInjected, totalAttrEjected, tatalAttrWithTypeUpd,
+				totalAttrInPKUpd, totalExpansion, totalMaintenance, totalTotalAttrActivity,
+				expansionRatePerCommit, expansionRatePerMonth, expansionRatePeryear,
+				maintenanceRatePerCommit, maintenanceRatePerMonth, maintenanceRatePeryear,
+				totalAttrActivityRatePerCommit, totalAttrActivityRatePerMonth,
+				totalAttrActivityRatePeryear, resizingratio);
+		
+		File globalSchemaLevelInfoTSVFile = new File(this.globalStatsOutputFolder + File.separator + "GlobalSchemaLevelInfo.tsv");
+		try {
+			//PrintWriter writer = new PrintWriter(globalSchemaLevelInfoTSVFile, StandardCharsets.UTF_8);
+			boolean fileExists = globalSchemaLevelInfoTSVFile.exists() ? true : false;
+			PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(globalSchemaLevelInfoTSVFile, true), StandardCharsets.UTF_8));
+			if (!fileExists)
+				writer.println("Project\tDurationInDays\tDurationInMonths\tDurationInYears\t#Commits\t#Tables@Start\t#Tables@End" 
+						+ "\t#Attrs@Start\t#Attrs@End\tTotalTableInsertions\tTotalTableDeletions\tTotalAttrInsWithTableIns\tTotalAttrbDelWithTableDel" 
+						+ "\tTotalAttrInjected\tTotalAttrEjected\tTatalAttrWithTypeUpd\tTotalAttrInPKUpd\tTotalExpansion\tTotalMaintenance\tTotalTotalAttrActivity" 
+						+ "\tExpansionRatePerCommit\tExpansionRatePerMonth\tExpansionRatePeryear\tMaintenanceRatePerCommit\tMaintenanceRatePerMonth\tMaintenanceRatePeryear" 
+						+ "\tTotalAttrActivityRatePerCommit\tTotalAttrActivityRatePerMonth\tTotalAttrActivityRatePeryear\tResizingratio");
+			writer.println(schemaLevelInfo.toString());
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
 	 
 
 	private SchemaHeartbeatLoader loader;
@@ -201,6 +310,7 @@ public class SchemaStatsMainEngine {
 	private String projectFolder;
 	private String inputFolderWithStats;
 	private String outputFolderWithTestResults;
+	private String globalStatsOutputFolder;
 	private String _DELIMETER;
 	private int _NUMFIELDS;
 	private Boolean _DEBUGMODE = false;
