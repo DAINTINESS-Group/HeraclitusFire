@@ -2,5 +2,6 @@
 NEW PRJ ----------- Atlas -------------------------
 Atlas:	Gamma	holds? 	true
 Atlas:	Gamma	Geometry? 	true
+Atlas:	Gamma	FisherExecuted? 	true
 Atlas:	Gamma	p-Value? 	false
 ------------------------------------------------

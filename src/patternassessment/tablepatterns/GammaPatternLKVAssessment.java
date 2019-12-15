@@ -108,18 +108,45 @@ public class GammaPatternLKVAssessment extends PatternAssessmentTemplateMethod {
 		double probSurv = ((double)(survivorsWide + survivorsNotWide)) / (total);
 //System.out.println(" p|Wide: " + probSurvIfWide + "\t p |NotWide: " + probSurvIfNotWide + "\t pSurv" + probSurv);
 
-		FisherExactTestWrapper fet = new FisherExactTestWrapper(contTable);
-		double pValueFisher = fet.getFisherSingleTailPValue();
-		par.setFisherTestPValue(pValueFisher);
+		double pValueFisher = applyFisherTest(par);
 		Boolean fisherTestPass = pValueFisher < this.alphaAcceptanceLevel;
 		par.setFisherTestPass(fisherTestPass);
 		
+		if(par.getFisherTestExecuted())
+			this.pValuePatternTrue = (probSurvIfWide > probSurvIfNotWide) && fisherTestPass;
+		else
+			this.pValuePatternTrue = (probSurvIfWide > probSurvIfNotWide);
 		this.geometricalPatternTrue = (survivorsWide > deadWide) && (deadWide <= MAX_ACCEPTABLE_NUM_WIDE_DEAD_FOR_PATTERN_TO_HOLD);
-		this.pValuePatternTrue = (probSurvIfWide > probSurvIfNotWide) && fisherTestPass;
-		
+				
 		return (geometricalPatternTrue || pValuePatternTrue);
 	}
 
+	/**
+	 * Executes the Fisher test and catches the exception if the cont. table cannot be new-ed well
+	 * 
+	 * @param par a PatternAssessmentResult with the matrices and results for the assessment of the pattern
+	 * @return the pValue of the Fisher test, if the test is executed, 1.0 otherwise
+	 */
+	private double applyFisherTest(PatternAssessmentResult par) {
+		int[][] contTable = par.getContingencyTable();
+		
+		double pValueFisher;
+		FisherExactTestWrapper fet;
+		par.setFisherTestExecuted(true);
+		try {
+			fet = new FisherExactTestWrapper(contTable);
+			pValueFisher = fet.getFisherSingleTailPValue();
+		} catch (IllegalArgumentException e) {
+			par.setFisherTestExecuted(false);
+			pValueFisher = 1.0;
+		}
+		par.setFisherTestPValue(pValueFisher);
+
+		return pValueFisher;
+	}
+
+	
+	
 	/**
 	 * Returns a String with the description of the pattern.
 	 * 
@@ -131,6 +158,7 @@ public class GammaPatternLKVAssessment extends PatternAssessmentTemplateMethod {
 	@Override public String constructResultDescription(PatternAssessmentResult par) {
 		String prjNPattern = par.getprjNameAndPattern();
 		String resultString =  prjNPattern + "\t" + "Geometry? \t" + geometricalPatternTrue + "\n" + 
+				prjNPattern + "\t" + "FisherExecuted? \t" + par.getFisherTestExecuted() + "\n" +
 				prjNPattern + "\t" + "p-Value? \t" + pValuePatternTrue;
 		return resultString;
 	}

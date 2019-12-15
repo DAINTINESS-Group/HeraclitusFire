@@ -154,11 +154,11 @@ public class InverseGammaAssessment extends PatternAssessmentTemplateMethod {
 		if (contTable[1][0] <= _PCT_EMPTY_AREA_THRESHOLD * this.numTables)
 			this.geometricalPatternTrue = true;
 		
-		FisherExactTestWrapper fet = new FisherExactTestWrapper(contTable);
-		double pValueFisher = fet.getFisherSingleTailPValue();
-		par.setFisherTestPValue(pValueFisher);
-		Boolean fisherTestPass = pValueFisher < this.alphaAcceptanceLevel;
+		double pValueFisher = applyFisherTest(par);		
 		
+		//independently of whether Fisher test has been executed
+		//the decision is the same, as pV is set to 1.0 when the test crashes
+		Boolean fisherTestPass = pValueFisher < this.alphaAcceptanceLevel;
 		this.pValuePatternTrue = fisherTestPass;
 		par.setFisherTestPass(fisherTestPass);
 
@@ -166,6 +166,31 @@ public class InverseGammaAssessment extends PatternAssessmentTemplateMethod {
 		return (geometricalPatternTrue || pValuePatternTrue);
 	}
 
+	/**
+	 * Executes the Fisher test and catches the exception if the cont. table cannot be new-ed well
+	 * 
+	 * @param par a PatternAssessmentResult with the matrices and results for the assessment of the pattern
+	 * @return the pValue of the Fisher test, if the test is executed, 1.0 otherwise
+	 */
+	private double applyFisherTest(PatternAssessmentResult par) {
+		int[][] contTable = par.getContingencyTable();
+		
+		double pValueFisher;
+		FisherExactTestWrapper fet;
+		par.setFisherTestExecuted(true);
+		try {
+			fet = new FisherExactTestWrapper(contTable);
+			pValueFisher = fet.getFisherSingleTailPValue();
+		} catch (IllegalArgumentException e) {
+			par.setFisherTestExecuted(false);
+			pValueFisher = 1.0;
+		}
+		par.setFisherTestPValue(pValueFisher);
+
+		return pValueFisher;
+	}
+
+	
 	/**
 	 * Returns a String with the description of the pattern.
 	 * 
@@ -177,6 +202,7 @@ public class InverseGammaAssessment extends PatternAssessmentTemplateMethod {
 	@Override	public String constructResultDescription(PatternAssessmentResult par) {
 		String prjNPattern = par.getprjNameAndPattern();
 		String resultString =  prjNPattern + "\t" + "Geometry? \t" + geometricalPatternTrue + "\n" + 
+				prjNPattern + "\t" + "FisherExecuted? \t" + par.getFisherTestExecuted() + "\n" +
 				prjNPattern + "\t" + "p-Value? \t" + pValuePatternTrue;
 		return resultString;
 	}

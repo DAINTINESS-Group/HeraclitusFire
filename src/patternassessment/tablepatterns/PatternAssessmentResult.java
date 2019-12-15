@@ -12,6 +12,7 @@ public class PatternAssessmentResult {
 	private double fisherTestPValue;
 	private Boolean chiSquareTestPass;
 	private Boolean fisherTestPass;
+	private Boolean fisherTestExecuted;
 	private Boolean patternHolds;
 	//TODO: possibly add one or two more Boolean/double fields for "otherTestsPass"
 	
@@ -26,6 +27,7 @@ public class PatternAssessmentResult {
 		this.chiSquareTestPValue = Double.MAX_VALUE;
 		this.chiSquareTestPass = null;
 		this.fisherTestPValue = Double.MAX_VALUE;
+		this.fisherTestExecuted = true;
 		this.fisherTestPass = null;
 		this.patternHolds = null;
 	}//end constructor
@@ -78,6 +80,10 @@ public class PatternAssessmentResult {
 		return patternHolds;
 	}
 	
+	public Boolean getFisherTestExecuted() {
+		return fisherTestExecuted;
+	}
+	
 	public void setDescription(String description) {
 		this.description = description;
 	}
@@ -100,6 +106,11 @@ public class PatternAssessmentResult {
 
 	public void setPatternHolds(Boolean patternHolds) {
 		this.patternHolds = patternHolds;
+	}
+
+
+	public void setFisherTestExecuted(Boolean fisherTestExecuted) {
+		this.fisherTestExecuted = fisherTestExecuted;
 	}
 
 	

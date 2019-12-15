@@ -28,6 +28,27 @@ import javafx.stage.Stage;
  */
 public class SchemaStatsMainEngine {
 
+	private SchemaHeartbeatLoader loader;
+	private ArrayList<String> header;
+
+	private Stage stage;
+	private String projectFolder;
+	private String inputFolderWithStats;
+	private String outputFolderWithTestResults;
+//	private String globalStatsOutputFolder;
+	private String _DELIMETER;
+	private int _NUMFIELDS;
+	private Boolean _DEBUGMODE = false;
+
+	//protected, because at testing level, where we want to avoid using stages, we will subclass it with a Stageless tablesChartManager
+	protected SchemaChartManager schemaChartManager;
+	protected HashMap<String, Integer> attributePositions;
+	protected HashMap<Integer, ArrayList<SchemaHeartbeatElement>> tuplesPerRYFV0Collection;
+	protected ArrayList<SchemaHeartbeatElement> inputTupleCollection;
+	protected String outputFolderWithFigures;
+	protected String prjName;
+	protected Boolean _DATEMODE;  // if there are date values (running years etc.) or not, group or not, create respective charts
+
 	public SchemaStatsMainEngine(String anInputProjectFolder, Stage primaryStage) {		
 		File prjFolder = new File(anInputProjectFolder);
 		if (prjFolder.isDirectory()) {
@@ -122,11 +143,11 @@ public class SchemaStatsMainEngine {
 		}
 		this.outputFolderWithFigures = figureOutputFolder.getAbsolutePath();
 		
-		File globalsOutputFolder = new File("resources/globalStats");
-		if (!globalsOutputFolder.exists()) {
-			globalsOutputFolder.mkdir();
-		}
-		this.globalStatsOutputFolder = globalsOutputFolder.getAbsolutePath();
+//		File globalsOutputFolder = new File("resources/globalStats");
+//		if (!globalsOutputFolder.exists()) {
+//			globalsOutputFolder.mkdir();
+//		}
+//		this.globalStatsOutputFolder = globalsOutputFolder.getAbsolutePath();
 
 		return parentAbsolute;
 	}//end setupFolders
@@ -283,12 +304,12 @@ public class SchemaStatsMainEngine {
 				totalAttrActivityRatePerCommit, totalAttrActivityRatePerMonth,
 				totalAttrActivityRatePeryear, resizingratio);
 		
-		File globalSchemaLevelInfoTSVFile = new File(this.globalStatsOutputFolder + File.separator + "GlobalSchemaLevelInfo.tsv");
+		File globalSchemaLevelInfoTSVFile = new File(this.outputFolderWithTestResults + File.separator + "GlobalSchemaLevelInfo.tsv");
 		try {
 			//PrintWriter writer = new PrintWriter(globalSchemaLevelInfoTSVFile, StandardCharsets.UTF_8);
-			boolean fileExists = globalSchemaLevelInfoTSVFile.exists() ? true : false;
-			PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(globalSchemaLevelInfoTSVFile, true), StandardCharsets.UTF_8));
-			if (!fileExists)
+			//boolean fileExists = globalSchemaLevelInfoTSVFile.exists() ? true : false;
+			PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(globalSchemaLevelInfoTSVFile, false), StandardCharsets.UTF_8));
+			//if (!fileExists)
 				writer.println("Project\tDurationInDays\tDurationInMonths\tDurationInYears\t#Commits\t#Tables@Start\t#Tables@End" 
 						+ "\t#Attrs@Start\t#Attrs@End\tTotalTableInsertions\tTotalTableDeletions\tTotalAttrInsWithTableIns\tTotalAttrbDelWithTableDel" 
 						+ "\tTotalAttrInjected\tTotalAttrEjected\tTatalAttrWithTypeUpd\tTotalAttrInPKUpd\tTotalExpansion\tTotalMaintenance\tTotalTotalAttrActivity" 
@@ -303,24 +324,4 @@ public class SchemaStatsMainEngine {
 	}
 	 
 
-	private SchemaHeartbeatLoader loader;
-	private ArrayList<String> header;
-
-	private Stage stage;
-	private String projectFolder;
-	private String inputFolderWithStats;
-	private String outputFolderWithTestResults;
-	private String globalStatsOutputFolder;
-	private String _DELIMETER;
-	private int _NUMFIELDS;
-	private Boolean _DEBUGMODE = false;
-
-	//protected, because at testing level, where we want to avoid using stages, we will subclass it with a Stageless tablesChartManager
-	protected SchemaChartManager schemaChartManager;
-	protected HashMap<String, Integer> attributePositions;
-	protected HashMap<Integer, ArrayList<SchemaHeartbeatElement>> tuplesPerRYFV0Collection;
-	protected ArrayList<SchemaHeartbeatElement> inputTupleCollection;
-	protected String outputFolderWithFigures;
-	protected String prjName;
-	protected Boolean _DATEMODE;  // if there are date values (running years etc.) or not, group or not, create respective charts
 }//end class
