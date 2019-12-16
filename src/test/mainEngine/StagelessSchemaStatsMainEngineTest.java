@@ -3,11 +3,12 @@ package test.mainEngine;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import datamodel.SchemaHeartbeatElement;
+import datamodel.SchemaLevelInfo;
 
 
 public class StagelessSchemaStatsMainEngineTest {
@@ -30,6 +31,7 @@ public class StagelessSchemaStatsMainEngineTest {
 				"tablesIns", "tablesDel", "attrsInsWithTableIns", "attrsbDelWithTableDel", "attrsInjected", 
 				"attrsEjected", "attrsWithTypeUpd", "attrsInPKUpd", "tableDelta", "attrDelta", "attrBirthsSum", 
 				"attrDeathsSum", "attrUpdsSum", "Expansion", "Maintenance", "TotalAttrActivity")); 
+		String schemaLevelInfoString = "Egee\t\t\t\t17\t6\t10\t34\t71\t6\t2\t31\t10\t28\t12\t18\t1\t59\t41\t100\t3.4705882352941178\t\t\t2.411764705882353\t\t\t5.882352941176471\t\t\t1.6666666666666667";
 		ArrayList<String> header = new ArrayList<String>();
 		ArrayList<SchemaHeartbeatElement> inputTupleCollection = new ArrayList<SchemaHeartbeatElement>();
 		
@@ -40,9 +42,16 @@ public class StagelessSchemaStatsMainEngineTest {
 		assertEquals(inputTupleCollection.size(),17);
 		assertTrue(header.equals(headerExpected));
 		
+		File infoFileProduced = new File("resources/test/Profiling/Egee_SchemaLevelInfo.tsv"); 
+		Long originalTimeStamp = infoFileProduced.lastModified();
+		
+		SchemaLevelInfo schemaLevelInfo = stagelessSchemaStatsMainEngine.extractSchemaLevelInfo("Egee", inputTupleCollection, "resources/test/Profiling", false);
+		assertTrue(schemaLevelInfoString.equals(schemaLevelInfo.toString()));
+		Long newTimeStamp = infoFileProduced.lastModified();
+		assertTrue(newTimeStamp > originalTimeStamp);
+		
 		stagelessSchemaStatsMainEngine.produceSchemaFiguresAndStats();
 		assertEquals(stagelessSchemaStatsMainEngine.getTuplesPerRYFV0Collection().size(), 0);
-		
 	}
 	
 	@Test
@@ -55,6 +64,7 @@ public class StagelessSchemaStatsMainEngineTest {
 				"tablesIns", "tablesDel", "attrsInsWithTableIns", "attrsbDelWithTableDel", "attrsInjected", 
 				"attrsEjected", "attrsWithTypeUpd", "attrsInPKUpd", "tableDelta", "attrDelta", "attrBirthsSum", 
 				"attrDeathsSum", "attrUpdsSum", "Expansion", "Maintenance", "TotalAttrActivity")); 
+		String schemaLevelInfoString = "Atlas\t971\t32\t3\t85\t56\t73\t709\t858\t34\t17\t233\t122\t154\t116\t245\t1\t387\t484\t871\t4.552941176470588\t12.09375\t129.0\t5.694117647058824\t15.125\t161.33333333333334\t10.24705882352941\t27.21875\t290.3333333333333\t1.3035714285714286";
 		ArrayList<String> header = new ArrayList<String>();
 		ArrayList<SchemaHeartbeatElement> inputTupleCollection = new ArrayList<SchemaHeartbeatElement>();
 		
@@ -64,6 +74,14 @@ public class StagelessSchemaStatsMainEngineTest {
 		assertEquals(numRows,86);
 		assertEquals(inputTupleCollection.size(),85);
 		assertTrue(header.equals(headerExpected));
+		
+		File infoFileProduced = new File("resources/test/Profiling/Atlas_SchemaLevelInfo.tsv"); 
+		Long originalTimeStamp = infoFileProduced.lastModified();
+		
+		SchemaLevelInfo schemaLevelInfo = stagelessSchemaStatsMainEngine.extractSchemaLevelInfo("Atlas", inputTupleCollection, "resources/test/Profiling", true);
+		assertTrue(schemaLevelInfoString.equals(schemaLevelInfo.toString()));
+		Long newTimeStamp = infoFileProduced.lastModified();
+		assertTrue(newTimeStamp > originalTimeStamp);
 		
 		stagelessSchemaStatsMainEngine.produceSchemaFiguresAndStats();
 		assertEquals(stagelessSchemaStatsMainEngine.getTuplesPerRYFV0Collection().size(), 4);
