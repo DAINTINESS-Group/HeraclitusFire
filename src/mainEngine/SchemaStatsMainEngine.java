@@ -238,16 +238,16 @@ public class SchemaStatsMainEngine {
 		int projectDurationInMonths = -1;
 		int projectDureationInYears = -1;
 		if (dateMode) {
-			projectDurationInDays = inputTupleCollection.get(inputTupleCollection.size()-1).getIntValueByPosition(5);
-			projectDurationInMonths = inputTupleCollection.get(inputTupleCollection.size()-1).getIntValueByPosition(7);
-			projectDureationInYears = inputTupleCollection.get(inputTupleCollection.size()-1).getIntValueByPosition(6);
+			projectDurationInDays = inputTupleCollection.get(inputTupleCollection.size()-1).getDistFromV0InDays();
+			projectDurationInMonths = inputTupleCollection.get(inputTupleCollection.size()-1).getRunningMonthFromV0();
+			projectDureationInYears = inputTupleCollection.get(inputTupleCollection.size()-1).getRunningYearFromV0();
 		}
 		
 		int numCommits = inputTupleCollection.size();
-		int numTablesAtStart = inputTupleCollection.get(0).getIntValueByPosition(9);
-		int numTablesAtEnd = inputTupleCollection.get(inputTupleCollection.size()-1).getIntValueByPosition(9);
-		int numAttrsAtStart = inputTupleCollection.get(0).getIntValueByPosition(11);
-		int numAttrsAtEnd = inputTupleCollection.get(inputTupleCollection.size()-1).getIntValueByPosition(11);
+		int numTablesAtStart = inputTupleCollection.get(0).getNumNewTables();
+		int numTablesAtEnd = inputTupleCollection.get(inputTupleCollection.size()-1).getNumNewTables();
+		int numAttrsAtStart = inputTupleCollection.get(0).getNumNewAttrs();
+		int numAttrsAtEnd = inputTupleCollection.get(inputTupleCollection.size()-1).getNumNewAttrs();
 		
 		int totalTableInsertions = 0;
 		//int totalTableInsertions = inputTupleCollection.get(0).getIntValueByPosition(12);
@@ -260,23 +260,26 @@ public class SchemaStatsMainEngine {
 		int tatalAttrWithTypeUpd = 0;
 		int totalAttrInPKUpd = 0;
 		
-		int totalExpansion = 0;//inputTupleCollection.get(0).getIntValueByPosition(25);
-		int totalMaintenance = 0;//inputTupleCollection.get(0).getIntValueByPosition(26);
-		int totalTotalAttrActivity = 0;//inputTupleCollection.get(0).getIntValueByPosition(27);
+		int totalExpansion = 0;
+		//int totalExpansion = inputTupleCollection.get(0).getIntValueByPosition(25);
+		int totalMaintenance = 0;
+		//int totalMaintenance = inputTupleCollection.get(0).getIntValueByPosition(26);
+		int totalTotalAttrActivity = 0;
+		//int totalTotalAttrActivity = inputTupleCollection.get(0).getIntValueByPosition(27);
 		
 		for (int i=1; i < inputTupleCollection.size(); i++) {
-			totalTableInsertions += inputTupleCollection.get(i).getIntValueByPosition(12);
-			totalTableDeletions += inputTupleCollection.get(i).getIntValueByPosition(13);
-			totalAttrInsWithTableIns += inputTupleCollection.get(i).getIntValueByPosition(14);
-			totalAttrbDelWithTableDel += inputTupleCollection.get(i).getIntValueByPosition(15);
-			totalAttrInjected += inputTupleCollection.get(i).getIntValueByPosition(16);
-			totalAttrEjected += inputTupleCollection.get(i).getIntValueByPosition(17);
-			tatalAttrWithTypeUpd += inputTupleCollection.get(i).getIntValueByPosition(18);
-			totalAttrInPKUpd += inputTupleCollection.get(i).getIntValueByPosition(19);
+			totalTableInsertions += inputTupleCollection.get(i).getTablesIns();
+			totalTableDeletions += inputTupleCollection.get(i).getTablesDel();
+			totalAttrInsWithTableIns += inputTupleCollection.get(i).getAttrsInsWithTableIns();
+			totalAttrbDelWithTableDel += inputTupleCollection.get(i).getAttrsbDelWithTableDel();
+			totalAttrInjected += inputTupleCollection.get(i).getAttrsInjected();
+			totalAttrEjected += inputTupleCollection.get(i).getAttrsEjected();
+			tatalAttrWithTypeUpd += inputTupleCollection.get(i).getAttrsWithTypeUpd();
+			totalAttrInPKUpd += inputTupleCollection.get(i).getAttrsInPKUpd();
 			
-			totalExpansion += inputTupleCollection.get(i).getIntValueByPosition(25);
-			totalMaintenance += inputTupleCollection.get(i).getIntValueByPosition(26);
-			totalTotalAttrActivity += inputTupleCollection.get(i).getIntValueByPosition(27);
+			totalExpansion += inputTupleCollection.get(i).getExpansion();
+			totalMaintenance += inputTupleCollection.get(i).getMaintenance();
+			totalTotalAttrActivity += inputTupleCollection.get(i).getTotalAttrActivity();
 		}
 		
 		double expansionRatePerCommit = totalExpansion / (double)numCommits;
