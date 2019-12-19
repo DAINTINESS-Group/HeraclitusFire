@@ -4,6 +4,8 @@
 package mainEngine;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -11,6 +13,7 @@ import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 
 import chartexport.SchemaChartManager;
 import dataload.SchemaHeartbeatLoader;
@@ -104,6 +107,8 @@ public class SchemaStatsMainEngine {
 		schemaChartManager.extractCharts();
 		
 		this.extractSchemaLevelInfo(this.prjName, this.inputTupleCollection, this.outputFolderWithTestResults, _DATEMODE);
+		
+		this.produceSummaryHTML(this.prjName , this.projectFolder + "/figures", this.outputFolderWithTestResults, this.outputFolderWithTestResults);
 
 		//TODO ###########################################
 		//TEST THAT YOU PROCESSED INPUT FILE CORRECTLY
@@ -329,6 +334,94 @@ public class SchemaStatsMainEngine {
 		}
 		return this.schemaLevelInfo;
 		
+	}
+	
+	public int produceSummaryHTML(String prjName, String figuresFolder, String folderWithPatterns, String outputFolder) {
+		// load schema profile data
+		//File schemaLevelInfoFile = new File(outputFolderWithPatterns + File.separator + prjName + "_SchemaLevelInfo.tsv");
+		Scanner inputStream = null;
+		try {
+			//inputStream = new Scanner(new FileInputStream(outputFolderWithPatterns + File.separator + prjName + "_SchemaLevelInfo.tsv"));
+			inputStream = new Scanner(new FileInputStream(folderWithPatterns + File.separator + prjName + "_SchemaLevelInfo.tsv"));
+
+		} catch (FileNotFoundException e) {
+			System.out.println("Problem opening file: " + folderWithPatterns + File.separator + prjName + "_SchemaLevelInfo.tsv");
+			return -1;
+		}
+		ArrayList<String[]> schemaLevelInfoList = new ArrayList<String[]>();
+		while (inputStream.hasNextLine()) 
+			schemaLevelInfoList.add(inputStream.nextLine().split("\t"));
+		inputStream.close();
+		
+		// load figures
+		ArrayList<ArrayList<File>> figsPerFolder = new ArrayList<ArrayList<File>>();
+		File directory = new File(figuresFolder + File.separator + "schemaFigures");
+	    if (!directory.exists())
+	    	return -1;
+	    File[] fList = directory.listFiles();
+	    if(fList != null) {
+	    	ArrayList<File> files = new ArrayList<File>();
+	        for (File file : fList) 
+	        	if (file.isFile() && file.getName().endsWith(".png")) 
+	            	files.add(file);
+	        figsPerFolder.add(files);
+	    } else {
+	    	return -1;
+	    }
+	    directory = new File(figuresFolder + File.separator + "tableFigures");
+	    if (!directory.exists())
+	    	return -1;
+	    fList = directory.listFiles();
+	    if(fList != null) {
+	    	ArrayList<File> files = new ArrayList<File>();
+	        for (File file : fList) 
+	        	if (file.isFile() && file.getName().endsWith(".png")) 
+	            	files.add(file);
+	        figsPerFolder.add(files);
+	    } else {
+	    	return -1;
+	    }
+		
+	    // create html
+		File summaryHTMLFile = new File(outputFolder + File.separator + prjName + "_Summary.html");
+		try {
+			PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(summaryHTMLFile, false), StandardCharsets.UTF_8));
+			writer.println("<html>");
+			writer.println("<head>\n<title>" + prjName + "</title>\n</head>");
+			writer.println("<body>");
+			writer.println("<h1>" + prjName + "</h1>");
+			writer.println("<table style=\"width:100%\">");
+			writer.println("<tr>");
+			for (int i=0; i< schemaLevelInfoList.get(0).length; i++) {
+				writer.println("<th>" + schemaLevelInfoList.get(0)[i] + "</th>");
+			}
+			writer.println("</tr>\n<tr>");
+			for (int i=0; i< schemaLevelInfoList.get(1).length; i++) {
+				writer.println("<td>" + schemaLevelInfoList.get(1)[i] + "</td>");
+			}
+			writer.println("</tr>");
+			writer.println("</table>");
+			writer.println("<h3>Schema Figures</h3>");
+			writer.println("<table style=\"width:100%\">");
+			writer.println("<tr>");
+			for (File f: figsPerFolder.get(0)) {
+				writer.println("<img src=\"" + f.getAbsolutePath() + "\" alt=\"" + f.getName() + "\" width=\"500\" height=\"500\">");
+			}
+			writer.println("</tr>");
+			writer.println("</table>");
+			writer.println("<h3>Table Figures</h3>");
+			writer.println("<table style=\"width:100%\">");
+			writer.println("<tr>");
+			for (File f: figsPerFolder.get(1)) {
+				writer.println("<img src=\"" + f.getAbsolutePath() + "\" alt=\"" + f.getName() + "\" width=\"500\" height=\"500\">");
+			}
+			writer.println("</tr>");
+			writer.println("</table>");
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 	 
 

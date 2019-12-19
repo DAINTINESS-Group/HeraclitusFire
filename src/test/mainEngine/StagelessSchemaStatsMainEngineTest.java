@@ -52,6 +52,14 @@ public class StagelessSchemaStatsMainEngineTest {
 		
 		stagelessSchemaStatsMainEngine.produceSchemaFiguresAndStats();
 		assertEquals(stagelessSchemaStatsMainEngine.getTuplesPerRYFV0Collection().size(), 0);
+		
+		File htmlFileProduced = new File("resources/test/Profiling/Egee_Summary.html"); 
+		originalTimeStamp = htmlFileProduced.lastModified();
+		
+		int produceSummaryReturnCode = stagelessSchemaStatsMainEngine.produceSummaryHTML("Egee", "resources/Egee/figures", "resources/test/Profiling", "resources/test/Profiling");
+		assertEquals(produceSummaryReturnCode, 0);
+		newTimeStamp = htmlFileProduced.lastModified();
+		assertTrue(newTimeStamp > originalTimeStamp);
 	}
 	
 	@Test
@@ -89,6 +97,14 @@ public class StagelessSchemaStatsMainEngineTest {
 		assertEquals(stagelessSchemaStatsMainEngine.getTuplesPerRYFV0Collection().get(1).size(),36);
 		assertEquals(stagelessSchemaStatsMainEngine.getTuplesPerRYFV0Collection().get(2).size(),40);
 		assertEquals(stagelessSchemaStatsMainEngine.getTuplesPerRYFV0Collection().get(3).size(),8);
+		
+		File htmlFileProduced = new File("resources/test/Profiling/Atlas_Summary.html"); 
+		originalTimeStamp = htmlFileProduced.lastModified();
+		
+		int produceSummaryReturnCode = stagelessSchemaStatsMainEngine.produceSummaryHTML("Atlas", "resources/Atlas/figures", "resources/test/Profiling", "resources/test/Profiling");
+		assertEquals(produceSummaryReturnCode, 0);
+		newTimeStamp = htmlFileProduced.lastModified();
+		assertTrue(newTimeStamp > originalTimeStamp);
 	}
 
 }
