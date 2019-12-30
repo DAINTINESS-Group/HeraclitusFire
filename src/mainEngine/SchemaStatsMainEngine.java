@@ -405,7 +405,7 @@ public class SchemaStatsMainEngine {
 			writer.println("<table style=\"width:100%\">");
 			writer.println("<tr>");
 			for (File f: figsPerFolder.get(0)) {
-				writer.println("<img src=\"" + f.getAbsolutePath() + "\" alt=\"" + f.getName() + "\" width=\"500\" height=\"500\">");
+				writer.println("<img src=\"../figures/schemaFigures/" + f.getName() + "\" alt=\"" + f.getName() + "\" width=\"500\" height=\"500\">");
 			}
 			writer.println("</tr>");
 			writer.println("</table>");
@@ -413,10 +413,10 @@ public class SchemaStatsMainEngine {
 			writer.println("<table style=\"width:100%\">");
 			writer.println("<tr>");
 			for (File f: figsPerFolder.get(1)) {
-				writer.println("<img src=\"" + f.getAbsolutePath() + "\" alt=\"" + f.getName() + "\" width=\"500\" height=\"500\">");
+				writer.println("<img src=\"../figures/tableFigures/" + f.getName() + "\" alt=\"" + f.getName() + "\" width=\"500\" height=\"500\">");
 			}
 			writer.println("</tr>");
-			writer.println("</table>");
+			writer.println("</table>\n</body>\n</html>");
 			writer.close();
 		} catch (IOException e) {
 			e.printStackTrace();
