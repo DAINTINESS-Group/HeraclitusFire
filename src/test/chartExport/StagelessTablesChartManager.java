@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import chartexport.TablesChartManager;
 import chartexport.exporters.ScatterChartExporter;
+import chartexport.exporters.AbstractScatterChartExporter;
 import datamodel.TableDetailedStatsElement;
 import javafx.stage.Stage;
 
@@ -24,7 +25,7 @@ public class StagelessTablesChartManager extends TablesChartManager {
 	// We test only if the series are created right - we leave the styling untested
 	protected ArrayList<ArrayList<Integer>> launchScatterChartExporters() {
 		ArrayList<ArrayList<Integer>> numOfDataPerSeriesPerChart = new ArrayList<ArrayList<Integer>>();
-		for(ScatterChartExporter s: this.scatterExporters) {
+		for(AbstractScatterChartExporter s: this.scatterExporters) {
 			s.createSeries();
 			ArrayList<Integer> sSeries = s.getNumOfDataPerSeries();
 			numOfDataPerSeriesPerChart.add(sSeries);

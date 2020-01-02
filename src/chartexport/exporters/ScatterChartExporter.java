@@ -27,31 +27,11 @@ import javafx.embed.swing.SwingFXUtils;
 //import datamodel.SchemaHeartbeatElement;
 import datamodel.TableDetailedStatsElement;
 
-public class ScatterChartExporter{// extends Application{
+public class ScatterChartExporter extends AbstractScatterChartExporter<Number>{// extends Application{
 
 	public ScatterChartExporter(String pOutputPath, String pTitle, HashMap<Integer, ArrayList<TableDetailedStatsElement>> pTuplesPerLADCollection, 
 			String pXAttribute, String pYAttribute, HashMap<String, Integer> pAttributePositions, Stage primaryStage) {
-		this.outputPath = pOutputPath;
-		if (!outputPath.endsWith(".png"))
-			outputPath = outputPath + ".png";
-
-		if (pTitle != null)
-			this.chartTitle = pTitle;
-		else
-			this.chartTitle = "";
-
-		this.tuplesPerLADCollection = pTuplesPerLADCollection;
-		this.attributePositions= pAttributePositions;
-		this.xAttribute = pXAttribute;
-		this.yAttribute = pYAttribute;
-		//TODO CHECKS! IF any of the above is null, setup a flag as problem
-
-		this.xAttributePos = this.attributePositions.get(this.xAttribute);
-		this.yAttributePos = this.attributePositions.get(this.yAttribute);
-		//TODO CHECKS! IF any of the above is null or negative, setup a flag as problem
-		//or, before, can check if containsKey is true
-
-		this.stage = primaryStage;
+		super(pOutputPath, pTitle, pTuplesPerLADCollection, pXAttribute, pYAttribute, pAttributePositions, primaryStage);
 	}//end constructor
 
 	public void start(Stage primaryStage) throws Exception {
@@ -161,69 +141,12 @@ public class ScatterChartExporter{// extends Application{
 						newSeries.getData().add(new XYChart.Data<Number,Number>(xValue, yValue));
 				}
 				}
+			if (newSeries.getData().size() == 0)
+				newSeries.setName("");
 			this.allSeries.add(newSeries);
 		}//end for i = nextLAD value
 		//return this.allSeries;
 	}
-
-	/**
-	 * SUPER USEFUL, DO NOT REMOVE: This method reports all the children nodes of the scatterchart
-	 */
-	private void reportChildrenOfChart() {
-		System.out.println("\n\nStarting " + this.chartTitle);
-		Set<Node> CHARTnodes = this.scatterChart.lookupAll("*");
-		for (Node n : CHARTnodes) {
-			System.out.println(n.getTypeSelector() +"\t" + n.toString() + "\t\t" + n.getStyle());
-		}
-	}
-
-	/**
-	 * Saves the scene to an Image of type png.
-	 * 
-	 * @param scene  a Scene to be exported
-	 * @param path  a String with the path of the file to be exported
-	 */
-	private void saveAsPng(Scene scene, String path) {
-		WritableImage image = scene.snapshot(null);
-		File file = new File(path);
-		try {
-			ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	
-	/**
-	 * Equivalent and precursor to saveAsPng. Attn: it saves the scatterchart and NOT the scene.
-	 */
-	private void saveChart(){
-		WritableImage image = this.scatterChart.snapshot(new SnapshotParameters(), null);
-		File file = new File(outputPath);
-		try {
-			ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
-		} catch (IOException e){}
-	}//end saveChart
-	
-	public ArrayList<Integer> getNumOfDataPerSeries() {
-		ArrayList<Integer> numOfDataPerSeries = new ArrayList<Integer>();
-		for(XYChart.Series<Number,Number> series: allSeries)
-			numOfDataPerSeries.add(series.getData().size());
-		return numOfDataPerSeries;
-	}
-
-
-	private String xAttribute;
-	private String yAttribute;
-	private Integer xAttributePos;
-	private Integer yAttributePos;
-	private HashMap<String, Integer> attributePositions;
-	private HashMap<Integer, ArrayList<TableDetailedStatsElement>> tuplesPerLADCollection;
-	private String chartTitle;
-	private String outputPath;
-	private Stage stage;
-	private ArrayList<XYChart.Series<Number,Number>> allSeries;
-	private ScatterChart<Number,Number> scatterChart;
 
 
 }//end class

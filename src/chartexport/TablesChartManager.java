@@ -5,7 +5,8 @@ import java.util.HashMap;
 //import javafx.application.Application;
 import javafx.stage.Stage;
 import datamodel.TableDetailedStatsElement;
-
+import chartexport.exporters.AbstractScatterChartExporter;
+import chartexport.exporters.LADScatterChartExporter;
 import chartexport.exporters.ScatterChartExporter;
 
 public class TablesChartManager {
@@ -22,7 +23,7 @@ public class TablesChartManager {
 		this.tuplesPerLADCollection = tuplesPerLADCollection;
 		this.outputFolderWithFigures = outputFolderWithFigures;
 		
-		this.scatterExporters = new ArrayList<ScatterChartExporter>();
+		this.scatterExporters = new ArrayList<AbstractScatterChartExporter>();
 		this.stage = primaryStage; 
 System.out.println("************************ "+this.prjName);
 	}//end constructor
@@ -36,25 +37,29 @@ System.out.println("************************ "+this.prjName);
 			SumUpd	CountVwUpd	ATU	UpdRate	AvgUpdVolume	SurvivalClass	ActivityClass	LADClass	
 
 		 */
-		ScatterChartExporter sGammaDur = new ScatterChartExporter(outputFolderWithFigures+"/"+"GammaDur.png", this.prjName+":\nDur over Sc.Size", tuplesPerLADCollection, 
+		AbstractScatterChartExporter<Number> sGammaDur = new ScatterChartExporter(outputFolderWithFigures+"/"+"GammaDur.png", this.prjName+":\nDur over Sc.Size", tuplesPerLADCollection, 
 				"SchemaSize@Birth", "Duration",	attributePositions, stage);
 		this.scatterExporters.add(sGammaDur);
 
-		ScatterChartExporter sGamma = new ScatterChartExporter(outputFolderWithFigures+"/"+"GammaLKV.png", this.prjName+":\nLKV over Sc.Size", tuplesPerLADCollection, 
+		AbstractScatterChartExporter<Number> sGamma = new ScatterChartExporter(outputFolderWithFigures+"/"+"GammaLKV.png", this.prjName+":\nLKV over Sc.Size", tuplesPerLADCollection, 
 				"SchemaSize@Birth", "LastKnownVersion",	attributePositions, stage);
 		this.scatterExporters.add(sGamma);
 
-		ScatterChartExporter sComet = new ScatterChartExporter(outputFolderWithFigures+"/"+"Comet.png", this.prjName+":\nUpdates over Sc.Size", tuplesPerLADCollection, 
+		AbstractScatterChartExporter<Number> sComet = new ScatterChartExporter(outputFolderWithFigures+"/"+"Comet.png", this.prjName+":\nUpdates over Sc.Size", tuplesPerLADCollection, 
 				"SchemaSize@Birth", "SumUpd",	attributePositions, stage);
 		this.scatterExporters.add(sComet);
 
-		ScatterChartExporter sInvGamma = new ScatterChartExporter(outputFolderWithFigures+"/"+"InvGammaLKV.png", this.prjName+":\nUpdates over LKV", tuplesPerLADCollection, 
+		AbstractScatterChartExporter<Number> sInvGamma = new ScatterChartExporter(outputFolderWithFigures+"/"+"InvGammaLKV.png", this.prjName+":\nUpdates over LKV", tuplesPerLADCollection, 
 				"LastKnownVersion",	"SumUpd", attributePositions, stage);
 		this.scatterExporters.add(sInvGamma);
 
-		ScatterChartExporter sTriangle = new ScatterChartExporter(outputFolderWithFigures+"/"+"EmptyTriangle.png", this.prjName+":\nDuration over Birth", tuplesPerLADCollection, 
+		AbstractScatterChartExporter<Number> sTriangle = new ScatterChartExporter(outputFolderWithFigures+"/"+"EmptyTriangle.png", this.prjName+":\nDuration over Birth", tuplesPerLADCollection, 
 				"Birth", "Duration",	attributePositions, stage);
 		this.scatterExporters.add(sTriangle);
+		
+		AbstractScatterChartExporter<String> sElectrolysis = new LADScatterChartExporter(outputFolderWithFigures+"/"+"Electrolysis.png", this.prjName+":\nSpan of Duration by LADClass", tuplesPerLADCollection, 
+				"Duration", "LADClass",	attributePositions, stage);
+		this.scatterExporters.add(sElectrolysis);
 		
 		return launchScatterChartExporters();
 		//return 0;
@@ -64,7 +69,7 @@ System.out.println("************************ "+this.prjName);
 	// ZAS: Hopefully now I can subclass and override
 	protected ArrayList<ArrayList<Integer>> launchScatterChartExporters() {
 		ArrayList<ArrayList<Integer>> numOfDataPerSeriesPerChart = new ArrayList<ArrayList<Integer>>();
-		for(ScatterChartExporter s: this.scatterExporters) {
+		for(AbstractScatterChartExporter s: this.scatterExporters) {
 			try {
 				s.start(stage);
 				ArrayList<Integer> sSeries = s.getNumOfDataPerSeries();
@@ -81,7 +86,7 @@ System.out.println("************************ "+this.prjName);
 	private HashMap<String, Integer> attributePositions;
 	private HashMap<Integer, ArrayList<TableDetailedStatsElement>> tuplesPerLADCollection;
 	private String outputFolderWithFigures;
-	protected ArrayList<ScatterChartExporter> scatterExporters;
+	protected ArrayList<AbstractScatterChartExporter> scatterExporters;
 	private Stage stage;
 	private String prjName;
 }//end class
