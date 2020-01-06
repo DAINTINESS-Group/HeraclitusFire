@@ -19,7 +19,7 @@ public class StagelessTableStatsMainEngine extends TableStatsMainEngine {
 		tablesChartManager = new StagelessTablesChartManager(prjName,
 				inputTupleCollection, attributePositions, 
 				tuplesPerLADCollection, outputFolderWithFigures, 
-				null
+				null, _DATEMODE
 				);
 	}
 	

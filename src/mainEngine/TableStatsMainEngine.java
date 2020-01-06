@@ -222,7 +222,7 @@ public class TableStatsMainEngine {
 	 * We keep this code separately, to facilitate testing, without the need for launching stages.
 	 */
 	protected void createChartManager() {
-		tablesChartManager = new TablesChartManager(prjName, inputTupleCollection, attributePositions, tuplesPerLADCollection, outputFolderWithFigures, stage);
+		tablesChartManager = new TablesChartManager(prjName, inputTupleCollection, attributePositions, tuplesPerLADCollection, outputFolderWithFigures, stage, _DATEMODE);
 	}
 
 

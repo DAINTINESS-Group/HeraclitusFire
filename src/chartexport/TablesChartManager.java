@@ -16,7 +16,7 @@ public class TablesChartManager {
 			ArrayList<TableDetailedStatsElement> inputTupleCollection,
 			HashMap<String, Integer> attributePositions,
 			HashMap<Integer, ArrayList<TableDetailedStatsElement>> tuplesPerLADCollection,
-			String outputFolderWithFigures, Stage primaryStage) {
+			String outputFolderWithFigures, Stage primaryStage, Boolean dateMode) {
 		this.prjName = prjName;
 		this.inputTupleCollection = inputTupleCollection;
 		this.attributePositions = attributePositions;
@@ -25,7 +25,8 @@ public class TablesChartManager {
 		
 		this.scatterExporters = new ArrayList<AbstractScatterChartExporter>();
 		this.stage = primaryStage; 
-System.out.println("************************ "+this.prjName);
+		this._DATEMODE = dateMode;
+		System.out.println("************************ "+this.prjName);
 	}//end constructor
 	
 	public ArrayList<ArrayList<Integer>> extractScatterCharts() {
@@ -57,9 +58,11 @@ System.out.println("************************ "+this.prjName);
 				"Birth", "Duration",	attributePositions, stage);
 		this.scatterExporters.add(sTriangle);
 		
-		AbstractScatterChartExporter<String> sElectrolysis = new LADScatterChartExporter(outputFolderWithFigures+"/"+"Electrolysis.png", this.prjName+":\nSpan of Duration by LADClass", tuplesPerLADCollection, 
-				"Duration", "LADClass",	attributePositions, stage);
-		this.scatterExporters.add(sElectrolysis);
+		if (_DATEMODE) {
+			AbstractScatterChartExporter<String> sElectrolysis = new LADScatterChartExporter(outputFolderWithFigures+"/"+"Electrolysis.png", this.prjName+":\nSpan of Duration by LADClass", tuplesPerLADCollection, 
+					"DurationDays", "LADClass",	attributePositions, stage);
+			this.scatterExporters.add(sElectrolysis);
+		}
 		
 		return launchScatterChartExporters();
 		//return 0;
@@ -89,4 +92,5 @@ System.out.println("************************ "+this.prjName);
 	protected ArrayList<AbstractScatterChartExporter> scatterExporters;
 	private Stage stage;
 	private String prjName;
+	private Boolean _DATEMODE;
 }//end class

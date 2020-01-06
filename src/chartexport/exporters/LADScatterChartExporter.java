@@ -30,6 +30,8 @@ import datamodel.TableDetailedStatsElement;
 
 public class LADScatterChartExporter extends AbstractScatterChartExporter<String> {
 
+	private int maxX;
+	
 	public LADScatterChartExporter(String pOutputPath, String pTitle, HashMap<Integer, ArrayList<TableDetailedStatsElement>> pTuplesPerLADCollection, 
 			String pXAttribute, String pYAttribute, HashMap<String, Integer> pAttributePositions, Stage primaryStage) {
 		super(pOutputPath, pTitle, pTuplesPerLADCollection, pXAttribute, pYAttribute, pAttributePositions, primaryStage);
@@ -43,19 +45,26 @@ public class LADScatterChartExporter extends AbstractScatterChartExporter<String
 
 		//double xTickUnit = Math.round((double) (maxX - minX)/10.0);
 		//double yTickUnit = (double) (maxY - minY)/10.0;
-		//final NumberAxis xAxis = new NumberAxis(xAttribute, minX - xTickUnit, maxX + xTickUnit, xTickUnit);
+		int xAxisMax = (int)Math.ceil((double)this.maxX/365)*365;
+		final NumberAxis xAxis = new NumberAxis(0, xAxisMax, 365);
 		//final NumberAxis yAxis = new NumberAxis(yAttribute, minY - yTickUnit, maxY + yTickUnit, yTickUnit);
 
 		//EITHER the above, or the below
-		final NumberAxis xAxis = new NumberAxis();
+		//final NumberAxis xAxis = new NumberAxis();
 		final CategoryAxis yAxis = new CategoryAxis();		
-		xAxis.setAutoRanging(true);
+		//xAxis.setAutoRanging(true);
 		yAxis.setAutoRanging(true);
 
-		xAxis.setLabel(xAttribute);                
+		xAxis.setLabel(xAttribute.substring(0,8));                
 		yAxis.setLabel(yAttribute);
 		xAxis.setMinorTickVisible(false);
 		//yAxis.setMinorTickVisible(false);
+		xAxis.setTickLabelFormatter(new NumberAxis.DefaultFormatter(xAxis) {
+			@Override
+			public String toString(Number value) {
+				return "" + (value.intValue()/365);
+			}
+		});
 
 		this.scatterChart = new ScatterChart<Number,String>(xAxis,yAxis);
 
@@ -110,6 +119,7 @@ public class LADScatterChartExporter extends AbstractScatterChartExporter<String
 		
 		//double maxX = Integer.MIN_VALUE; double maxY = Integer.MIN_VALUE;
 		//double minX = Integer.MAX_VALUE; double minY = Integer.MAX_VALUE;
+		this.maxX = Integer.MIN_VALUE;
 
 		ArrayList<Integer> LADKeySet = new ArrayList<Integer>() ;
 		//ATTN: added __all__ the values. Otherwise, if one class is missing, the style loader puts the next
@@ -138,6 +148,7 @@ public class LADScatterChartExporter extends AbstractScatterChartExporter<String
 					Integer yValue = tuple.getIntValueByPosition(yAttributePos);
 					//if (xValue > maxX) maxX = xValue; if (xValue < minX) minX = xValue;
 					//if (yValue > maxY) maxY = yValue; if (yValue < minY) minY = yValue;
+					if (xValue > this.maxX) this.maxX = xValue;
 					if((xValue != TableDetailedStatsElement._ERROR_CODE) && (yValue != TableDetailedStatsElement._ERROR_CODE))
 						newSeries.getData().add(new XYChart.Data<Number,String>(xValue, yValue.toString()));
 				}

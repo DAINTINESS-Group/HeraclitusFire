@@ -15,8 +15,8 @@ public class StagelessTablesChartManager extends TablesChartManager {
 			ArrayList<TableDetailedStatsElement> inputTupleCollection,
 			HashMap<String, Integer> attributePositions,
 			HashMap<Integer, ArrayList<TableDetailedStatsElement>> tuplesPerLADCollection,
-			String outputFolderWithFigures, Stage primaryStage) {
-		super(prjName, inputTupleCollection, attributePositions, tuplesPerLADCollection, outputFolderWithFigures, primaryStage);
+			String outputFolderWithFigures, Stage primaryStage, Boolean dateMode) {
+		super(prjName, inputTupleCollection, attributePositions, tuplesPerLADCollection, outputFolderWithFigures, primaryStage, dateMode);
 	}
 	
 	// @Override  

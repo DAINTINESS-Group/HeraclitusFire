@@ -34,7 +34,7 @@ public class StagelessTablesChartManagerTest {
 		inputTupleCollection = stagelessTableStatsMainEngine.getinputTupleCollection();
 		attributePositions = stagelessTableStatsMainEngine.getAttributePositions();
 		tuplesPerLADCollection = stagelessTableStatsMainEngine.getTuplesPerLADCollection();
-		stagelessTablesChartManager = new StagelessTablesChartManager(prjName, inputTupleCollection, attributePositions,tuplesPerLADCollection, "", null);
+		stagelessTablesChartManager = new StagelessTablesChartManager(prjName, inputTupleCollection, attributePositions,tuplesPerLADCollection, "", null, false);
 		
 		ArrayList<ArrayList<Integer>> numOfDataPerSeriesPerChart = stagelessTablesChartManager.extractScatterCharts();
 		for(ArrayList<Integer> numOfdataPerSeries: numOfDataPerSeriesPerChart) {
@@ -55,7 +55,7 @@ public class StagelessTablesChartManagerTest {
 		inputTupleCollection = stagelessTableStatsMainEngine.getinputTupleCollection();
 		attributePositions = stagelessTableStatsMainEngine.getAttributePositions();
 		tuplesPerLADCollection = stagelessTableStatsMainEngine.getTuplesPerLADCollection();
-		stagelessTablesChartManager = new StagelessTablesChartManager(prjName, inputTupleCollection, attributePositions,tuplesPerLADCollection, "", null);
+		stagelessTablesChartManager = new StagelessTablesChartManager(prjName, inputTupleCollection, attributePositions,tuplesPerLADCollection, "", null, true);
 		
 		ArrayList<ArrayList<Integer>> numOfDataPerSeriesPerChart = stagelessTablesChartManager.extractScatterCharts();
 		for(ArrayList<Integer> numOfdataPerSeries: numOfDataPerSeriesPerChart) {
