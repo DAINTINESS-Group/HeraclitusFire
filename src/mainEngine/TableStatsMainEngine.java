@@ -109,12 +109,13 @@ public class TableStatsMainEngine {
 		this.createChartManager();  
 		tablesChartManager.extractScatterCharts();
 
-//		if (_DATEMODE) {
-			ArrayList<PatternAssessmentTypesEnum> testsToRun= new ArrayList <PatternAssessmentTypesEnum>(
-					Arrays.asList(PatternAssessmentTypesEnum.GAMMA, PatternAssessmentTypesEnum.INVERSE_GAMMA));
-			this.patternAssessmentManager.assessPatterns(testsToRun,
-				this.inputTupleCollection, this.prjName, this.outputFolderWithTestResults, this.globalLogFilePath, _ALPHA);
-	//	}
+		ArrayList<PatternAssessmentTypesEnum> testsToRun= new ArrayList <PatternAssessmentTypesEnum>(
+				Arrays.asList(PatternAssessmentTypesEnum.GAMMA, PatternAssessmentTypesEnum.INVERSE_GAMMA));
+		if (_DATEMODE) {
+			testsToRun.add(PatternAssessmentTypesEnum.ELECTROLYSIS);
+		}
+		this.patternAssessmentManager.assessPatterns(testsToRun,
+			this.inputTupleCollection, this.prjName, this.outputFolderWithTestResults, this.globalLogFilePath, _ALPHA);
 
 		return numRows;
 	}//end processFolder

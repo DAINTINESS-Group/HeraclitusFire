@@ -18,6 +18,7 @@ public class PatternAssessmentFactory {
 		switch(testType) {
 		case GAMMA: return new GammaPatternLKVAssessment(pInputTupleCollection,projectName, pOutputFolderWithPatterns, globalAppendLog, alpha);
 		case INVERSE_GAMMA: return new InverseGammaAssessment(pInputTupleCollection,projectName, pOutputFolderWithPatterns, globalAppendLog, alpha);
+		case ELECTROLYSIS: return new ElectrolysisAssessment(pInputTupleCollection,projectName, pOutputFolderWithPatterns, globalAppendLog, alpha);
 		default: return null; 
 		}
 		//return null;

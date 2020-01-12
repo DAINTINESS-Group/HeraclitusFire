@@ -1,0 +1,7 @@
+
+NEW PRJ ----------- Atlas -------------------------
+Atlas:	Electrolysis	holds? 	false
+Atlas:	Electrolysis	Geometry? 	false
+Atlas:	Electrolysis	FisherExecuted? 	false
+Atlas:	Electrolysis	p-Value? 	false
+------------------------------------------------

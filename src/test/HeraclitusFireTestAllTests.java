@@ -30,7 +30,7 @@ import org.junit.platform.suite.api.SelectClasses;
 	test.mainEngine.SchemaStatsMainEngineTest.class, test.mainEngine.StagelessSchemaStatsMainEngineTest.class, 
 	test.chartExport.StagelessTablesChartManagerTest.class, test.chartExport.StagelessSchemaChartManagerTest.class, 
 	test.patternassessment.fisher.exact.test.FisherExactTestWrapperTest.class, 
-	test.patternassessment.GammaSimpleTest.class, test.patternassessment.InvGammaSimpleTest.class} )
+	test.patternassessment.GammaSimpleTest.class, test.patternassessment.InvGammaSimpleTest.class, test.patternassessment.ElectrolysisSimpleTest.class} )
 //@SelectPackages({"test", "test.mainEngine"})
 
 //KEEP THIS SILENT:
