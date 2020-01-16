@@ -1,6 +1,7 @@
 package patternassessment.tablepatterns;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.IntSummaryStatistics;
 import java.util.stream.Collectors;
 
@@ -28,7 +29,7 @@ public class ElectrolysisAssessment extends PatternAssessmentTemplateMethod {
 	 * Low duration - dead.rigid have to be equal or more than _PCT_DEAD_RIGID_THRESHOLD * dead.rigid 
 	 */
 	// TODO: yet to be decided
-	private static double _PCT_RIGID_DEAD_THRESHOLD = 0.9;
+	private static double _PCT_RIGID_DEAD_THRESHOLD = 0.8;
 	
 	/**
 	 * High duration - survivor.active have to be equal or more than _PCT_DEAD_RIGID_THRESHOLD * survivor.active 
@@ -118,26 +119,51 @@ public class ElectrolysisAssessment extends PatternAssessmentTemplateMethod {
 	 *  <p>- most of rigid.dead tables are of low duration (contTable[0][0] >= _PCT_RIGID_DEAD_THRESHOLD * rigid.dead)
 	 *  <p>- most of active.surv tables are of high duration (contTable[2][5] >= _PCT_ACTIVE_SURVIVOR_THRESHOLD * active.surv)
 	 * 
- 	 * <p>The contingency table is: 
+	 * <p>We execute the Fisher's exact test on three different contingency tables, subtables of the original: 
+	 * <p>The contingency table for the first test is: 
 	 * <pre>
-	 *              R.Dead | Q.Dead | A.Dead | R.Surv | Q.Surv | A.Surv
-	 *           ---------------------------------------------------------
-	 * lowDur     |        |        |        |        |        |        |
-	 *           ---------------------------------------------------------
-	 * medDur     |        |        |        |        |        |        |
-	 *           ---------------------------------------------------------
-	 * highDur    |        |        |        |        |        |        |
-	 *           ---------------------------------------------------------
+	 *              Dead | Surv 
+	 *           -----------------
+	 * lowDur     |      |      |
+	 *           -----------------
+	 * notLowDur  |      |      |
+	 *           -----------------
 	 * </pre>
-	 * So, the test has: 
+	 * <p>The first test has: 
 	 * <pre>
-	 *   H0: duration and LifeAndDeath class are independent
-	 *   Ha: there is a difference in the LifeAndDeath class of the three duration ranges
+	 *   H0: duration and survival class are independent
+	 *   Ha: dead tables die very soon
 	 * </pre>
-	 * <p>Therefore, we need the test, and, via a small p-Value, reject the Ho.
+	 * <p>The contingency table for the second test is: 
+	 * <pre>
+	 *              Dead | Surv 
+	 *           -----------------
+	 * notHighDur |      |      |
+	 *           -----------------
+	 * highDur    |      |      |
+	 *           -----------------
+	 * </pre>
+	 * <p>The second test has: 
+	 * <pre>
+	 *   H0: duration and survival class are independent
+	 *   Ha: survivor tables live very long
+	 * </pre>
+	 * <p>The contingency table for the third test is: 
+	 * <pre>
+	 *              NotA.Surv |   A.Surv 
+	 *           ---------------------------
+	 * notHighDur |           |           |
+	 *           ---------------------------
+	 * highDur    |           |           |
+	 *           ---------------------------
+	 * </pre>
+	 * <p>The third test has: 
+	 * <pre>
+	 *   H0: duration and activity class of survivor tables are independent
+	 *   Ha: active survivor tables live very long
+	 * </pre>
+	 * <p>Therefore, we need the tests, and, via a small p-Values, reject the H0s.
 	 * <p>See pages 127 and 133 in "Statistics in a Nutshell", 2nd Ed., O'Reilly
-	 * <p>The Chi-Square test is not applicable here because the contingency table might have cell with 0s.
-	 * <p>To be decided how to execute the Fisher test.
 	 * 
  	 * @param par  a PatternAssessmentResult that will be populated with the contingency table and the test results
  	 * @return a Boolean flag that is true if the pattern holds; false otherwise
@@ -164,11 +190,42 @@ public class ElectrolysisAssessment extends PatternAssessmentTemplateMethod {
 //		System.out.println("areMostActiveSurvHighDur:\t\t" + areMostActiveSurvHighDur);
 //		System.out.println("areMostSurvHighDur:\t\t" + areMostSurvHighDur);
 		
-		// Fisher won't be executed correctly 
-		// TODO: decide how to execute it
-		double pValueFisher = applyFisherTest(par);
-		Boolean fisherTestPass = pValueFisher < this.alphaAcceptanceLevel;
-		par.setFisherTestExecuted(fisherTestPass);
+		ArrayList<int[][]> contTables2x2 = new ArrayList<int[][]>(
+				Arrays.asList(new int[2][2], new int[2][2], new int[2][2]));
+		ArrayList<Double> pValuesFisher = new ArrayList<Double>();
+		Boolean fisherTestsPass = true;
+		
+		contTables2x2.get(0)[0][0] = contTable[0][0] + contTable[0][1] + contTable[0][2];
+		contTables2x2.get(0)[0][1] = contTable[0][3] + contTable[0][4] + contTable[0][5];
+		contTables2x2.get(0)[1][0] = contTable[1][0] + contTable[1][1] + contTable[1][2] + 
+				contTable[2][0] + contTable[2][1] + contTable[2][2];
+		contTables2x2.get(0)[1][1] = contTable[1][3] + contTable[1][4] + contTable[1][5] + 
+				contTable[2][3] + contTable[2][4] + contTable[2][5];
+		
+		contTables2x2.get(1)[0][0] = contTable[0][0] + contTable[0][1] + contTable[0][2] + 
+				contTable[1][0] + contTable[1][1] + contTable[1][2];
+		contTables2x2.get(1)[0][1] = contTable[0][3] + contTable[0][4] + contTable[0][5] + 
+				contTable[1][3] + contTable[1][4] + contTable[1][5];
+		contTables2x2.get(1)[1][0] = contTable[2][0] + contTable[2][1] + contTable[2][2];
+		contTables2x2.get(1)[1][1] = contTable[2][3] + contTable[2][4] + contTable[2][5];
+		
+		contTables2x2.get(2)[0][0] = contTable[0][3] + contTable[0][4] + contTable[1][3] + contTable[1][4];
+		contTables2x2.get(2)[0][1] = contTable[0][5] + contTable[1][5];
+		contTables2x2.get(2)[1][0] = contTable[2][3] + contTable[2][4];
+		contTables2x2.get(2)[1][1] = contTable[2][5];
+
+		double pValueFisher;
+		par.setFisherTestExecuted(true);
+		for (int[][] contTable2x2: contTables2x2) {
+			pValueFisher = applyFisherTest(contTable2x2);
+			pValuesFisher.add(pValueFisher);
+			if (pValueFisher == 1.0)
+				par.setFisherTestExecuted(false);
+			par.setFisherTestPValue(pValueFisher);
+			fisherTestsPass = fisherTestsPass && pValueFisher < this.alphaAcceptanceLevel;
+		}
+		this.pValuePatternTrue = fisherTestsPass;
+		par.setFisherTestExecuted(fisherTestsPass);
 		
 		this.geometricalPatternTrue = areRigidDeadMajority && areMostSurvHighDur && 
 				areMostRigidDeadLowDur && areMostActiveSurvHighDur; 
@@ -177,25 +234,20 @@ public class ElectrolysisAssessment extends PatternAssessmentTemplateMethod {
 	}
 	
 	/**
-	 * Executes the Fisher test and catches the exception if the cont. table cannot be new-ed well
+	 * Executes the Fisher tests and catches the exception if the cont. tables cannot be new-ed well
 	 * 
-	 * @param par a PatternAssessmentResult with the matrices and results for the assessment of the pattern
-	 * @return the pValue of the Fisher test, if the test is executed, 1.0 otherwise
+	 * @param contTable2x2 a 2x2 cont. table for the Fisher test
+	 * @return the pValues of the Fisher test, if the test is executed, 1.0 otherwise
 	 */
-	private double applyFisherTest(PatternAssessmentResult par) {
-		int[][] contTable = par.getContingencyTable();
-		
+	private double applyFisherTest(int[][] contTable2x2) {
 		double pValueFisher;
 		FisherExactTestWrapper fet;
-		par.setFisherTestExecuted(true);
 		try {
-			fet = new FisherExactTestWrapper(contTable);
+			fet = new FisherExactTestWrapper(contTable2x2);
 			pValueFisher = fet.getFisherSingleTailPValue();
 		} catch (IllegalArgumentException e) {
-			par.setFisherTestExecuted(false);
 			pValueFisher = 1.0;
 		}
-		par.setFisherTestPValue(pValueFisher);
 
 		return pValueFisher;
 	}
