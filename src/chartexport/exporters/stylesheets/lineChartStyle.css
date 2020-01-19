@@ -23,6 +23,11 @@ Line { -fx-opacity: 0.2; }
 	-fx-stroke: green;
 }
 
-.default-color0.chart-line-symbol { -fx-background-color: transparent, transparent; }
-.default-color1.chart-line-symbol { -fx-background-color: transparent, transparent; }
-.default-color2.chart-line-symbol { -fx-background-color: transparent, transparent; }
+.chart-line-symbol {
+    -fx-background-radius: 3px;
+    -fx-padding: 3px;
+}
+
+.default-color0.chart-line-symbol { -fx-background-color: blue, lightblue; }
+.default-color1.chart-line-symbol { -fx-background-color: red, orange; }
+.default-color2.chart-line-symbol { -fx-background-color: green, lightgreen; }
