@@ -381,7 +381,10 @@ public class SchemaStatsMainEngine {
 	    } else {
 	    	return -1;
 	    }
-		
+
+	    //TODO: split the table in chunks, so that it fits in a reasonable width & move at the end
+	    //TODO: re-arrange the position of the schema figures, they are placed in alphab. order, but, the e&m h/b should go _after_ the 4 schema sizes
+	    //(maybe rename the produced image, s.t., it is after 'Num' and before 'Total')
 	    // create html
 		File summaryHTMLFile = new File(outputFolder + File.separator + prjName + "_Summary.html");
 		try {
