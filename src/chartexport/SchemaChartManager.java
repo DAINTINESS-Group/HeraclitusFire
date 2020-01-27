@@ -54,7 +54,7 @@ public class SchemaChartManager {
 		ArrayList<String> emYAttributes = new ArrayList<String>();  // add the attributes we want
 		emYAttributes.add("Expansion");
 		emYAttributes.add("Maintenance");
-		AbstractBarChartExporter bExpMainID = new BarChartExporter(outputFolderWithFigures+"/"+"ExpansionMaintenanceOverID.png", this.prjName+":\nExpansion & Maintenance over Time(versionID)", hashmapInputTupleCollection, 
+		AbstractBarChartExporter bExpMainID = new BarChartExporter(outputFolderWithFigures+"/"+"TotalActivityExpMntncOverID.png", this.prjName+":\nExpansion & Maintenance over Time(versionID)", hashmapInputTupleCollection, 
 				"trID", emYAttributes,	attributePositions, stage);
 		this.barExporters.add(bExpMainID);
 		

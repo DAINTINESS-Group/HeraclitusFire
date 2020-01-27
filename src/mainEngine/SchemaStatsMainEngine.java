@@ -262,7 +262,7 @@ public class SchemaStatsMainEngine {
 		int totalAttrbDelWithTableDel = 0;
 		int totalAttrInjected = 0;
 		int totalAttrEjected = 0;
-		int tatalAttrWithTypeUpd = 0;
+		int totalAttrWithTypeUpd = 0;
 		int totalAttrInPKUpd = 0;
 		
 		int totalExpansion = 0;
@@ -279,7 +279,7 @@ public class SchemaStatsMainEngine {
 			totalAttrbDelWithTableDel += inputTupleCollection.get(i).getAttrsbDelWithTableDel();
 			totalAttrInjected += inputTupleCollection.get(i).getAttrsInjected();
 			totalAttrEjected += inputTupleCollection.get(i).getAttrsEjected();
-			tatalAttrWithTypeUpd += inputTupleCollection.get(i).getAttrsWithTypeUpd();
+			totalAttrWithTypeUpd += inputTupleCollection.get(i).getAttrsWithTypeUpd();
 			totalAttrInPKUpd += inputTupleCollection.get(i).getAttrsInPKUpd();
 			
 			totalExpansion += inputTupleCollection.get(i).getExpansion();
@@ -309,7 +309,7 @@ public class SchemaStatsMainEngine {
 		this.schemaLevelInfo = new SchemaLevelInfo(projectName, projectDurationInDays, projectDurationInMonths,
 				projectDureationInYears, numCommits, numTablesAtStart, numTablesAtEnd, numAttrsAtStart,
 				numAttrsAtEnd, totalTableInsertions, totalTableDeletions, totalAttrInsWithTableIns,
-				totalAttrbDelWithTableDel, totalAttrInjected, totalAttrEjected, tatalAttrWithTypeUpd,
+				totalAttrbDelWithTableDel, totalAttrInjected, totalAttrEjected, totalAttrWithTypeUpd,
 				totalAttrInPKUpd, totalExpansion, totalMaintenance, totalTotalAttrActivity,
 				expansionRatePerCommit, expansionRatePerMonth, expansionRatePeryear,
 				maintenanceRatePerCommit, maintenanceRatePerMonth, maintenanceRatePeryear,
@@ -324,7 +324,7 @@ public class SchemaStatsMainEngine {
 			//if (!fileExists)
 				writer.println("Project\tDurationInDays\tDurationInMonths\tDurationInYears\t#Commits\t#Tables@Start\t#Tables@End" 
 						+ "\t#Attrs@Start\t#Attrs@End\tTotalTableInsertions\tTotalTableDeletions\tTotalAttrInsWithTableIns\tTotalAttrbDelWithTableDel" 
-						+ "\tTotalAttrInjected\tTotalAttrEjected\tTatalAttrWithTypeUpd\tTotalAttrInPKUpd\tTotalExpansion\tTotalMaintenance\tTotalTotalAttrActivity" 
+						+ "\tTotalAttrInjected\tTotalAttrEjected\tTotalAttrWithTypeUpd\tTotalAttrInPKUpd\tTotalExpansion\tTotalMaintenance\tTotalTotalAttrActivity" 
 						+ "\tExpansionRatePerCommit\tExpansionRatePerMonth\tExpansionRatePeryear\tMaintenanceRatePerCommit\tMaintenanceRatePerMonth\tMaintenanceRatePeryear" 
 						+ "\tTotalAttrActivityRatePerCommit\tTotalAttrActivityRatePerMonth\tTotalAttrActivityRatePeryear\tResizingratio");
 			writer.println(this.schemaLevelInfo.toString());
