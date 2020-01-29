@@ -31,7 +31,7 @@ public class StagelessSchemaStatsMainEngineTest {
 				"tablesIns", "tablesDel", "attrsInsWithTableIns", "attrsbDelWithTableDel", "attrsInjected", 
 				"attrsEjected", "attrsWithTypeUpd", "attrsInPKUpd", "tableDelta", "attrDelta", "attrBirthsSum", 
 				"attrDeathsSum", "attrUpdsSum", "Expansion", "Maintenance", "TotalAttrActivity")); 
-		String schemaLevelInfoString = "Egee\t\t\t\t17\t6\t10\t34\t71\t6\t2\t31\t10\t28\t12\t18\t1\t59\t41\t100\t3.4705882352941178\t\t\t2.411764705882353\t\t\t5.882352941176471\t\t\t1.6666666666666667";
+		String schemaLevelInfoString = "Egee\t\t\t\t17\t6\t10\t34\t71\t6\t2\t31\t10\t28\t12\t18\t1\t59\t41\t100\t3.471\t\t\t2.412\t\t\t5.882\t\t\t1.667";
 		ArrayList<String> header = new ArrayList<String>();
 		ArrayList<SchemaHeartbeatElement> inputTupleCollection = new ArrayList<SchemaHeartbeatElement>();
 		
@@ -72,7 +72,7 @@ public class StagelessSchemaStatsMainEngineTest {
 				"tablesIns", "tablesDel", "attrsInsWithTableIns", "attrsbDelWithTableDel", "attrsInjected", 
 				"attrsEjected", "attrsWithTypeUpd", "attrsInPKUpd", "tableDelta", "attrDelta", "attrBirthsSum", 
 				"attrDeathsSum", "attrUpdsSum", "Expansion", "Maintenance", "TotalAttrActivity")); 
-		String schemaLevelInfoString = "Atlas\t971\t32\t3\t85\t56\t73\t709\t858\t34\t17\t233\t122\t154\t116\t245\t1\t387\t484\t871\t4.552941176470588\t12.09375\t129.0\t5.694117647058824\t15.125\t161.33333333333334\t10.24705882352941\t27.21875\t290.3333333333333\t1.3035714285714286";
+		String schemaLevelInfoString = "Atlas\t971\t32\t3\t85\t56\t73\t709\t858\t34\t17\t233\t122\t154\t116\t245\t1\t387\t484\t871\t4.553\t12.094\t129.0\t5.694\t15.125\t161.333\t10.247\t27.219\t290.333\t1.304";
 		ArrayList<String> header = new ArrayList<String>();
 		ArrayList<SchemaHeartbeatElement> inputTupleCollection = new ArrayList<SchemaHeartbeatElement>();
 		

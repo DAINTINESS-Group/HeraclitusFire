@@ -394,15 +394,23 @@ public class SchemaStatsMainEngine {
 			writer.println("<body>");
 			writer.println("<h1>" + prjName + "</h1>");
 			writer.println("<table style=\"width:100%\">");
-			writer.println("<tr>");
-			for (int i=0; i< schemaLevelInfoList.get(0).length; i++) {
-				writer.println("<th>" + schemaLevelInfoList.get(0)[i] + "</th>");
+			int colsPerRow = 12;
+			int totalColumns = schemaLevelInfoList.get(0).length;
+			int numOfRows = (int)Math.ceil((double)totalColumns/colsPerRow);
+			int jStart, jEnd = 0;
+			for(int i = 0; i < numOfRows; i++) {
+				jStart = i * colsPerRow;
+				jEnd = Math.min((i+1)*colsPerRow, totalColumns);
+				writer.println("<tr>");
+				for (int j = jStart; j < jEnd; j++) {
+					writer.println("<td><b>" + schemaLevelInfoList.get(0)[j] + "</b></td>");
+				}
+				writer.println("</tr>\n<tr>");
+				for (int j = jStart; j < jEnd; j++) {
+					writer.println("<td>" + schemaLevelInfoList.get(1)[j] + "</td>");
+				}
+				writer.println("</tr>");
 			}
-			writer.println("</tr>\n<tr>");
-			for (int i=0; i< schemaLevelInfoList.get(1).length; i++) {
-				writer.println("<td>" + schemaLevelInfoList.get(1)[i] + "</td>");
-			}
-			writer.println("</tr>");
 			writer.println("</table>");
 			writer.println("<h3>Schema Figures</h3>");
 			writer.println("<table style=\"width:100%\">");

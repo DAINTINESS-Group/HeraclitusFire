@@ -1,5 +1,9 @@
 package datamodel;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public class SchemaLevelInfo {
 
 	public SchemaLevelInfo(String projectName, int projectDurationInDays, int projectDurationInMonths,
@@ -253,16 +257,18 @@ public class SchemaLevelInfo {
 				+ numAttrsAtStart + "\t" + numAttrsAtEnd + "\t" + totalTableInsertions + "\t" + totalTableDeletions
 				+ "\t" + totalAttrInsWithTableIns + "\t" + totalAttrbDelWithTableDel + "\t" + totalAttrInjected + "\t"
 				+ totalAttrEjected + "\t" + tatalAttrWithTypeUpd + "\t" + totalAttrInPKUpd + "\t" + totalExpansion
-				+ "\t" + totalMaintenance + "\t" + totalTotalAttrActivity + "\t" + expansionRatePerCommit + "\t"
-				+ FormatString(expansionRatePerMonth) + "\t" + FormatString(expansionRatePeryear) + "\t" + maintenanceRatePerCommit + "\t"
-				+ FormatString(maintenanceRatePerMonth) + "\t" + FormatString(maintenanceRatePeryear) + "\t" + totalAttrActivityRatePerCommit + "\t"
-				+ FormatString(totalAttrActivityRatePerMonth) + "\t" + FormatString(totalAttrActivityRatePeryear) + "\t" + resizingratio;
+				+ "\t" + totalMaintenance + "\t" + totalTotalAttrActivity + "\t" + dFormatter.format(expansionRatePerCommit) + "\t"
+				+ FormatString(expansionRatePerMonth) + "\t" + FormatString(expansionRatePeryear) + "\t" + dFormatter.format(maintenanceRatePerCommit) + "\t"
+				+ FormatString(maintenanceRatePerMonth) + "\t" + FormatString(maintenanceRatePeryear) + "\t" + dFormatter.format(totalAttrActivityRatePerCommit) + "\t"
+				+ FormatString(totalAttrActivityRatePerMonth) + "\t" + FormatString(totalAttrActivityRatePeryear) + "\t" + dFormatter.format(resizingratio);
 	}
 	
 	private String FormatString(Number field) {
 		if (field.doubleValue() < 0)
 			return "";
-		return field.toString();
+		if (field.doubleValue() == field.intValue())
+			return field.toString();
+		return dFormatter.format(field).toString();
 	}
 
 	private String projectName;
@@ -300,6 +306,7 @@ public class SchemaLevelInfo {
 	private double totalAttrActivityRatePerMonth;
 	private double totalAttrActivityRatePeryear;
 	private double resizingratio;
+	private static NumberFormat dFormatter = new DecimalFormat("#0.000").getNumberInstance(Locale.US);
 	final public static int _ERROR_CODE = -1;
 	final public static String _ERROR_STRING = "";
 
