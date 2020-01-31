@@ -11,12 +11,17 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Scanner;
 
 import chartexport.SchemaChartManager;
 import dataload.SchemaHeartbeatLoader;
+import datamodel.MonthSchemaStats;
 import datamodel.SchemaHeartbeatElement;
 import datamodel.SchemaLevelInfo;
 import javafx.stage.Stage;
@@ -49,6 +54,7 @@ public class SchemaStatsMainEngine {
 	protected HashMap<Integer, ArrayList<SchemaHeartbeatElement>> tuplesPerRYFV0Collection;
 	protected ArrayList<SchemaHeartbeatElement> inputTupleCollection;
 	protected SchemaLevelInfo schemaLevelInfo;
+	protected ArrayList<MonthSchemaStats> monthlySchemaStatsCollection;
 	protected String outputFolderWithFigures;
 	protected String prjName;
 	protected Boolean _DATEMODE;  // if there are date values (running years etc.) or not, group or not, create respective charts
@@ -109,7 +115,9 @@ public class SchemaStatsMainEngine {
 		this.extractSchemaLevelInfo(this.prjName, this.inputTupleCollection, this.outputFolderWithTestResults, _DATEMODE);
 		
 		this.produceSummaryHTML(this.prjName , this.projectFolder + "/figures", this.outputFolderWithTestResults, this.outputFolderWithTestResults);
-
+		
+		this.extractMonthlySchemaStats(this.prjName, this.inputTupleCollection, this.outputFolderWithTestResults, _DATEMODE);
+		
 		//TODO ###########################################
 		//TEST THAT YOU PROCESSED INPUT FILE CORRECTLY
 		//RE-TEST
@@ -333,7 +341,6 @@ public class SchemaStatsMainEngine {
 			e.printStackTrace();
 		}
 		return this.schemaLevelInfo;
-		
 	}
 	
 	public int produceSummaryHTML(String prjName, String figuresFolder, String folderWithPatterns, String outputFolder) {
@@ -434,6 +441,156 @@ public class SchemaStatsMainEngine {
 		}
 		return 0;
 	}
-	 
+	
+	public ArrayList<MonthSchemaStats> extractMonthlySchemaStats(String prjName, ArrayList<SchemaHeartbeatElement> inputTupleCollection, String outputFolderWithPatterns, boolean dateMode) {
+		this.monthlySchemaStatsCollection = new ArrayList<MonthSchemaStats>();
+		if (!dateMode)
+			return this.monthlySchemaStatsCollection;
+		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+		
+		int mID = 0;
+		YearMonth humanTime = YearMonth.parse(inputTupleCollection.get(0).getHumanTime(), dateFormatter);
+		int numCommits = 1;
+		
+		int numTables = inputTupleCollection.get(0).getNumNewTables();
+		int numAttrs = inputTupleCollection.get(0).getNumNewAttrs();
+		
+		int tablesInsertionsSum = inputTupleCollection.get(0).getTablesIns();
+		int tablesDeletionsSum = inputTupleCollection.get(0).getTablesDel();
+		int attrsInsWithTableInsSum = inputTupleCollection.get(0).getAttrsInsWithTableIns();
+		int attrsbDelWithTableDelSum = inputTupleCollection.get(0).getAttrsbDelWithTableDel();
+		int attrsInjectedSum = inputTupleCollection.get(0).getAttrsInjected();
+		int attrsEjectedSum = inputTupleCollection.get(0).getAttrsEjected();
+		int attrsWithTypeUpdSum = inputTupleCollection.get(0).getAttrsWithTypeUpd();
+		int attrsInPKUpdSum = inputTupleCollection.get(0).getAttrsInPKUpd();
+		
+		int tableDeltaSum = inputTupleCollection.get(0).getTableDelta();
+		int attrDeltaSum = inputTupleCollection.get(0).getAttrDelta();
+		int attrBirthsSum = inputTupleCollection.get(0).getAttrBirthsSum();
+		int attrDeathsSum = inputTupleCollection.get(0).getAttrDeathsSum();
+		int attrUpdsSum = inputTupleCollection.get(0).getAttrUpdsSum();
+		
+		int totalExpansion = inputTupleCollection.get(0).getExpansion();
+		int totalMaintenance = inputTupleCollection.get(0).getMaintenance();
+		int totalAttrActivity = inputTupleCollection.get(0).getTotalAttrActivity();
+		
+		for(SchemaHeartbeatElement element: inputTupleCollection.subList(1, inputTupleCollection.size())) {
+			int currentRunningMonth = element.getRunningMonthFromV0();
+			
+			if (mID == currentRunningMonth) {	// update current fields
+				numCommits ++;
+				
+				numTables = element.getNumNewTables();
+				numAttrs = element.getNumNewAttrs();
+				
+				tablesInsertionsSum += element.getTablesIns();
+				tablesDeletionsSum += element.getTablesDel();
+				attrsInsWithTableInsSum += element.getAttrsInsWithTableIns();
+				attrsbDelWithTableDelSum += element.getAttrsbDelWithTableDel();
+				attrsInjectedSum += element.getAttrsInjected();
+				attrsEjectedSum += element.getAttrsEjected();
+				attrsWithTypeUpdSum += element.getAttrsWithTypeUpd();
+				attrsInPKUpdSum += element.getAttrsInPKUpd();
+				
+				tableDeltaSum += element.getTableDelta();
+				attrDeltaSum += element.getAttrDelta();
+				attrBirthsSum += element.getAttrBirthsSum();
+				attrDeathsSum += element.getAttrDeathsSum();
+				attrUpdsSum += element.getAttrUpdsSum();
+				
+				totalExpansion += element.getExpansion();
+				totalMaintenance += element.getMaintenance();
+				totalAttrActivity += element.getTotalAttrActivity();
+			} else if (mID < currentRunningMonth) {
+				this.monthlySchemaStatsCollection.add(new MonthSchemaStats(mID,humanTime.toString(),numCommits,numTables,numAttrs,
+						tablesInsertionsSum,tablesDeletionsSum,attrsInsWithTableInsSum,attrsbDelWithTableDelSum,
+						attrsInjectedSum,attrsEjectedSum,attrsWithTypeUpdSum,attrsInPKUpdSum,tableDeltaSum,attrDeltaSum,
+						attrBirthsSum,attrDeathsSum,attrUpdsSum,totalExpansion,totalMaintenance,totalAttrActivity));
+				
+				// reset month stats
+				mID ++;
+				humanTime = humanTime.plusMonths(1);
+				numCommits = 0;
+				
+				tablesInsertionsSum = 0;
+				tablesDeletionsSum = 0;
+				attrsInsWithTableInsSum = 0;
+				attrsbDelWithTableDelSum = 0;
+				attrsInjectedSum = 0;
+				attrsEjectedSum = 0;
+				attrsWithTypeUpdSum = 0;
+				attrsInPKUpdSum = 0;
+				
+				tableDeltaSum = 0;
+				attrDeltaSum = 0;
+				attrBirthsSum = 0;
+				attrDeathsSum = 0;
+				attrUpdsSum = 0;
+				
+				totalExpansion = 0;
+				totalMaintenance = 0;
+				totalAttrActivity = 0;
+				
+				// add padding months
+				while (mID < currentRunningMonth) {
+					this.monthlySchemaStatsCollection.add(new MonthSchemaStats(mID,humanTime.toString(),numCommits,numTables,numAttrs,
+							tablesInsertionsSum,tablesDeletionsSum,attrsInsWithTableInsSum,attrsbDelWithTableDelSum,
+							attrsInjectedSum,attrsEjectedSum,attrsWithTypeUpdSum,attrsInPKUpdSum,tableDeltaSum,attrDeltaSum,
+							attrBirthsSum,attrDeathsSum,attrUpdsSum,totalExpansion,totalMaintenance,totalAttrActivity));
+					mID ++;
+					humanTime = humanTime.plusMonths(1);
+				}
+				
+				// after done padding update current fields
+				if (!humanTime.equals(YearMonth.parse(element.getHumanTime(), dateFormatter))) {
+					System.out.println("Error calculating padding months!");
+					this.monthlySchemaStatsCollection.clear();
+					return this.monthlySchemaStatsCollection;
+				}
+				numCommits ++;
+				
+				numTables = element.getNumNewTables();
+				numAttrs = element.getNumNewAttrs();
+				
+				tablesInsertionsSum += element.getTablesIns();
+				tablesDeletionsSum += element.getTablesDel();
+				attrsInsWithTableInsSum += element.getAttrsInsWithTableIns();
+				attrsbDelWithTableDelSum += element.getAttrsbDelWithTableDel();
+				attrsInjectedSum += element.getAttrsInjected();
+				attrsEjectedSum += element.getAttrsEjected();
+				attrsWithTypeUpdSum += element.getAttrsWithTypeUpd();
+				attrsInPKUpdSum += element.getAttrsInPKUpd();
+				
+				tableDeltaSum += element.getTableDelta();
+				attrDeltaSum += element.getAttrDelta();
+				attrBirthsSum += element.getAttrBirthsSum();
+				attrDeathsSum += element.getAttrDeathsSum();
+				attrUpdsSum += element.getAttrUpdsSum();
+				
+				totalExpansion += element.getExpansion();
+				totalMaintenance += element.getMaintenance();
+				totalAttrActivity += element.getTotalAttrActivity();
+			}
+		}
+		this.monthlySchemaStatsCollection.add(new MonthSchemaStats(mID,humanTime.toString(),numCommits,numTables,numAttrs,
+				tablesInsertionsSum,tablesDeletionsSum,attrsInsWithTableInsSum,attrsbDelWithTableDelSum,
+				attrsInjectedSum,attrsEjectedSum,attrsWithTypeUpdSum,attrsInPKUpdSum,tableDeltaSum,attrDeltaSum,
+				attrBirthsSum,attrDeathsSum,attrUpdsSum,totalExpansion,totalMaintenance,totalAttrActivity));
+		
+		// save to tsv
+		File monthlySchemaStatsTSVFile = new File(outputFolderWithPatterns + File.separator + prjName + "_MonthlySchemaStats.tsv");
+		try {
+			PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(monthlySchemaStatsTSVFile, false), StandardCharsets.UTF_8));
+			writer.println("mID\thumanTime\t#numCommits\t#numTables\t#numAttrs\ttablesInssSum\ttablesDelSum\tattrsInsWithTableInsSum"
+					+ "\tattrsbDelWithTableDelSum\tattrsInjectedSum\tattrsEjectedSum\tattrsWithTypeUpdSum\tattrsInPKUpdSum\ttableDeltaSum"
+					+ "\tattrDeltaSum\tattrBirthsSum\tattrDeathsSum\tattrUpdsSum\tTotalExpansion\tTotalMaintenance\tTotalMaintenance");
+			for (MonthSchemaStats mStats: this.monthlySchemaStatsCollection)
+				writer.println(mStats.toString());
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return this.monthlySchemaStatsCollection;
+	}
 
 }//end class

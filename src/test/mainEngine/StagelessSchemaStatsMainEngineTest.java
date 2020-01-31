@@ -7,6 +7,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import datamodel.MonthSchemaStats;
 import datamodel.SchemaHeartbeatElement;
 import datamodel.SchemaLevelInfo;
 
@@ -42,24 +43,29 @@ public class StagelessSchemaStatsMainEngineTest {
 		assertEquals(inputTupleCollection.size(),17);
 		assertTrue(header.equals(headerExpected));
 		
+		stagelessSchemaStatsMainEngine.produceSchemaFiguresAndStats();
+		assertEquals(stagelessSchemaStatsMainEngine.getTuplesPerRYFV0Collection().size(), 0);
+		
 		File infoFileProduced = new File("resources/test/Profiling/Egee_SchemaLevelInfo.tsv"); 
 		Long originalTimeStamp = infoFileProduced.lastModified();
-		
 		SchemaLevelInfo schemaLevelInfo = stagelessSchemaStatsMainEngine.extractSchemaLevelInfo("Egee", inputTupleCollection, "resources/test/Profiling", false);
 		assertTrue(schemaLevelInfoString.equals(schemaLevelInfo.toString()));
 		Long newTimeStamp = infoFileProduced.lastModified();
 		assertTrue(newTimeStamp > originalTimeStamp);
 		
-		stagelessSchemaStatsMainEngine.produceSchemaFiguresAndStats();
-		assertEquals(stagelessSchemaStatsMainEngine.getTuplesPerRYFV0Collection().size(), 0);
-		
 		File htmlFileProduced = new File("resources/test/Profiling/Egee_Summary.html"); 
 		originalTimeStamp = htmlFileProduced.lastModified();
-		
 		int produceSummaryReturnCode = stagelessSchemaStatsMainEngine.produceSummaryHTML("Egee", "resources/Egee/figures", "resources/test/Profiling", "resources/test/Profiling");
 		assertEquals(produceSummaryReturnCode, 0);
 		newTimeStamp = htmlFileProduced.lastModified();
 		assertTrue(newTimeStamp > originalTimeStamp);
+		
+		File statsFileProduced = new File("resources/test/Profiling/Egee_MonthlySchemaStats.tsv"); 
+		originalTimeStamp = statsFileProduced.lastModified();
+		ArrayList<MonthSchemaStats> monthlySchemaStatsCollection = stagelessSchemaStatsMainEngine.extractMonthlySchemaStats("Egee", inputTupleCollection, "resources/test/Profiling", false);
+		assertEquals(monthlySchemaStatsCollection.size(), 0);
+		newTimeStamp = statsFileProduced.lastModified();
+		assertTrue(newTimeStamp == originalTimeStamp);
 	}
 	
 	@Test
@@ -83,27 +89,32 @@ public class StagelessSchemaStatsMainEngineTest {
 		assertEquals(inputTupleCollection.size(),85);
 		assertTrue(header.equals(headerExpected));
 		
-		File infoFileProduced = new File("resources/test/Profiling/Atlas_SchemaLevelInfo.tsv"); 
-		Long originalTimeStamp = infoFileProduced.lastModified();
-		
-		SchemaLevelInfo schemaLevelInfo = stagelessSchemaStatsMainEngine.extractSchemaLevelInfo("Atlas", inputTupleCollection, "resources/test/Profiling", true);
-		assertTrue(schemaLevelInfoString.equals(schemaLevelInfo.toString()));
-		Long newTimeStamp = infoFileProduced.lastModified();
-		assertTrue(newTimeStamp > originalTimeStamp);
-		
 		stagelessSchemaStatsMainEngine.produceSchemaFiguresAndStats();
 		assertEquals(stagelessSchemaStatsMainEngine.getTuplesPerRYFV0Collection().size(), 4);
 		assertEquals(stagelessSchemaStatsMainEngine.getTuplesPerRYFV0Collection().get(0).size(),1);
 		assertEquals(stagelessSchemaStatsMainEngine.getTuplesPerRYFV0Collection().get(1).size(),36);
 		assertEquals(stagelessSchemaStatsMainEngine.getTuplesPerRYFV0Collection().get(2).size(),40);
 		assertEquals(stagelessSchemaStatsMainEngine.getTuplesPerRYFV0Collection().get(3).size(),8);
+
+		File infoFileProduced = new File("resources/test/Profiling/Atlas_SchemaLevelInfo.tsv"); 
+		Long originalTimeStamp = infoFileProduced.lastModified();
+		SchemaLevelInfo schemaLevelInfo = stagelessSchemaStatsMainEngine.extractSchemaLevelInfo("Atlas", inputTupleCollection, "resources/test/Profiling", true);
+		assertTrue(schemaLevelInfoString.equals(schemaLevelInfo.toString()));
+		Long newTimeStamp = infoFileProduced.lastModified();
+		assertTrue(newTimeStamp > originalTimeStamp);
 		
 		File htmlFileProduced = new File("resources/test/Profiling/Atlas_Summary.html"); 
 		originalTimeStamp = htmlFileProduced.lastModified();
-		
 		int produceSummaryReturnCode = stagelessSchemaStatsMainEngine.produceSummaryHTML("Atlas", "resources/Atlas/figures", "resources/test/Profiling", "resources/test/Profiling");
 		assertEquals(produceSummaryReturnCode, 0);
 		newTimeStamp = htmlFileProduced.lastModified();
+		assertTrue(newTimeStamp > originalTimeStamp);
+		
+		File statsFileProduced = new File("resources/test/Profiling/Atlas_MonthlySchemaStats.tsv"); 
+		originalTimeStamp = statsFileProduced.lastModified();
+		ArrayList<MonthSchemaStats> monthlySchemaStatsCollection = stagelessSchemaStatsMainEngine.extractMonthlySchemaStats("Atlas", inputTupleCollection, "resources/test/Profiling", true);
+		assertEquals(monthlySchemaStatsCollection.size(), 33);
+		newTimeStamp = statsFileProduced.lastModified();
 		assertTrue(newTimeStamp > originalTimeStamp);
 	}
 
