@@ -39,15 +39,18 @@ public class StagelessTablesChartManagerTest {
 		stagelessTablesChartManager = new StagelessTablesChartManager(prjName, inputTupleCollection, attributePositions,tuplesPerLADCollection, durationByLADHeatmap, "", null, false);
 		
 		ArrayList<ArrayList<Integer>> numOfDataPerSeriesPerChart = stagelessTablesChartManager.extractScatterCharts();
-		assertEquals(numOfDataPerSeriesPerChart.size(), 5);	// test number of charts
-		int lastIndex = numOfDataPerSeriesPerChart.size();
-		for(int i = 0; i < lastIndex; i++) {
+		assertEquals(numOfDataPerSeriesPerChart.size(), 6);	// test number of charts
+		int lastScatter = numOfDataPerSeriesPerChart.size() - 1;
+		for(int i = 0; i < lastScatter; i++) {
 			assertEquals(numOfDataPerSeriesPerChart.get(i).size(), 6);	// test number of series
 			assertEquals(numOfDataPerSeriesPerChart.get(i).get(0), 2);	// test number of data in LAD 10
 			assertEquals(numOfDataPerSeriesPerChart.get(i).get(3), 4);	// test number of data in LAD 20
 			assertEquals(numOfDataPerSeriesPerChart.get(i).get(4), 3);	// test number of data in LAD 21
 			assertEquals(numOfDataPerSeriesPerChart.get(i).get(5), 3);	// test number of data in LAD 22
 		}
+		// test for line chart
+		assertEquals(numOfDataPerSeriesPerChart.get(lastScatter).size(), 1);	// test number of series
+		assertEquals(numOfDataPerSeriesPerChart.get(lastScatter).get(0), 12);	// test number of data
 		
 	}
 	
@@ -63,9 +66,9 @@ public class StagelessTablesChartManagerTest {
 		stagelessTablesChartManager = new StagelessTablesChartManager(prjName, inputTupleCollection, attributePositions,tuplesPerLADCollection, durationByLADHeatmap, "", null, true);
 		
 		ArrayList<ArrayList<Integer>> numOfDataPerSeriesPerChart = stagelessTablesChartManager.extractScatterCharts();
-		assertEquals(numOfDataPerSeriesPerChart.size(), 7);	// test number of charts
-		int lastIndex = numOfDataPerSeriesPerChart.size() - 1;
-		for(int i = 0; i < lastIndex; i++) {
+		assertEquals(numOfDataPerSeriesPerChart.size(), 8);	// test number of charts
+		int lastScatter = numOfDataPerSeriesPerChart.size() - 2;
+		for(int i = 0; i < lastScatter; i++) {
 			assertEquals(numOfDataPerSeriesPerChart.get(i).size(), 6);	// test number of series
 			assertEquals(numOfDataPerSeriesPerChart.get(i).get(0), 7);	// test number of data in LAD 10
 			assertEquals(numOfDataPerSeriesPerChart.get(i).get(1), 6);	// test number of data in LAD 11
@@ -75,13 +78,16 @@ public class StagelessTablesChartManagerTest {
 			assertEquals(numOfDataPerSeriesPerChart.get(i).get(5), 25);	// test number of data in LAD 22
 		}
 		// test for heatmap
-		assertEquals(numOfDataPerSeriesPerChart.get(lastIndex).size(), 6);	// test number of series
-		assertEquals(numOfDataPerSeriesPerChart.get(lastIndex).get(0), 20);	// test number of data in LAD 10
-		assertEquals(numOfDataPerSeriesPerChart.get(lastIndex).get(1), 20);	// test number of data in LAD 11
-		assertEquals(numOfDataPerSeriesPerChart.get(lastIndex).get(2), 20);	// test number of data in LAD 12
-		assertEquals(numOfDataPerSeriesPerChart.get(lastIndex).get(3), 20);	// test number of data in LAD 20
-		assertEquals(numOfDataPerSeriesPerChart.get(lastIndex).get(4), 20);	// test number of data in LAD 21
-		assertEquals(numOfDataPerSeriesPerChart.get(lastIndex).get(5), 20);	// test number of data in LAD 22
+		assertEquals(numOfDataPerSeriesPerChart.get(lastScatter).size(), 6);	// test number of series
+		assertEquals(numOfDataPerSeriesPerChart.get(lastScatter).get(0), 20);	// test number of data in LAD 10
+		assertEquals(numOfDataPerSeriesPerChart.get(lastScatter).get(1), 20);	// test number of data in LAD 11
+		assertEquals(numOfDataPerSeriesPerChart.get(lastScatter).get(2), 20);	// test number of data in LAD 12
+		assertEquals(numOfDataPerSeriesPerChart.get(lastScatter).get(3), 20);	// test number of data in LAD 20
+		assertEquals(numOfDataPerSeriesPerChart.get(lastScatter).get(4), 20);	// test number of data in LAD 21
+		assertEquals(numOfDataPerSeriesPerChart.get(lastScatter).get(5), 20);	// test number of data in LAD 22
+		// test for line chart
+		assertEquals(numOfDataPerSeriesPerChart.get(lastScatter+1).size(), 1);	// test number of series
+		assertEquals(numOfDataPerSeriesPerChart.get(lastScatter+1).get(0), 88);	// test number of data
 		
 	}
 

@@ -5,9 +5,11 @@ import java.util.HashMap;
 //import javafx.application.Application;
 import javafx.stage.Stage;
 import datamodel.TableDetailedStatsElement;
+import chartexport.exporters.AbstractLineChartExporter;
 import chartexport.exporters.AbstractScatterChartExporter;
 import chartexport.exporters.HeatMapExporter;
 import chartexport.exporters.LADScatterChartExporter;
+import chartexport.exporters.PercentageLineChartExporter;
 import chartexport.exporters.ScatterChartExporter;
 
 public class TablesChartManager {
@@ -28,6 +30,7 @@ public class TablesChartManager {
 		
 		this.scatterExporters = new ArrayList<AbstractScatterChartExporter>();
 		this.heatmapExporters = new ArrayList<HeatMapExporter>();
+		this.lineExporters = new ArrayList<AbstractLineChartExporter>();
 		this.stage = primaryStage; 
 		this._DATEMODE = dateMode;
 		System.out.println("************************ "+this.prjName);
@@ -61,6 +64,14 @@ public class TablesChartManager {
 		AbstractScatterChartExporter<Number> sTriangle = new ScatterChartExporter(outputFolderWithFigures+"/"+"EmptyTriangle.png", this.prjName+":\nDuration over Birth", tuplesPerLADCollection, 
 				"Birth", "Duration",	attributePositions, stage);
 		this.scatterExporters.add(sTriangle);
+		
+		HashMap<Integer, ArrayList<TableDetailedStatsElement>> hashmapInputTupleCollection = new HashMap<Integer, ArrayList<TableDetailedStatsElement>>();
+		hashmapInputTupleCollection.put(0, inputTupleCollection);
+		ArrayList<String> lpuoptYAttributes = new ArrayList<String>();  // add the attributes we want
+		lpuoptYAttributes.add("SumUpd");
+		AbstractLineChartExporter<TableDetailedStatsElement,Number> lPctUpdOverPctTables = new PercentageLineChartExporter(outputFolderWithFigures+"/"+"PctUpdOverPctTables.png", this.prjName+":\nPercentage of Total Updates over Percentage of Total Tables", hashmapInputTupleCollection, 
+				"PctTables", lpuoptYAttributes,	attributePositions, stage);
+		this.lineExporters.add(lPctUpdOverPctTables);
 		
 		if (_DATEMODE) {
 			AbstractScatterChartExporter<String> sElectrolysis = new LADScatterChartExporter(outputFolderWithFigures+"/"+"Electrolysis.png", this.prjName+":\nSpan of Duration by LADClass", tuplesPerLADCollection, 
@@ -100,6 +111,16 @@ public class TablesChartManager {
 			}
 			//h.saveChart();
 		}
+		for(AbstractLineChartExporter l: this.lineExporters) {
+			try {
+				l.start(stage);
+				ArrayList<Integer> lSeries = l.getNumOfDataPerSeries();
+				numOfDataPerSeriesPerChart.add(lSeries);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			//l.saveChart();
+		}
 		return numOfDataPerSeriesPerChart;
 	}
 	
@@ -110,6 +131,7 @@ public class TablesChartManager {
 	private String outputFolderWithFigures;
 	protected ArrayList<AbstractScatterChartExporter> scatterExporters;
 	protected ArrayList<HeatMapExporter> heatmapExporters;
+	protected ArrayList<AbstractLineChartExporter> lineExporters;
 	private Stage stage;
 	private String prjName;
 	private Boolean _DATEMODE;

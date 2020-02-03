@@ -38,7 +38,7 @@ import javafx.stage.Stage;
 
 import datamodel.SchemaHeartbeatElement;
 
-public class DateLineChartExporter extends AbstractLineChartExporter<LocalDateTime> {// extends Application{
+public class DateLineChartExporter extends AbstractLineChartExporter<SchemaHeartbeatElement,LocalDateTime> {// extends Application{
 
 	public DateLineChartExporter(String pOutputPath, String pTitle, HashMap<Integer, ArrayList<SchemaHeartbeatElement>> inputTupleCollection, 
 			String pXAttribute, ArrayList<String> pYAttributes, HashMap<String, Integer> pAttributePositions, Stage primaryStage) {

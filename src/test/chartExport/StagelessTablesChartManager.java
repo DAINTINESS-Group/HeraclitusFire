@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import chartexport.TablesChartManager;
 import chartexport.exporters.ScatterChartExporter;
+import chartexport.exporters.AbstractLineChartExporter;
 import chartexport.exporters.AbstractScatterChartExporter;
 import chartexport.exporters.HeatMapExporter;
 import datamodel.TableDetailedStatsElement;
@@ -37,6 +38,11 @@ public class StagelessTablesChartManager extends TablesChartManager {
 			h.createSeries();
 			ArrayList<Integer> hSeries = h.getNumOfDataPerSeries();
 			numOfDataPerSeriesPerChart.add(hSeries);
+		}
+		for(AbstractLineChartExporter l: this.lineExporters) {
+			l.createSeries();
+			ArrayList<Integer> lSeries = l.getNumOfDataPerSeries();
+			numOfDataPerSeriesPerChart.add(lSeries);
 		}
 		return numOfDataPerSeriesPerChart;
 	}

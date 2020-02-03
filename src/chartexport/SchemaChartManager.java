@@ -40,13 +40,13 @@ public class SchemaChartManager {
 		hashmapInputTupleCollection.put(0, inputTupleCollection);
 		ArrayList<String> ltidYAttributes = new ArrayList<String>();  // add the attributes we want
 		ltidYAttributes.add("#numNewTables");
-		AbstractLineChartExporter<Number> mlTablesID = new LineChartExporter(outputFolderWithFigures+"/"+"NumTablesOverID.png", this.prjName+":\nSize(tables) over Time(versionID)", hashmapInputTupleCollection, 
+		AbstractLineChartExporter<SchemaHeartbeatElement,Number> mlTablesID = new LineChartExporter(outputFolderWithFigures+"/"+"NumTablesOverID.png", this.prjName+":\nSize(tables) over Time(versionID)", hashmapInputTupleCollection, 
 				"trID", ltidYAttributes,	attributePositions, stage);
 		this.lineExporters.add(mlTablesID);
 		
 		ArrayList<String> laidYAttributes = new ArrayList<String>();  // add the attributes we want
 		laidYAttributes.add("#numNewAttrs");
-		AbstractLineChartExporter<Number> mlAttrsID = new LineChartExporter(outputFolderWithFigures+"/"+"NumAttrsOverID.png", this.prjName+":\nSize(attributes) over Time(versionID)", hashmapInputTupleCollection, 
+		AbstractLineChartExporter<SchemaHeartbeatElement,Number> mlAttrsID = new LineChartExporter(outputFolderWithFigures+"/"+"NumAttrsOverID.png", this.prjName+":\nSize(attributes) over Time(versionID)", hashmapInputTupleCollection, 
 				"trID", laidYAttributes,	attributePositions, stage);
 		this.lineExporters.add(mlAttrsID);
 		
@@ -69,13 +69,13 @@ public class SchemaChartManager {
 			// human time line charts
 			ArrayList<String> ltdYAttributes = new ArrayList<String>();  // add the attributes we want
 			ltdYAttributes.add("#numNewTables");
-			AbstractLineChartExporter<LocalDateTime> mlTablesDate = new DateLineChartExporter(outputFolderWithFigures+"/"+"NumTablesOverHT.png", this.prjName+":\nSize(tables) over Time(Human Time)", hashmapInputTupleCollection, 
+			AbstractLineChartExporter<SchemaHeartbeatElement,LocalDateTime> mlTablesDate = new DateLineChartExporter(outputFolderWithFigures+"/"+"NumTablesOverHT.png", this.prjName+":\nSize(tables) over Time(Human Time)", hashmapInputTupleCollection, 
 					"humanTime", ltdYAttributes,	attributePositions, stage);
 			this.lineExporters.add(mlTablesDate);
 			
 			ArrayList<String> ladYAttributes = new ArrayList<String>();  // add the attributes we want
 			ladYAttributes.add("#numNewAttrs");
-			AbstractLineChartExporter<LocalDateTime> mlAttrsDate = new DateLineChartExporter(outputFolderWithFigures+"/"+"NumAttrsOverHT.png", this.prjName+":\nSize(attributes) over Time(Human Time)", hashmapInputTupleCollection, 
+			AbstractLineChartExporter<SchemaHeartbeatElement,LocalDateTime> mlAttrsDate = new DateLineChartExporter(outputFolderWithFigures+"/"+"NumAttrsOverHT.png", this.prjName+":\nSize(attributes) over Time(Human Time)", hashmapInputTupleCollection, 
 					"humanTime", ladYAttributes,	attributePositions, stage);
 			this.lineExporters.add(mlAttrsDate);
 			

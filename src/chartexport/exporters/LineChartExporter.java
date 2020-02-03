@@ -31,7 +31,7 @@ import javafx.stage.Stage;
 
 import datamodel.SchemaHeartbeatElement;
 
-public class LineChartExporter extends AbstractLineChartExporter<Number> {// extends Application{
+public class LineChartExporter extends AbstractLineChartExporter<SchemaHeartbeatElement,Number> {// extends Application{
 
 	public LineChartExporter(String pOutputPath, String pTitle, HashMap<Integer, ArrayList<SchemaHeartbeatElement>> inputTupleCollection, 
 			String pXAttribute, ArrayList<String> pYAttributes, HashMap<String, Integer> pAttributePositions, Stage primaryStage) {
