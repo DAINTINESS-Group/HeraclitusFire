@@ -6,6 +6,7 @@ import java.util.HashMap;
 import javafx.stage.Stage;
 import datamodel.TableDetailedStatsElement;
 import chartexport.exporters.AbstractScatterChartExporter;
+import chartexport.exporters.HeatMapExporter;
 import chartexport.exporters.LADScatterChartExporter;
 import chartexport.exporters.ScatterChartExporter;
 
@@ -16,14 +17,17 @@ public class TablesChartManager {
 			ArrayList<TableDetailedStatsElement> inputTupleCollection,
 			HashMap<String, Integer> attributePositions,
 			HashMap<Integer, ArrayList<TableDetailedStatsElement>> tuplesPerLADCollection,
+			HashMap<Integer, Double[]> durationByLADHeatmap,
 			String outputFolderWithFigures, Stage primaryStage, Boolean dateMode) {
 		this.prjName = prjName;
 		this.inputTupleCollection = inputTupleCollection;
 		this.attributePositions = attributePositions;
 		this.tuplesPerLADCollection = tuplesPerLADCollection;
+		this.durationByLADHeatmap = durationByLADHeatmap;
 		this.outputFolderWithFigures = outputFolderWithFigures;
 		
 		this.scatterExporters = new ArrayList<AbstractScatterChartExporter>();
+		this.heatmapExporters = new ArrayList<HeatMapExporter>();
 		this.stage = primaryStage; 
 		this._DATEMODE = dateMode;
 		System.out.println("************************ "+this.prjName);
@@ -62,6 +66,10 @@ public class TablesChartManager {
 			AbstractScatterChartExporter<String> sElectrolysis = new LADScatterChartExporter(outputFolderWithFigures+"/"+"Electrolysis.png", this.prjName+":\nSpan of Duration by LADClass", tuplesPerLADCollection, 
 					"DurationDays", "LADClass",	attributePositions, stage);
 			this.scatterExporters.add(sElectrolysis);
+			
+			HeatMapExporter hDurRangeByLAD = new HeatMapExporter(outputFolderWithFigures+"/"+"LADDurationHeatMap.png", this.prjName+":\nHeat map of 5% Duration Range by LADClass", durationByLADHeatmap, 
+					"DurationDays", "LADClass",	attributePositions, stage);
+			this.heatmapExporters.add(hDurRangeByLAD);
 		}
 		
 		return launchScatterChartExporters();
@@ -82,14 +90,26 @@ public class TablesChartManager {
 			}
 			//s.saveChart();
 		}
+		for(HeatMapExporter h: this.heatmapExporters) {
+			try {
+				h.start(stage);
+				ArrayList<Integer> hSeries = h.getNumOfDataPerSeries();
+				numOfDataPerSeriesPerChart.add(hSeries);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			//h.saveChart();
+		}
 		return numOfDataPerSeriesPerChart;
 	}
 	
 	private ArrayList<TableDetailedStatsElement> inputTupleCollection;
 	private HashMap<String, Integer> attributePositions;
 	private HashMap<Integer, ArrayList<TableDetailedStatsElement>> tuplesPerLADCollection;
+	private HashMap<Integer, Double[]> durationByLADHeatmap;
 	private String outputFolderWithFigures;
 	protected ArrayList<AbstractScatterChartExporter> scatterExporters;
+	protected ArrayList<HeatMapExporter> heatmapExporters;
 	private Stage stage;
 	private String prjName;
 	private Boolean _DATEMODE;

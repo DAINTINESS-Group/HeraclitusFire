@@ -6,6 +6,7 @@ import java.util.HashMap;
 import chartexport.TablesChartManager;
 import chartexport.exporters.ScatterChartExporter;
 import chartexport.exporters.AbstractScatterChartExporter;
+import chartexport.exporters.HeatMapExporter;
 import datamodel.TableDetailedStatsElement;
 import javafx.stage.Stage;
 
@@ -15,8 +16,9 @@ public class StagelessTablesChartManager extends TablesChartManager {
 			ArrayList<TableDetailedStatsElement> inputTupleCollection,
 			HashMap<String, Integer> attributePositions,
 			HashMap<Integer, ArrayList<TableDetailedStatsElement>> tuplesPerLADCollection,
+			HashMap<Integer, Double[]> durationByLADHeatmap,
 			String outputFolderWithFigures, Stage primaryStage, Boolean dateMode) {
-		super(prjName, inputTupleCollection, attributePositions, tuplesPerLADCollection, outputFolderWithFigures, primaryStage, dateMode);
+		super(prjName, inputTupleCollection, attributePositions, tuplesPerLADCollection, durationByLADHeatmap, outputFolderWithFigures, primaryStage, dateMode);
 	}
 	
 	// @Override  
@@ -30,6 +32,11 @@ public class StagelessTablesChartManager extends TablesChartManager {
 			ArrayList<Integer> sSeries = s.getNumOfDataPerSeries();
 			numOfDataPerSeriesPerChart.add(sSeries);
 
+		}
+		for(HeatMapExporter h: this.heatmapExporters) {
+			h.createSeries();
+			ArrayList<Integer> hSeries = h.getNumOfDataPerSeries();
+			numOfDataPerSeriesPerChart.add(hSeries);
 		}
 		return numOfDataPerSeriesPerChart;
 	}

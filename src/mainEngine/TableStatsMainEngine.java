@@ -4,9 +4,20 @@
 package mainEngine;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.IntSummaryStatistics;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 import chartexport.TablesChartManager;
 import dataload.TableDetailedStatsLoader;
@@ -43,6 +54,7 @@ public class TableStatsMainEngine {
 	protected  HashMap<String, Integer> attributePositions;
 	protected HashMap<Integer, ArrayList<TableDetailedStatsElement>> tuplesPerLADCollection;
 	protected ArrayList<TableDetailedStatsElement> inputTupleCollection;
+	protected HashMap<Integer, Double[]> durationByLADHeatmap;
 	protected String outputFolderWithFigures;
 	protected String outputFolderWithTestResults;
 	protected String globalLogFilePath;
@@ -105,6 +117,7 @@ public class TableStatsMainEngine {
 		this.processHeader();
 
 		this.organizeTuplesByLAD();
+		this.produceDurationByLADHeatmap(this.prjName, tuplesPerLADCollection, this.outputFolderWithTestResults, _DATEMODE);
 
 		this.createChartManager();  
 		tablesChartManager.extractScatterCharts();
@@ -223,7 +236,85 @@ public class TableStatsMainEngine {
 	 * We keep this code separately, to facilitate testing, without the need for launching stages.
 	 */
 	protected void createChartManager() {
-		tablesChartManager = new TablesChartManager(prjName, inputTupleCollection, attributePositions, tuplesPerLADCollection, outputFolderWithFigures, stage, _DATEMODE);
+		tablesChartManager = new TablesChartManager(prjName, inputTupleCollection, attributePositions, tuplesPerLADCollection, durationByLADHeatmap, outputFolderWithFigures, stage, _DATEMODE);
+	}
+	
+	public HashMap<Integer, Double[]> produceDurationByLADHeatmap(String prjName, HashMap<Integer, ArrayList<TableDetailedStatsElement>> tuplesPerLADCollection, 
+			String outputFolder, boolean dateMode) {
+		this.durationByLADHeatmap = new HashMap<Integer, Double[]>();
+		
+		if (!dateMode)
+			return this.durationByLADHeatmap;
+		
+		double[] durationLimits = {0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95};
+		ArrayList<TableDetailedStatsElement> inputTupleCollection = new ArrayList<TableDetailedStatsElement>();
+		for (ArrayList<TableDetailedStatsElement> tuples : tuplesPerLADCollection.values())
+			inputTupleCollection.addAll(tuples);
+		int numOfTables = inputTupleCollection.size();
+		IntSummaryStatistics durationStats = inputTupleCollection.stream()
+				.collect(Collectors.summarizingInt(TableDetailedStatsElement::getDurationDays));	
+		int maxDuration = durationStats.getMax();
+		
+		ArrayList<Integer> LADKeySet = new ArrayList<Integer>() ;
+		LADKeySet.add(10);LADKeySet.add(11);LADKeySet.add(12);LADKeySet.add(20);LADKeySet.add(21);LADKeySet.add(22);
+		Collections.sort(LADKeySet);
+		
+		for(int i=0; i<LADKeySet.size();i++ ) {
+			Integer LADvalue = LADKeySet.get(i);
+			ArrayList<TableDetailedStatsElement> tuples = tuplesPerLADCollection.get(LADvalue);
+			Double[] ladHeatmap = {0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};
+			if (tuples != null) {
+				for (TableDetailedStatsElement tuple: tuples) {
+					double durationPct = (double)tuple.getDurationDays() / maxDuration;
+					int durationRangeIndex = 19;
+					for (int j = 0; j < durationLimits.length; j++) {
+						if (durationPct < durationLimits[j]) {
+							durationRangeIndex = j;
+							break;
+						}
+					}
+					ladHeatmap[durationRangeIndex] ++;
+				}
+				// convert to percentage of total tables
+				for (int j = 0; j < ladHeatmap.length; j++)
+					ladHeatmap[j] /= numOfTables;
+			}
+			this.durationByLADHeatmap.put(LADvalue, ladHeatmap);
+		}
+		
+		// write to file
+		File durationByLADHeatmapFile = new File(outputFolder + File.separator + prjName + "_DurationByLADHeatmap.tsv");
+		try {
+			PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(durationByLADHeatmapFile, false), StandardCharsets.UTF_8));
+			writer.println("LADClass\t0%-5%\t5%-10%\t10%-15%\t15%-20%\t20%-25%\t25%-30%\t30%-35%\t35%-40%\t40%-45%\t45%-50%"
+					+ "\t50%-55%\t55%-60%\t60%-65%\t65%-70%\t70%-75%\t75%-80%\t80%-85%\t85%-90%\t90%-95%\t95%-100%");
+			NumberFormat dFormat = new DecimalFormat("#.###").getNumberInstance(Locale.US);
+			for(int i=0; i<LADKeySet.size();i++ ) {
+				Integer LADvalue = LADKeySet.get(i);
+				Double[] tuples = this.durationByLADHeatmap.get(LADvalue);
+				String line = "" + LADvalue;
+				for (int j = 0; j < tuples.length; j++)
+					line += "\t" + dFormat.format(tuples[j]);
+				writer.println(line);
+			}
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		if(_DEBUGMODE) {
+			for(int i=0; i<LADKeySet.size();i++ ) {
+				Integer LADvalue = LADKeySet.get(i);
+				Double[] tuples = this.durationByLADHeatmap.get(LADvalue);
+				String line = "{";
+				for (int j = 0; j < tuples.length; j++)
+					line += "" + tuples[j] + ", ";
+				line += "}";
+				System.out.println(line);
+			}
+		}
+		
+		return this.durationByLADHeatmap;
 	}
 
 

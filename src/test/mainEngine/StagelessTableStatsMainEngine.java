@@ -18,7 +18,7 @@ public class StagelessTableStatsMainEngine extends TableStatsMainEngine {
 	protected void createChartManager() {
 		tablesChartManager = new StagelessTablesChartManager(prjName,
 				inputTupleCollection, attributePositions, 
-				tuplesPerLADCollection, outputFolderWithFigures, 
+				tuplesPerLADCollection, durationByLADHeatmap, outputFolderWithFigures, 
 				null, _DATEMODE
 				);
 	}
@@ -31,12 +31,15 @@ public class StagelessTableStatsMainEngine extends TableStatsMainEngine {
 		return this.attributePositions;
 	}
 	
-	
 	final public HashMap<Integer, ArrayList<TableDetailedStatsElement>> getTuplesPerLADCollection(){
 		return this.tuplesPerLADCollection;
 	};
 	
 	final public ArrayList<TableDetailedStatsElement> getinputTupleCollection(){ 
 		return this.inputTupleCollection;
+	}
+	
+	final public HashMap<Integer, Double[]> getDurationByLADHeatmap(){ 
+		return this.durationByLADHeatmap;
 	}
 }
