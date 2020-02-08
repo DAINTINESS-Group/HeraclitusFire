@@ -34,7 +34,7 @@ import javafx.stage.Stage;
  *  
  * @author	alexvou
  */
-public class SchemaStatsMainEngine {
+public class SchemaStatsMainEngine implements IMainEngine<SchemaHeartbeatElement> {
 
 	private SchemaHeartbeatLoader loader;
 	private ArrayList<String> header;
@@ -91,7 +91,8 @@ public class SchemaStatsMainEngine {
 	 * 
 	 * @return an int with the number of rows processed from SchemaHeartbeat.tsv
 	 */
-	public int produceSchemaFiguresAndStats() {
+	@Override
+	public int produceFiguresAndStats() {
 		int numRows = 0;
 
 		String inputFileName = inputFolderWithStats + File.separator + "SchemaHeartbeat.tsv";
@@ -138,6 +139,7 @@ public class SchemaStatsMainEngine {
 	 * TODO: intercept what can go wrong
 	 * TODO: decide the exact location of the new folders. Maybe WITHIN /results? Maybe OTHER NAME -- e.g., resultsTests resultsFigures? 
 	 */
+	@Override
 	public String setupFolders() {
 		File projectFolder = new File(this.projectFolder);
 
@@ -182,6 +184,7 @@ public class SchemaStatsMainEngine {
 	 * @param objCollection an ArrayList of tuples with the contents of the file
 	 * @return  the number of rows that are processed
 	 */
+	@Override
 	public int loadData(String fileName, String delimeter, boolean hasHeaderLine, int numFields, ArrayList<String> headerList, ArrayList<SchemaHeartbeatElement> objCollection) {
 		return loader.load(fileName, delimeter, hasHeaderLine, numFields, headerList, objCollection);
 	}//end loadData

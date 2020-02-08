@@ -36,7 +36,7 @@ import patternassessment.tablepatterns.PatternAssessmentTypesEnum;
  * @date	2019-12-14
  * @since	2019-06-15
  */
-public class TableStatsMainEngine {
+public class TableStatsMainEngine implements IMainEngine<TableDetailedStatsElement> {
 	private TableDetailedStatsLoader loader;
 	private ArrayList<String> header;
 
@@ -99,7 +99,8 @@ public class TableStatsMainEngine {
 	 * 
 	 * @return an int with the number of rows processed from tables_DetailedStats.tsv
 	 */
-	public int produceTableFiguresAndStats() {
+	@Override
+	public int produceFiguresAndStats() {
 		int numRows = 0;
 
 		String inputFileName = inputFolderWithStats + File.separator + "tables_DetailedStats.tsv";
@@ -141,6 +142,7 @@ public class TableStatsMainEngine {
 	 * TODO: intercept what can go wrong
 	 * TODO: decide the exact location of the new folders. Maybe WITHIN /results? Maybe OTHER NAME -- e.g., resultsTests resultsFigures? 
 	 */
+	@Override
 	public String setupFolders() {
 		File projectFolder = new File(this.projectFolder);
 
@@ -179,6 +181,7 @@ public class TableStatsMainEngine {
 	 * @param objCollection an ArrayList of tuples with the contents of the file
 	 * @return  the number of rows that are processed
 	 */
+	@Override
 	public int loadData(String fileName, String delimeter, boolean hasHeaderLine, int numFields, ArrayList<String> headerList, ArrayList<TableDetailedStatsElement> objCollection) {
 		return loader.load(fileName, delimeter, hasHeaderLine, numFields, headerList, objCollection);
 	}//end loadData

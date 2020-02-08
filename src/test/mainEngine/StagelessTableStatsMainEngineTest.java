@@ -40,7 +40,7 @@ public class StagelessTableStatsMainEngineTest {
 		assertEquals(inputTupleCollection.size(),12);
 		assertTrue(header.equals(headerExpected));
 		
-		stagelessTablStatsMainEngine.produceTableFiguresAndStats();
+		stagelessTablStatsMainEngine.produceFiguresAndStats();
 		assertEquals(stagelessTablStatsMainEngine.getTuplesPerLADCollection().size(), 4);
 		assertEquals(stagelessTablStatsMainEngine.getTuplesPerLADCollection().get(20).size(),4);
 		assertEquals(stagelessTablStatsMainEngine.getTuplesPerLADCollection().get(21).size(),3);
@@ -90,7 +90,7 @@ public class StagelessTableStatsMainEngineTest {
 		assertEquals(inputTupleCollection.size(),88);
 		assertTrue(header.equals(headerExpected));
 		
-		stagelessTablStatsMainEngine.produceTableFiguresAndStats();
+		stagelessTablStatsMainEngine.produceFiguresAndStats();
 		assertEquals(stagelessTablStatsMainEngine.getTuplesPerLADCollection().size(), 6);
 		assertEquals(stagelessTablStatsMainEngine.getTuplesPerLADCollection().get(10).size(),7);
 		assertEquals(stagelessTablStatsMainEngine.getTuplesPerLADCollection().get(11).size(),6);

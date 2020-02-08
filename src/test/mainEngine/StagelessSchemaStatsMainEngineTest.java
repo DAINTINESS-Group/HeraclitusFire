@@ -43,7 +43,7 @@ public class StagelessSchemaStatsMainEngineTest {
 		assertEquals(inputTupleCollection.size(),17);
 		assertTrue(header.equals(headerExpected));
 		
-		stagelessSchemaStatsMainEngine.produceSchemaFiguresAndStats();
+		stagelessSchemaStatsMainEngine.produceFiguresAndStats();
 		assertEquals(stagelessSchemaStatsMainEngine.getTuplesPerRYFV0Collection().size(), 0);
 		
 		File infoFileProduced = new File("resources/test/Profiling/Egee_SchemaLevelInfo.tsv"); 
@@ -89,7 +89,7 @@ public class StagelessSchemaStatsMainEngineTest {
 		assertEquals(inputTupleCollection.size(),85);
 		assertTrue(header.equals(headerExpected));
 		
-		stagelessSchemaStatsMainEngine.produceSchemaFiguresAndStats();
+		stagelessSchemaStatsMainEngine.produceFiguresAndStats();
 		assertEquals(stagelessSchemaStatsMainEngine.getTuplesPerRYFV0Collection().size(), 4);
 		assertEquals(stagelessSchemaStatsMainEngine.getTuplesPerRYFV0Collection().get(0).size(),1);
 		assertEquals(stagelessSchemaStatsMainEngine.getTuplesPerRYFV0Collection().get(1).size(),36);

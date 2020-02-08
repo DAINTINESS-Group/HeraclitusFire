@@ -5,8 +5,13 @@ package client;
 
 //import java.io.File;
 
+import mainEngine.IMainEngine;
+import mainEngine.MainEngineFactory;
 import mainEngine.TableStatsMainEngine;
 import mainEngine.SchemaStatsMainEngine;
+
+import java.util.ArrayList;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -40,11 +45,18 @@ public class SingleFolderProcessingClient extends Application{
 		System.out.println("#########################################");
 		System.out.println("Starting with " + folderOfProject + "\n");
 		
-		TableStatsMainEngine engine = new TableStatsMainEngine(folderOfProject, primaryStage);
-		engine.produceTableFiguresAndStats();
+		MainEngineFactory engineFactory = new MainEngineFactory();
+		ArrayList<IMainEngine> engines = new ArrayList<IMainEngine>();
+		engines.add(engineFactory.createMainEngine("table", folderOfProject, primaryStage));
+		engines.add(engineFactory.createMainEngine("schema", folderOfProject, primaryStage));
+		for (IMainEngine engine: engines)
+			engine.produceFiguresAndStats();
 		
-		SchemaStatsMainEngine sengine = new SchemaStatsMainEngine(folderOfProject, primaryStage);
-		sengine.produceSchemaFiguresAndStats();
+//		TableStatsMainEngine engine = new TableStatsMainEngine(folderOfProject, primaryStage);
+//		engine.produceFiguresAndStats();
+//		
+//		SchemaStatsMainEngine sengine = new SchemaStatsMainEngine(folderOfProject, primaryStage);
+//		sengine.produceFiguresAndStats();
 		
 		System.out.println("Done with " + folderOfProject);
 		System.out.println("#########################################\n\n");

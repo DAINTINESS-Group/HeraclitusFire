@@ -29,7 +29,7 @@ public class StagelessSchemaChartManagerTest {
 	@Test
 	void testExtractCharts_T0_V1_Egee_noDates() {
 		stagelessSchemaStatsMainEngine = new StagelessSchemaStatsMainEngine("resources/Egee", null);
-		numRows = stagelessSchemaStatsMainEngine.produceSchemaFiguresAndStats();
+		numRows = stagelessSchemaStatsMainEngine.produceFiguresAndStats();
 		prjName = stagelessSchemaStatsMainEngine.getPrjName();
 		inputTupleCollection = stagelessSchemaStatsMainEngine.getinputTupleCollection();
 		attributePositions = stagelessSchemaStatsMainEngine.getAttributePositions();
@@ -57,7 +57,7 @@ public class StagelessSchemaChartManagerTest {
 	@Test
 	void testExtractCharts_T0_V0_Atlas_HappyDay() {
 		stagelessSchemaStatsMainEngine = new StagelessSchemaStatsMainEngine("resources/Atlas", null);
-		numRows = stagelessSchemaStatsMainEngine.produceSchemaFiguresAndStats();
+		numRows = stagelessSchemaStatsMainEngine.produceFiguresAndStats();
 		prjName = stagelessSchemaStatsMainEngine.getPrjName();
 		inputTupleCollection = stagelessSchemaStatsMainEngine.getinputTupleCollection();
 		attributePositions = stagelessSchemaStatsMainEngine.getAttributePositions();
