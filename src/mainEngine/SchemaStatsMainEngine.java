@@ -478,9 +478,9 @@ public class SchemaStatsMainEngine implements IMainEngine<SchemaHeartbeatElement
 		int totalAttrActivity = inputTupleCollection.get(0).getTotalAttrActivity();
 		
 		for(SchemaHeartbeatElement element: inputTupleCollection.subList(1, inputTupleCollection.size())) {
-			int currentRunningMonth = element.getRunningMonthFromV0();
+			YearMonth currentRunningMonth = YearMonth.parse(element.getHumanTime(), dateFormatter);
 			
-			if (mID == currentRunningMonth) {	// update current fields
+			if (humanTime.compareTo(currentRunningMonth) == 0) {	// update current fields
 				numCommits ++;
 				
 				numTables = element.getNumNewTables();
@@ -504,7 +504,7 @@ public class SchemaStatsMainEngine implements IMainEngine<SchemaHeartbeatElement
 				totalExpansion += element.getExpansion();
 				totalMaintenance += element.getMaintenance();
 				totalAttrActivity += element.getTotalAttrActivity();
-			} else if (mID < currentRunningMonth) {
+			} else if (humanTime.compareTo(currentRunningMonth) < 0) {
 				this.monthlySchemaStatsCollection.add(new MonthSchemaStats(mID,humanTime.toString(),numCommits,numTables,numAttrs,
 						tablesInsertionsSum,tablesDeletionsSum,attrsInsWithTableInsSum,attrsbDelWithTableDelSum,
 						attrsInjectedSum,attrsEjectedSum,attrsWithTypeUpdSum,attrsInPKUpdSum,tableDeltaSum,attrDeltaSum,
@@ -535,7 +535,7 @@ public class SchemaStatsMainEngine implements IMainEngine<SchemaHeartbeatElement
 				totalAttrActivity = 0;
 				
 				// add padding months
-				while (mID < currentRunningMonth) {
+				while (humanTime.compareTo(currentRunningMonth) < 0) {
 					this.monthlySchemaStatsCollection.add(new MonthSchemaStats(mID,humanTime.toString(),numCommits,numTables,numAttrs,
 							tablesInsertionsSum,tablesDeletionsSum,attrsInsWithTableInsSum,attrsbDelWithTableDelSum,
 							attrsInjectedSum,attrsEjectedSum,attrsWithTypeUpdSum,attrsInPKUpdSum,tableDeltaSum,attrDeltaSum,
