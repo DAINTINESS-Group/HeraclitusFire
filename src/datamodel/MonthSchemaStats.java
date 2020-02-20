@@ -1,6 +1,6 @@
 package datamodel;
 
-public class MonthSchemaStats {
+public class MonthSchemaStats implements IElement{
 
 	public MonthSchemaStats(int mID, String humanTime, int numCommits, int numTables, int numAttrs, 
 			int tablesInsertionsSum, int tablesDeletionsSum, int attrsInsWithTableInsSum, int attrsbDelWithTableDelSum, 
@@ -94,8 +94,8 @@ public class MonthSchemaStats {
 	public int getTotalAttrActivity() {
 		return totalAttrActivity;
 	}
-
-	// probably not needed and to be deprecated	
+	
+	@Override
 	public int getIntValueByPosition(int position) {
 		switch(position) {
 		case 0:	 return getmID(); //break;
@@ -123,7 +123,7 @@ public class MonthSchemaStats {
 		}//end switch
 	}
 	
-	// probably not needed and to be deprecated	
+	@Override
 	public String getStringValueByPosition(int position) {
 		switch(position) {
 		//case 0:	 return getmID(); //break;
@@ -186,7 +186,7 @@ public class MonthSchemaStats {
 	private int totalExpansion;
 	private int totalMaintenance;
 	private int totalAttrActivity;
-	final public static int _ERROR_CODE = -1;
-	final public static String _ERROR_STRING = "";
+//	final public static int _ERROR_CODE = -1;
+//	final public static String _ERROR_STRING = "";
 
 }

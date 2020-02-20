@@ -4,7 +4,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-public class SchemaLevelInfo {
+public class SchemaLevelInfo implements IElement{
 
 	public SchemaLevelInfo(String projectName, int projectDurationInDays, int projectDurationInMonths,
 			int projectDureationInYears, int numCommits, int numTablesAtStart, int numTablesAtEnd, int numAttrsAtStart,
@@ -138,8 +138,8 @@ public class SchemaLevelInfo {
 	public double getResizingratio() {
 		return resizingratio;
 	}
-
-	// probably not needed and to be deprecated	
+	
+	@Override
 	public int getIntValueByPosition(int position) {
 		switch(position) {
 			//case 0:	 return getProjectName(); //break;
@@ -176,7 +176,7 @@ public class SchemaLevelInfo {
 		}//end switch
 	}
 	
-	// probably not needed and to be deprecated	
+	@Override
 	public String getStringValueByPosition(int position) {
 		switch(position) {
 		case 0:	 return getProjectName(); //break;
@@ -307,7 +307,7 @@ public class SchemaLevelInfo {
 	private double totalAttrActivityRatePeryear;
 	private double resizingratio;
 	private static NumberFormat dFormatter = new DecimalFormat("#0.000").getNumberInstance(Locale.US);
-	final public static int _ERROR_CODE = -1;
-	final public static String _ERROR_STRING = "";
+//	final public static int _ERROR_CODE = -1;
+//	final public static String _ERROR_STRING = "";
 
 }

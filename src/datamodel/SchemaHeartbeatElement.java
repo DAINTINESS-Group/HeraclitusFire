@@ -1,6 +1,6 @@
 package datamodel;
 
-public class SchemaHeartbeatElement {
+public class SchemaHeartbeatElement implements IElement{
 
 	public SchemaHeartbeatElement(int trID, String epochTime, String oldVer, String newVer, String humanTime,
 			int distFromV0InDays, int runningYearFromV0, int runningMonthFromV0, int numOldTables, int numNewTables,
@@ -125,6 +125,7 @@ public class SchemaHeartbeatElement {
 	}
 	
 	//TODO: add a test	
+	@Override
 	public int getIntValueByPosition(int position) {
 		switch(position) {
 			case 0:	 return getTrID(); //break;
@@ -158,6 +159,8 @@ public class SchemaHeartbeatElement {
 			default: return _ERROR_CODE;
 		}//end switch
 	}
+	
+	@Override
 	public String getStringValueByPosition(int position) {
 		switch(position) {
 			//case 0:	 return getTrID(); //break;
@@ -222,7 +225,7 @@ public class SchemaHeartbeatElement {
 	private int expansion;
 	private int maintenance;
 	private int totalAttrActivity;
-	final public static int _ERROR_CODE = -1;
-	final public static String _ERROR_STRING = "";
+//	final public static int _ERROR_CODE = -1;
+//	final public static String _ERROR_STRING = "";
 
 }
