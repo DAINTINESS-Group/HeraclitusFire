@@ -8,6 +8,7 @@ import java.util.HashMap;
 import org.junit.jupiter.api.Test;
 
 import chartexport.SchemaChartManager;
+import datamodel.MonthSchemaStats;
 import datamodel.SchemaHeartbeatElement;
 import test.mainEngine.StagelessSchemaStatsMainEngine;
 
@@ -17,6 +18,8 @@ public class StagelessSchemaChartManagerTest {
 	private static ArrayList<SchemaHeartbeatElement> inputTupleCollection;
 	private static HashMap<String, Integer> attributePositions;
 	private static HashMap<Integer, ArrayList<SchemaHeartbeatElement>> tuplesPerRYFV0Collection;
+	private static ArrayList<MonthSchemaStats> monthlySchemaStatsCollection;
+	private static HashMap<String, Integer> monthlyAttributePositions;
 	private static int numRows;
 	private static SchemaChartManager stagelessSchemaChartManager;
 	/**
@@ -34,7 +37,10 @@ public class StagelessSchemaChartManagerTest {
 		inputTupleCollection = stagelessSchemaStatsMainEngine.getinputTupleCollection();
 		attributePositions = stagelessSchemaStatsMainEngine.getAttributePositions();
 		tuplesPerRYFV0Collection = stagelessSchemaStatsMainEngine.getTuplesPerRYFV0Collection();
-		stagelessSchemaChartManager = new StagelessSchemaChartManager(prjName, inputTupleCollection, attributePositions,tuplesPerRYFV0Collection, "", null, false);
+		monthlySchemaStatsCollection = stagelessSchemaStatsMainEngine.getMonthlySchemaStatsCollection();
+		monthlyAttributePositions = stagelessSchemaStatsMainEngine.getMonthlyAttributePositions();
+		stagelessSchemaChartManager = new StagelessSchemaChartManager(prjName, inputTupleCollection, attributePositions, 
+				tuplesPerRYFV0Collection, monthlySchemaStatsCollection, monthlyAttributePositions, "", null, false);
 		
 		ArrayList<ArrayList<Integer>> numOfDataPerSeriesPerChart = stagelessSchemaChartManager.extractCharts();
 		assertEquals(numOfDataPerSeriesPerChart.size(), 4);	// test number of charts
@@ -62,10 +68,13 @@ public class StagelessSchemaChartManagerTest {
 		inputTupleCollection = stagelessSchemaStatsMainEngine.getinputTupleCollection();
 		attributePositions = stagelessSchemaStatsMainEngine.getAttributePositions();
 		tuplesPerRYFV0Collection = stagelessSchemaStatsMainEngine.getTuplesPerRYFV0Collection();
-		stagelessSchemaChartManager = new StagelessSchemaChartManager(prjName, inputTupleCollection, attributePositions,tuplesPerRYFV0Collection, "", null, true);
+		monthlySchemaStatsCollection = stagelessSchemaStatsMainEngine.getMonthlySchemaStatsCollection();
+		monthlyAttributePositions = stagelessSchemaStatsMainEngine.getMonthlyAttributePositions();
+		stagelessSchemaChartManager = new StagelessSchemaChartManager(prjName, inputTupleCollection, attributePositions, 
+				tuplesPerRYFV0Collection, monthlySchemaStatsCollection, monthlyAttributePositions, "", null, true);
 		
 		ArrayList<ArrayList<Integer>> numOfDataPerSeriesPerChart = stagelessSchemaChartManager.extractCharts();
-		assertEquals(numOfDataPerSeriesPerChart.size(), 7);	// test number of charts
+		assertEquals(numOfDataPerSeriesPerChart.size(), 8);	// test number of charts
 		
 		assertEquals(numOfDataPerSeriesPerChart.get(0).size(), 1);	// test number of series in NumTablesOverID chart
 		assertEquals(numOfDataPerSeriesPerChart.get(0).get(0), 85);	// test number of data in NumTablesOverID chart
@@ -89,6 +98,9 @@ public class StagelessSchemaChartManagerTest {
 		assertEquals(numOfDataPerSeriesPerChart.get(6).size(), 2);	// test number of series in TableActivityPerYear chart
 		assertEquals(numOfDataPerSeriesPerChart.get(6).get(0), 4);	// test number of data in TablesInsPerYear chart
 		assertEquals(numOfDataPerSeriesPerChart.get(6).get(1), 4);	// test number of data in TablesDelPerYear chart
+		
+		assertEquals(numOfDataPerSeriesPerChart.get(7).size(), 1);	// test number of series in TotalActivityOvermID chart
+		assertEquals(numOfDataPerSeriesPerChart.get(7).get(0), 33);	// test number of data in TotalActivityOvermID chart
 		
 	}
 

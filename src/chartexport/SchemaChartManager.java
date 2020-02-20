@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 //import javafx.application.Application;
 import javafx.stage.Stage;
+import datamodel.MonthSchemaStats;
 import datamodel.SchemaHeartbeatElement;
 import chartexport.exporters.AbstractBarChartExporter;
 import chartexport.exporters.AbstractLineChartExporter;
@@ -20,11 +21,15 @@ public class SchemaChartManager {
 			ArrayList<SchemaHeartbeatElement> inputTupleCollection,
 			HashMap<String, Integer> attributePositions,
 			HashMap<Integer, ArrayList<SchemaHeartbeatElement>> tuplesPerRYFV0Collection,
+			ArrayList<MonthSchemaStats> monthlySchemaStatsCollection,
+			HashMap<String, Integer> monthlyAttributePositions,
 			String outputFolderWithFigures, Stage primaryStage, Boolean dateMode) {
 		this.prjName = prjName;
 		this.inputTupleCollection = inputTupleCollection;
 		this.attributePositions = attributePositions;
 		this.tuplesPerRYFV0Collection = tuplesPerRYFV0Collection;
+		this.monthlySchemaStatsCollection =  monthlySchemaStatsCollection;
+		this.monthlyAttributePositions = monthlyAttributePositions;
 		this.outputFolderWithFigures = outputFolderWithFigures;
 		
 		this.lineExporters = new ArrayList<AbstractLineChartExporter>();
@@ -87,7 +92,16 @@ public class SchemaChartManager {
 			AbstractBarChartExporter gTableInsDelPerYear = new GroupedBarChartExporter(outputFolderWithFigures+"/"+"TableActivityPerYear.png", this.prjName+":\nTable Insertions & Deletions per Year", (HashMap)tuplesPerRYFV0Collection, 
 					"runningYearFromV0", tidpyYAttributes,	attributePositions, stage);
 			this.barExporters.add(gTableInsDelPerYear);
-			// TODO: add more grouped bar charts
+			
+			// monthly stats bar chart
+			HashMap<Integer, ArrayList<MonthSchemaStats>> hashmapMonthlySchemaStatsCollection = new HashMap<Integer, ArrayList<MonthSchemaStats>>();
+			hashmapMonthlySchemaStatsCollection.put(0, monthlySchemaStatsCollection);
+			ArrayList<String> mtaYAttributes = new ArrayList<String>();  // add the attributes we want
+			mtaYAttributes.add("TotalAttrActivity");
+			AbstractBarChartExporter bTotalActmID = new BarChartExporter(outputFolderWithFigures+"/"+"TotalActivityPerMonth.png", this.prjName+":\nTotal Attribute Activity over Time(monthID)", (HashMap)hashmapMonthlySchemaStatsCollection, 
+					"mID",	mtaYAttributes, monthlyAttributePositions, stage);
+			this.barExporters.add(bTotalActmID);
+			// TODO: add more bar charts
 		}
 		//*/
 		return launchChartExporters();
@@ -124,6 +138,8 @@ public class SchemaChartManager {
 	private ArrayList<SchemaHeartbeatElement> inputTupleCollection;
 	private HashMap<String, Integer> attributePositions;
 	private HashMap<Integer, ArrayList<SchemaHeartbeatElement>> tuplesPerRYFV0Collection;
+	private ArrayList<MonthSchemaStats> monthlySchemaStatsCollection;
+	private HashMap<String, Integer> monthlyAttributePositions;
 	private String outputFolderWithFigures;
 	protected ArrayList<AbstractLineChartExporter> lineExporters;
 	protected ArrayList<AbstractBarChartExporter> barExporters;

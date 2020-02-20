@@ -55,6 +55,7 @@ public class SchemaStatsMainEngine implements IMainEngine<SchemaHeartbeatElement
 	protected ArrayList<SchemaHeartbeatElement> inputTupleCollection;
 	protected SchemaLevelInfo schemaLevelInfo;
 	protected ArrayList<MonthSchemaStats> monthlySchemaStatsCollection;
+	protected HashMap<String, Integer> monthlyAttributePositions;
 	protected String outputFolderWithFigures;
 	protected String prjName;
 	protected Boolean _DATEMODE;  // if there are date values (running years etc.) or not, group or not, create respective charts
@@ -110,14 +111,14 @@ public class SchemaStatsMainEngine implements IMainEngine<SchemaHeartbeatElement
 
 		this.organizeTuplesByRYFV0();
 
+		this.extractMonthlySchemaStats(this.prjName, this.inputTupleCollection, this.outputFolderWithTestResults, _DATEMODE);
+		
 		this.createChartManager();
 		schemaChartManager.extractCharts();
 		
 		this.extractSchemaLevelInfo(this.prjName, this.inputTupleCollection, this.outputFolderWithTestResults, _DATEMODE);
 		
 		this.produceSummaryHTML(this.prjName , this.projectFolder + "/figures", this.outputFolderWithTestResults, this.outputFolderWithTestResults);
-		
-		this.extractMonthlySchemaStats(this.prjName, this.inputTupleCollection, this.outputFolderWithTestResults, _DATEMODE);
 		
 		//TODO ###########################################
 		//TEST THAT YOU PROCESSED INPUT FILE CORRECTLY
@@ -245,7 +246,7 @@ public class SchemaStatsMainEngine implements IMainEngine<SchemaHeartbeatElement
 	 * We keep this code separately, to facilitate testing, without the need for launching stages.
 	 */
 	protected void createChartManager() {
-		schemaChartManager = new SchemaChartManager(prjName, inputTupleCollection, attributePositions,tuplesPerRYFV0Collection, outputFolderWithFigures, stage, _DATEMODE);
+		schemaChartManager = new SchemaChartManager(prjName, inputTupleCollection, attributePositions,tuplesPerRYFV0Collection, monthlySchemaStatsCollection, monthlyAttributePositions, outputFolderWithFigures, stage, _DATEMODE);
 	}
 	
 	public SchemaLevelInfo extractSchemaLevelInfo(String prjName, ArrayList<SchemaHeartbeatElement> inputTupleCollection, String outputFolderWithPatterns, boolean dateMode) {
@@ -447,6 +448,10 @@ public class SchemaStatsMainEngine implements IMainEngine<SchemaHeartbeatElement
 	
 	public ArrayList<MonthSchemaStats> extractMonthlySchemaStats(String prjName, ArrayList<SchemaHeartbeatElement> inputTupleCollection, String outputFolderWithPatterns, boolean dateMode) {
 		this.monthlySchemaStatsCollection = new ArrayList<MonthSchemaStats>();
+		String mssHeader = "mID\thumanTime\t#numCommits\t#numTables\t#numAttrs\ttablesInssSum\ttablesDelSum\tattrsInsWithTableInsSum"
+				+ "\tattrsbDelWithTableDelSum\tattrsInjectedSum\tattrsEjectedSum\tattrsWithTypeUpdSum\tattrsInPKUpdSum\ttableDeltaSum"
+				+ "\tattrDeltaSum\tattrBirthsSum\tattrDeathsSum\tattrUpdsSum\tTotalExpansion\tTotalMaintenance\tTotalAttrActivity";
+		createMonthlyAttributePositions(mssHeader);
 		if (!dateMode)
 			return this.monthlySchemaStatsCollection;
 		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
@@ -584,9 +589,7 @@ public class SchemaStatsMainEngine implements IMainEngine<SchemaHeartbeatElement
 		File monthlySchemaStatsTSVFile = new File(outputFolderWithPatterns + File.separator + prjName + "_MonthlySchemaStats.tsv");
 		try {
 			PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(monthlySchemaStatsTSVFile, false), StandardCharsets.UTF_8));
-			writer.println("mID\thumanTime\t#numCommits\t#numTables\t#numAttrs\ttablesInssSum\ttablesDelSum\tattrsInsWithTableInsSum"
-					+ "\tattrsbDelWithTableDelSum\tattrsInjectedSum\tattrsEjectedSum\tattrsWithTypeUpdSum\tattrsInPKUpdSum\ttableDeltaSum"
-					+ "\tattrDeltaSum\tattrBirthsSum\tattrDeathsSum\tattrUpdsSum\tTotalExpansion\tTotalMaintenance\tTotalMaintenance");
+			writer.println(mssHeader);
 			for (MonthSchemaStats mStats: this.monthlySchemaStatsCollection)
 				writer.println(mStats.toString());
 			writer.close();
@@ -594,6 +597,17 @@ public class SchemaStatsMainEngine implements IMainEngine<SchemaHeartbeatElement
 			e.printStackTrace();
 		}
 		return this.monthlySchemaStatsCollection;
+	}
+	
+	private void createMonthlyAttributePositions(String header) {
+		this.monthlyAttributePositions = new HashMap<String, Integer>();
+		String[] attrNames = header.split("\t");
+		for (int i = 0; i< attrNames.length; i++) {
+			String nextAttr = attrNames[i];
+			this.monthlyAttributePositions.put(nextAttr, i);
+			if(_DEBUGMODE) System.out.print(nextAttr + "\t");
+		}
+		if(_DEBUGMODE) System.out.println();
 	}
 
 }//end class

@@ -1,4 +1,4 @@
-mID	humanTime	#numCommits	#numTables	#numAttrs	tablesInssSum	tablesDelSum	attrsInsWithTableInsSum	attrsbDelWithTableDelSum	attrsInjectedSum	attrsEjectedSum	attrsWithTypeUpdSum	attrsInPKUpdSum	tableDeltaSum	attrDeltaSum	attrBirthsSum	attrDeathsSum	attrUpdsSum	TotalExpansion	TotalMaintenance	TotalMaintenance
+mID	humanTime	#numCommits	#numTables	#numAttrs	tablesInssSum	tablesDelSum	attrsInsWithTableInsSum	attrsbDelWithTableDelSum	attrsInjectedSum	attrsEjectedSum	attrsWithTypeUpdSum	attrsInPKUpdSum	tableDeltaSum	attrDeltaSum	attrBirthsSum	attrDeathsSum	attrUpdsSum	TotalExpansion	TotalMaintenance	TotalAttrActivity
 0	2006-07	1	56	709	56	0	709	0	0	0	0	0	0	0	709	0	0	709	0	709
 1	2006-08	2	55	703	0	1	0	6	0	0	0	0	-1	-6	0	6	0	0	6	6
 2	2006-09	5	57	716	2	0	12	0	2	1	12	0	2	13	14	1	12	14	13	27

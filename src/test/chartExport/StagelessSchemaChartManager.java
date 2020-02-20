@@ -6,6 +6,7 @@ import java.util.HashMap;
 import chartexport.SchemaChartManager;
 import chartexport.exporters.AbstractBarChartExporter;
 import chartexport.exporters.AbstractLineChartExporter;
+import datamodel.MonthSchemaStats;
 import datamodel.SchemaHeartbeatElement;
 import javafx.stage.Stage;
 
@@ -15,8 +16,11 @@ public class StagelessSchemaChartManager extends SchemaChartManager{
 			ArrayList<SchemaHeartbeatElement> inputTupleCollection,
 			HashMap<String, Integer> attributePositions,
 			HashMap<Integer, ArrayList<SchemaHeartbeatElement>> tuplesPerRYFV0Collection,
+			ArrayList<MonthSchemaStats> monthlySchemaStatsCollection,
+			HashMap<String, Integer> monthlyAttributePositions,
 			String outputFolderWithFigures, Stage primaryStage, Boolean dateMode) {
-		super(prjName, inputTupleCollection, attributePositions, tuplesPerRYFV0Collection, outputFolderWithFigures, primaryStage, dateMode);
+		super(prjName, inputTupleCollection, attributePositions, tuplesPerRYFV0Collection, 
+				monthlySchemaStatsCollection, monthlyAttributePositions, outputFolderWithFigures, primaryStage, dateMode);
 	}
 	
 	// @Override  
