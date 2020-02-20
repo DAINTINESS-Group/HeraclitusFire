@@ -8,6 +8,7 @@ import java.util.Set;
 
 import javax.imageio.ImageIO;
 
+import datamodel.IElement;
 import datamodel.SchemaHeartbeatElement;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Node;
@@ -18,9 +19,9 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.image.WritableImage;
 import javafx.stage.Stage;
 
-public abstract class AbstractLineChartExporter<E,X> {
+public abstract class AbstractLineChartExporter<X> {
 	
-	public AbstractLineChartExporter(String pOutputPath, String pTitle, HashMap<Integer, ArrayList<E>> inputTupleCollection, 
+	public AbstractLineChartExporter(String pOutputPath, String pTitle, HashMap<Integer, ArrayList<IElement>> inputTupleCollection, 
 			String pXAttribute, ArrayList<String> pYAttributes, HashMap<String, Integer> pAttributePositions, Stage primaryStage) {
 		this.outputPath = pOutputPath;
 		if (!outputPath.endsWith(".png"))
@@ -106,7 +107,7 @@ public abstract class AbstractLineChartExporter<E,X> {
 	protected Integer yAttributePos;
 	protected ArrayList<Integer> yAttributePoss;
 	protected HashMap<String, Integer> attributePositions;
-	protected HashMap<Integer, ArrayList<E>> inputTupleCollection;
+	protected HashMap<Integer, ArrayList<IElement>> inputTupleCollection;
 	protected String chartTitle;
 	protected String outputPath;
 	protected Stage stage;

@@ -24,14 +24,12 @@ import javafx.scene.chart.XYChart;
 //import javafx.scene.text.Font;
 import javafx.stage.Stage;
 //import javafx.embed.swing.SwingFXUtils;
-
-
-
+import datamodel.IElement;
 import datamodel.SchemaHeartbeatElement;
 
 public class GroupedBarChartExporter extends AbstractBarChartExporter{// extends Application{
 
-	public GroupedBarChartExporter(String pOutputPath, String pTitle, HashMap<Integer, ArrayList<SchemaHeartbeatElement>> inputTupleCollection, 
+	public GroupedBarChartExporter(String pOutputPath, String pTitle, HashMap<Integer, ArrayList<IElement>> inputTupleCollection, 
 			String pXAttribute, ArrayList<String> pYAttributes, HashMap<String, Integer> pAttributePositions, Stage primaryStage) {
 		super(pOutputPath, pTitle, inputTupleCollection, pXAttribute, pYAttributes, pAttributePositions, primaryStage);
 	}//end constructor
@@ -52,11 +50,11 @@ public class GroupedBarChartExporter extends AbstractBarChartExporter{// extends
 			XYChart.Series<String,Number> newSeries = new XYChart.Series<String,Number>();
 			newSeries.setName(yAttributes.get(i));
 			for(Integer RYFV0value: RYFV0KeySet) {
-				ArrayList<SchemaHeartbeatElement> tuples = inputTupleCollection.get(RYFV0value);
+				ArrayList<IElement> tuples = inputTupleCollection.get(RYFV0value);
 				Integer yValue = 0;
-				for (SchemaHeartbeatElement tuple: tuples) {
+				for (IElement tuple: tuples) {
 					Integer yTupleValue = tuple.getIntValueByPosition(yAttributePoss.get(i));
-					if(yTupleValue != SchemaHeartbeatElement._ERROR_CODE)
+					if(yTupleValue != IElement._ERROR_CODE)
 						yValue += yTupleValue;
 				}
 				//yValue /= tuples.size();  // if we want avg instead of sum

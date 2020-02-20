@@ -23,11 +23,12 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.embed.swing.SwingFXUtils;
+import datamodel.IElement;
 import datamodel.SchemaHeartbeatElement;
 
 public abstract class AbstractBarChartExporter {
 
-	public AbstractBarChartExporter(String pOutputPath, String pTitle, HashMap<Integer, ArrayList<SchemaHeartbeatElement>> inputTupleCollection, 
+	public AbstractBarChartExporter(String pOutputPath, String pTitle, HashMap<Integer, ArrayList<IElement>> inputTupleCollection, 
 			String pXAttribute, ArrayList<String> pYAttributes, HashMap<String, Integer> pAttributePositions, Stage primaryStage) {
 		this.outputPath = pOutputPath;
 		if (!outputPath.endsWith(".png"))
@@ -183,7 +184,7 @@ public abstract class AbstractBarChartExporter {
 	protected Integer yAttributePos;
 	protected ArrayList<Integer> yAttributePoss;
 	protected HashMap<String, Integer> attributePositions;
-	protected HashMap<Integer, ArrayList<SchemaHeartbeatElement>> inputTupleCollection;
+	protected HashMap<Integer, ArrayList<IElement>> inputTupleCollection;
 	protected String chartTitle;
 	protected String outputPath;
 	protected Stage stage;

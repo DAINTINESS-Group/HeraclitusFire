@@ -24,12 +24,13 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.embed.swing.SwingFXUtils;
+import datamodel.IElement;
 //import datamodel.SchemaHeartbeatElement;
 import datamodel.TableDetailedStatsElement;
 
 public abstract class AbstractScatterChartExporter<Y> {
 
-	public AbstractScatterChartExporter(String pOutputPath, String pTitle, HashMap<Integer, ArrayList<TableDetailedStatsElement>> pTuplesPerLADCollection, 
+	public AbstractScatterChartExporter(String pOutputPath, String pTitle, HashMap<Integer, ArrayList<IElement>> pTuplesPerLADCollection, 
 			String pXAttribute, String pYAttribute, HashMap<String, Integer> pAttributePositions, Stage primaryStage) {
 		this.outputPath = pOutputPath;
 		if (!outputPath.endsWith(".png"))
@@ -109,7 +110,7 @@ public abstract class AbstractScatterChartExporter<Y> {
 	protected Integer xAttributePos;
 	protected Integer yAttributePos;
 	protected HashMap<String, Integer> attributePositions;
-	protected HashMap<Integer, ArrayList<TableDetailedStatsElement>> tuplesPerLADCollection;
+	protected HashMap<Integer, ArrayList<IElement>> tuplesPerLADCollection;
 	protected String chartTitle;
 	protected String outputPath;
 	protected Stage stage;

@@ -40,13 +40,13 @@ public class SchemaChartManager {
 		hashmapInputTupleCollection.put(0, inputTupleCollection);
 		ArrayList<String> ltidYAttributes = new ArrayList<String>();  // add the attributes we want
 		ltidYAttributes.add("#numNewTables");
-		AbstractLineChartExporter<SchemaHeartbeatElement,Number> mlTablesID = new LineChartExporter(outputFolderWithFigures+"/"+"NumTablesOverID.png", this.prjName+":\nSize(tables) over Time(versionID)", hashmapInputTupleCollection, 
+		AbstractLineChartExporter<Number> mlTablesID = new LineChartExporter(outputFolderWithFigures+"/"+"NumTablesOverID.png", this.prjName+":\nSize(tables) over Time(versionID)", (HashMap)hashmapInputTupleCollection, 
 				"trID", ltidYAttributes,	attributePositions, stage);
 		this.lineExporters.add(mlTablesID);
 		
 		ArrayList<String> laidYAttributes = new ArrayList<String>();  // add the attributes we want
 		laidYAttributes.add("#numNewAttrs");
-		AbstractLineChartExporter<SchemaHeartbeatElement,Number> mlAttrsID = new LineChartExporter(outputFolderWithFigures+"/"+"NumAttrsOverID.png", this.prjName+":\nSize(attributes) over Time(versionID)", hashmapInputTupleCollection, 
+		AbstractLineChartExporter<Number> mlAttrsID = new LineChartExporter(outputFolderWithFigures+"/"+"NumAttrsOverID.png", this.prjName+":\nSize(attributes) over Time(versionID)", (HashMap)hashmapInputTupleCollection, 
 				"trID", laidYAttributes,	attributePositions, stage);
 		this.lineExporters.add(mlAttrsID);
 		
@@ -54,13 +54,13 @@ public class SchemaChartManager {
 		ArrayList<String> emYAttributes = new ArrayList<String>();  // add the attributes we want
 		emYAttributes.add("Expansion");
 		emYAttributes.add("Maintenance");
-		AbstractBarChartExporter bExpMainID = new BarChartExporter(outputFolderWithFigures+"/"+"TotalActivityExpMntncOverID.png", this.prjName+":\nExpansion & Maintenance over Time(versionID)", hashmapInputTupleCollection, 
+		AbstractBarChartExporter bExpMainID = new BarChartExporter(outputFolderWithFigures+"/"+"TotalActivityExpMntncOverID.png", this.prjName+":\nExpansion & Maintenance over Time(versionID)", (HashMap)hashmapInputTupleCollection, 
 				"trID", emYAttributes,	attributePositions, stage);
 		this.barExporters.add(bExpMainID);
 		
 		ArrayList<String> taYAttributes = new ArrayList<String>();  // add the attributes we want
 		taYAttributes.add("TotalAttrActivity");
-		AbstractBarChartExporter bTotalActID = new BarChartExporter(outputFolderWithFigures+"/"+"TotalActivityOverID.png", this.prjName+":\nTotal Attribute Activity over Time(versionID)", hashmapInputTupleCollection, 
+		AbstractBarChartExporter bTotalActID = new BarChartExporter(outputFolderWithFigures+"/"+"TotalActivityOverID.png", this.prjName+":\nTotal Attribute Activity over Time(versionID)", (HashMap)hashmapInputTupleCollection, 
 				"trID",	taYAttributes, attributePositions, stage);
 		this.barExporters.add(bTotalActID);
 		// TODO: add more charts
@@ -69,13 +69,13 @@ public class SchemaChartManager {
 			// human time line charts
 			ArrayList<String> ltdYAttributes = new ArrayList<String>();  // add the attributes we want
 			ltdYAttributes.add("#numNewTables");
-			AbstractLineChartExporter<SchemaHeartbeatElement,LocalDateTime> mlTablesDate = new DateLineChartExporter(outputFolderWithFigures+"/"+"NumTablesOverHT.png", this.prjName+":\nSize(tables) over Time(Human Time)", hashmapInputTupleCollection, 
+			AbstractLineChartExporter<LocalDateTime> mlTablesDate = new DateLineChartExporter(outputFolderWithFigures+"/"+"NumTablesOverHT.png", this.prjName+":\nSize(tables) over Time(Human Time)", (HashMap)hashmapInputTupleCollection, 
 					"humanTime", ltdYAttributes,	attributePositions, stage);
 			this.lineExporters.add(mlTablesDate);
 			
 			ArrayList<String> ladYAttributes = new ArrayList<String>();  // add the attributes we want
 			ladYAttributes.add("#numNewAttrs");
-			AbstractLineChartExporter<SchemaHeartbeatElement,LocalDateTime> mlAttrsDate = new DateLineChartExporter(outputFolderWithFigures+"/"+"NumAttrsOverHT.png", this.prjName+":\nSize(attributes) over Time(Human Time)", hashmapInputTupleCollection, 
+			AbstractLineChartExporter<LocalDateTime> mlAttrsDate = new DateLineChartExporter(outputFolderWithFigures+"/"+"NumAttrsOverHT.png", this.prjName+":\nSize(attributes) over Time(Human Time)", (HashMap)hashmapInputTupleCollection, 
 					"humanTime", ladYAttributes,	attributePositions, stage);
 			this.lineExporters.add(mlAttrsDate);
 			
@@ -84,7 +84,7 @@ public class SchemaChartManager {
 			tidpyYAttributes.add("tablesIns");
 			tidpyYAttributes.add("tablesDel");
 			//tidpyYAttributes.add("attrDelta");
-			AbstractBarChartExporter gTableInsDelPerYear = new GroupedBarChartExporter(outputFolderWithFigures+"/"+"TableActivityPerYear.png", this.prjName+":\nTable Insertions & Deletions per Year", tuplesPerRYFV0Collection, 
+			AbstractBarChartExporter gTableInsDelPerYear = new GroupedBarChartExporter(outputFolderWithFigures+"/"+"TableActivityPerYear.png", this.prjName+":\nTable Insertions & Deletions per Year", (HashMap)tuplesPerRYFV0Collection, 
 					"runningYearFromV0", tidpyYAttributes,	attributePositions, stage);
 			this.barExporters.add(gTableInsDelPerYear);
 			// TODO: add more grouped bar charts

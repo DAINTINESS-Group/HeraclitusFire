@@ -24,12 +24,13 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.embed.swing.SwingFXUtils;
+import datamodel.IElement;
 //import datamodel.SchemaHeartbeatElement;
 import datamodel.TableDetailedStatsElement;
 
 public class ScatterChartExporter extends AbstractScatterChartExporter<Number>{// extends Application{
 
-	public ScatterChartExporter(String pOutputPath, String pTitle, HashMap<Integer, ArrayList<TableDetailedStatsElement>> pTuplesPerLADCollection, 
+	public ScatterChartExporter(String pOutputPath, String pTitle, HashMap<Integer, ArrayList<IElement>> pTuplesPerLADCollection, 
 			String pXAttribute, String pYAttribute, HashMap<String, Integer> pAttributePositions, Stage primaryStage) {
 		super(pOutputPath, pTitle, pTuplesPerLADCollection, pXAttribute, pYAttribute, pAttributePositions, primaryStage);
 	}//end constructor
@@ -130,14 +131,14 @@ public class ScatterChartExporter extends AbstractScatterChartExporter<Number>{/
 			XYChart.Series<Number,Number> newSeries = new XYChart.Series<Number,Number>();
 			//newSeries.setName(String.valueOf(LADvalue));
 			newSeries.setName(ladLabels.get(LADvalue));
-			ArrayList<TableDetailedStatsElement> tuples = tuplesPerLADCollection.get(LADvalue);
+			ArrayList<IElement> tuples = tuplesPerLADCollection.get(LADvalue);
 			if (tuples != null) {
-				for (TableDetailedStatsElement tuple: tuples) {
+				for (IElement tuple: tuples) {
 					Integer xValue = tuple.getIntValueByPosition(xAttributePos);
 					Integer yValue = tuple.getIntValueByPosition(yAttributePos);
 					//if (xValue > maxX) maxX = xValue; if (xValue < minX) minX = xValue;
 					//if (yValue > maxY) maxY = yValue; if (yValue < minY) minY = yValue;
-					if((xValue != TableDetailedStatsElement._ERROR_CODE) && (yValue != TableDetailedStatsElement._ERROR_CODE))
+					if((xValue != IElement._ERROR_CODE) && (yValue != IElement._ERROR_CODE))
 						newSeries.getData().add(new XYChart.Data<Number,Number>(xValue, yValue));
 				}
 				}

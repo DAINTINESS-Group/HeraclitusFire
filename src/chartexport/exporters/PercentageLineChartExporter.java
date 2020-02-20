@@ -8,6 +8,8 @@ import java.util.Collections;
 import java.util.HashMap;
 //import java.util.Set;
 
+import datamodel.IElement;
+
 //import javax.imageio.ImageIO;
 
 //import chartexport.utils.IntegerStringConverter;
@@ -23,9 +25,9 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-public class PercentageLineChartExporter extends AbstractLineChartExporter<TableDetailedStatsElement,Number> {// extends Application{
+public class PercentageLineChartExporter extends AbstractLineChartExporter<Number> {// extends Application{
 
-	public PercentageLineChartExporter(String pOutputPath, String pTitle, HashMap<Integer, ArrayList<TableDetailedStatsElement>> pInputTupleCollection, 
+	public PercentageLineChartExporter(String pOutputPath, String pTitle, HashMap<Integer, ArrayList<IElement>> pInputTupleCollection, 
 			String pXAttribute, ArrayList<String> pYAttributes, HashMap<String, Integer> pAttributePositions, Stage primaryStage) {
 		super(pOutputPath, pTitle, pInputTupleCollection, pXAttribute, pYAttributes, pAttributePositions, primaryStage);
 	}//end constructor
@@ -109,7 +111,7 @@ public class PercentageLineChartExporter extends AbstractLineChartExporter<Table
 		
 		for(int y=0; y < yAttributes.size(); y++ ) {
 			int yAttrPos = yAttributePoss.get(y);
-			for (TableDetailedStatsElement t: (ArrayList<TableDetailedStatsElement>)inputTupleCollection.get(0)) {
+			for (IElement t: (ArrayList<IElement>)inputTupleCollection.get(0)) {
 				tablesCollection.add(t.getIntValueByPosition(yAttrPos));
 			}
 			Collections.sort(tablesCollection, Collections.reverseOrder());

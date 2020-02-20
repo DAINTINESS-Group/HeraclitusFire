@@ -22,15 +22,13 @@ import javafx.scene.chart.XYChart;
 //import javafx.scene.image.WritableImage;
 //import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import datamodel.IElement;
 //import javafx.embed.swing.SwingFXUtils;
-
-
-
 import datamodel.SchemaHeartbeatElement;
 
 public class BarChartExporter extends AbstractBarChartExporter{// extends Application{
 
-	public BarChartExporter(String pOutputPath, String pTitle, HashMap<Integer, ArrayList<SchemaHeartbeatElement>> inputTupleCollection, 
+	public BarChartExporter(String pOutputPath, String pTitle, HashMap<Integer, ArrayList<IElement>> inputTupleCollection, 
 			String pXAttribute, ArrayList<String> pYAttributes, HashMap<String, Integer> pAttributePositions, Stage primaryStage) {
 		super(pOutputPath, pTitle, inputTupleCollection, pXAttribute, pYAttributes, pAttributePositions, primaryStage);
 	}//end constructor
@@ -42,10 +40,10 @@ public class BarChartExporter extends AbstractBarChartExporter{// extends Applic
 		for(int i=0; i<yAttributes.size();i++ ) {
 			XYChart.Series<String,Number> newSeries = new XYChart.Series<String,Number>();
 			newSeries.setName(yAttributes.get(i));
-			for (SchemaHeartbeatElement tuple: inputTupleCollection.get(0)) {
+			for (IElement tuple: inputTupleCollection.get(0)) {
 				Integer xValue = tuple.getIntValueByPosition(xAttributePos);
 				Integer yValue = tuple.getIntValueByPosition(yAttributePoss.get(i));
-				if((xValue != SchemaHeartbeatElement._ERROR_CODE) && (yValue != SchemaHeartbeatElement._ERROR_CODE)) {
+				if((xValue != IElement._ERROR_CODE) && (yValue != IElement._ERROR_CODE)) {
 					if (i > 0) yValue = -yValue;
 					newSeries.getData().add(new XYChart.Data<String,Number>(xValue.toString(), yValue));
 				}

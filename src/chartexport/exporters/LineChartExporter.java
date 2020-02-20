@@ -27,13 +27,12 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 //import javafx.embed.swing.SwingFXUtils;
-
-
+import datamodel.IElement;
 import datamodel.SchemaHeartbeatElement;
 
-public class LineChartExporter extends AbstractLineChartExporter<SchemaHeartbeatElement,Number> {// extends Application{
+public class LineChartExporter extends AbstractLineChartExporter<Number> {// extends Application{
 
-	public LineChartExporter(String pOutputPath, String pTitle, HashMap<Integer, ArrayList<SchemaHeartbeatElement>> inputTupleCollection, 
+	public LineChartExporter(String pOutputPath, String pTitle, HashMap<Integer, ArrayList<IElement>> inputTupleCollection, 
 			String pXAttribute, ArrayList<String> pYAttributes, HashMap<String, Integer> pAttributePositions, Stage primaryStage) {
 		super(pOutputPath, pTitle, inputTupleCollection, pXAttribute, pYAttributes, pAttributePositions, primaryStage);
 	}//end constructor
@@ -119,10 +118,10 @@ public class LineChartExporter extends AbstractLineChartExporter<SchemaHeartbeat
 		for(int i=0; i<yAttributes.size();i++ ) {
 			XYChart.Series<Number,Number> newSeries = new XYChart.Series<Number,Number>();
 			newSeries.setName(yAttributes.get(i));
-			for (SchemaHeartbeatElement tuple: inputTupleCollection.get(0)) {
+			for (IElement tuple: inputTupleCollection.get(0)) {
 					Integer xValue = tuple.getIntValueByPosition(xAttributePos);
 					Integer yValue = tuple.getIntValueByPosition(yAttributePoss.get(i));
-					if((xValue != SchemaHeartbeatElement._ERROR_CODE) && (yValue != SchemaHeartbeatElement._ERROR_CODE)) {
+					if((xValue != IElement._ERROR_CODE) && (yValue != IElement._ERROR_CODE)) {
 						newSeries.getData().add(new XYChart.Data<Number,Number>(xValue, yValue));
 					}
 					//System.out.println("x:" + xValue + "\ty:" + yValue);

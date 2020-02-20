@@ -30,17 +30,17 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 //import javafx.embed.swing.SwingFXUtils;
+import datamodel.IElement;
+import datamodel.SchemaHeartbeatElement;
 
 /**
  * Creates a line chart with dates at X axis using Gerrit Grunwald's DateAxis310.
  * source: https://bitbucket.org/hansolo/dateaxis310/src/master/
  */
 
-import datamodel.SchemaHeartbeatElement;
+public class DateLineChartExporter extends AbstractLineChartExporter<LocalDateTime> {// extends Application{
 
-public class DateLineChartExporter extends AbstractLineChartExporter<SchemaHeartbeatElement,LocalDateTime> {// extends Application{
-
-	public DateLineChartExporter(String pOutputPath, String pTitle, HashMap<Integer, ArrayList<SchemaHeartbeatElement>> inputTupleCollection, 
+	public DateLineChartExporter(String pOutputPath, String pTitle, HashMap<Integer, ArrayList<IElement>> inputTupleCollection, 
 			String pXAttribute, ArrayList<String> pYAttributes, HashMap<String, Integer> pAttributePositions, Stage primaryStage) {
 		super(pOutputPath, pTitle, inputTupleCollection, pXAttribute, pYAttributes, pAttributePositions, primaryStage);
 	}//end constructor
@@ -127,11 +127,11 @@ public class DateLineChartExporter extends AbstractLineChartExporter<SchemaHeart
 		for(int i=0; i<yAttributes.size();i++ ) {
 			XYChart.Series<LocalDateTime,Number> newSeries = new XYChart.Series<LocalDateTime,Number>();
 			newSeries.setName(yAttributes.get(i));
-			for (SchemaHeartbeatElement tuple: inputTupleCollection.get(0)) {
+			for (IElement tuple: inputTupleCollection.get(0)) {
 					String xValue = tuple.getStringValueByPosition(xAttributePos);
 					LocalDateTime xDate = LocalDateTime.parse(xValue, dateFormatter);
 					Integer yValue = tuple.getIntValueByPosition(yAttributePoss.get(i));
-					if(!(xValue.equals(SchemaHeartbeatElement._ERROR_STRING)) && (yValue != SchemaHeartbeatElement._ERROR_CODE)) {
+					if(!(xValue.equals(IElement._ERROR_STRING)) && (yValue != IElement._ERROR_CODE)) {
 						newSeries.getData().add(new XYChart.Data<LocalDateTime,Number>(xDate, yValue));
 					}
 					//System.out.println("x:" + xValue + "\ty:" + yValue);

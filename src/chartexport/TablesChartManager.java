@@ -45,23 +45,23 @@ public class TablesChartManager {
 			SumUpd	CountVwUpd	ATU	UpdRate	AvgUpdVolume	SurvivalClass	ActivityClass	LADClass	
 
 		 */
-		AbstractScatterChartExporter<Number> sGammaDur = new ScatterChartExporter(outputFolderWithFigures+"/"+"GammaDur.png", this.prjName+":\nDur over Sc.Size", tuplesPerLADCollection, 
+		AbstractScatterChartExporter<Number> sGammaDur = new ScatterChartExporter(outputFolderWithFigures+"/"+"GammaDur.png", this.prjName+":\nDur over Sc.Size", (HashMap)tuplesPerLADCollection, 
 				"SchemaSize@Birth", "Duration",	attributePositions, stage);
 		this.scatterExporters.add(sGammaDur);
 
-		AbstractScatterChartExporter<Number> sGamma = new ScatterChartExporter(outputFolderWithFigures+"/"+"GammaLKV.png", this.prjName+":\nLKV over Sc.Size", tuplesPerLADCollection, 
+		AbstractScatterChartExporter<Number> sGamma = new ScatterChartExporter(outputFolderWithFigures+"/"+"GammaLKV.png", this.prjName+":\nLKV over Sc.Size", (HashMap)tuplesPerLADCollection, 
 				"SchemaSize@Birth", "LastKnownVersion",	attributePositions, stage);
 		this.scatterExporters.add(sGamma);
 
-		AbstractScatterChartExporter<Number> sComet = new ScatterChartExporter(outputFolderWithFigures+"/"+"Comet.png", this.prjName+":\nUpdates over Sc.Size", tuplesPerLADCollection, 
+		AbstractScatterChartExporter<Number> sComet = new ScatterChartExporter(outputFolderWithFigures+"/"+"Comet.png", this.prjName+":\nUpdates over Sc.Size", (HashMap)tuplesPerLADCollection, 
 				"SchemaSize@Birth", "SumUpd",	attributePositions, stage);
 		this.scatterExporters.add(sComet);
 
-		AbstractScatterChartExporter<Number> sInvGamma = new ScatterChartExporter(outputFolderWithFigures+"/"+"InvGammaLKV.png", this.prjName+":\nUpdates over LKV", tuplesPerLADCollection, 
+		AbstractScatterChartExporter<Number> sInvGamma = new ScatterChartExporter(outputFolderWithFigures+"/"+"InvGammaLKV.png", this.prjName+":\nUpdates over LKV", (HashMap)tuplesPerLADCollection, 
 				"LastKnownVersion",	"SumUpd", attributePositions, stage);
 		this.scatterExporters.add(sInvGamma);
 
-		AbstractScatterChartExporter<Number> sTriangle = new ScatterChartExporter(outputFolderWithFigures+"/"+"EmptyTriangle.png", this.prjName+":\nDuration over Birth", tuplesPerLADCollection, 
+		AbstractScatterChartExporter<Number> sTriangle = new ScatterChartExporter(outputFolderWithFigures+"/"+"EmptyTriangle.png", this.prjName+":\nDuration over Birth", (HashMap)tuplesPerLADCollection, 
 				"Birth", "Duration",	attributePositions, stage);
 		this.scatterExporters.add(sTriangle);
 		
@@ -69,12 +69,12 @@ public class TablesChartManager {
 		hashmapInputTupleCollection.put(0, inputTupleCollection);
 		ArrayList<String> lpuoptYAttributes = new ArrayList<String>();  // add the attributes we want
 		lpuoptYAttributes.add("SumUpd");
-		AbstractLineChartExporter<TableDetailedStatsElement,Number> lPctUpdOverPctTables = new PercentageLineChartExporter(outputFolderWithFigures+"/"+"PctUpdOverPctTables.png", this.prjName+":\nPercentage of Total Updates over Percentage of Total Tables", hashmapInputTupleCollection, 
+		AbstractLineChartExporter<Number> lPctUpdOverPctTables = new PercentageLineChartExporter(outputFolderWithFigures+"/"+"PctUpdOverPctTables.png", this.prjName+":\nPercentage of Total Updates over Percentage of Total Tables", (HashMap)hashmapInputTupleCollection, 
 				"PctTables", lpuoptYAttributes,	attributePositions, stage);
 		this.lineExporters.add(lPctUpdOverPctTables);
 		
 		if (_DATEMODE) {
-			AbstractScatterChartExporter<String> sElectrolysis = new LADScatterChartExporter(outputFolderWithFigures+"/"+"Electrolysis.png", this.prjName+":\nSpan of Duration by LADClass", tuplesPerLADCollection, 
+			AbstractScatterChartExporter<String> sElectrolysis = new LADScatterChartExporter(outputFolderWithFigures+"/"+"Electrolysis.png", this.prjName+":\nSpan of Duration by LADClass", (HashMap)tuplesPerLADCollection, 
 					"DurationDays", "LADClass",	attributePositions, stage);
 			this.scatterExporters.add(sElectrolysis);
 			
