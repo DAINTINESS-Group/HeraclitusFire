@@ -96,12 +96,25 @@ public class SchemaChartManager {
 			// monthly stats bar chart
 			HashMap<Integer, ArrayList<MonthSchemaStats>> hashmapMonthlySchemaStatsCollection = new HashMap<Integer, ArrayList<MonthSchemaStats>>();
 			hashmapMonthlySchemaStatsCollection.put(0, monthlySchemaStatsCollection);
-			ArrayList<String> mtaYAttributes = new ArrayList<String>();  // add the attributes we want
-			mtaYAttributes.add("TotalAttrActivity");
-			AbstractBarChartExporter bTotalActmID = new BarChartExporter(outputFolderWithFigures+"/"+"TotalActivityPerMonth.png", this.prjName+":\nTotal Attribute Activity over Time(monthID)", (HashMap)hashmapMonthlySchemaStatsCollection, 
-					"mID",	mtaYAttributes, monthlyAttributePositions, stage);
-			this.barExporters.add(bTotalActmID);
-			// TODO: add more bar charts
+
+			//Commented out, to make room for the exp vs growth in the 4X2 html page produced.
+			//WORKS FULLY
+//			ArrayList<String> mtaYAttributes = new ArrayList<String>();  // add the attributes we want
+//			mtaYAttributes.add("TotalAttrActivity");
+//			AbstractBarChartExporter bTotalActmID = new BarChartExporter(outputFolderWithFigures+"/"+"TotalActivityPerMonth.png", this.prjName+":\nTotal Attribute Activity over Time(monthID)", (HashMap)hashmapMonthlySchemaStatsCollection, 
+//					"mID",	mtaYAttributes, monthlyAttributePositions, stage);
+//			this.barExporters.add(bTotalActmID);
+			
+			ArrayList<String> emMOnthYAttributes = new ArrayList<String>();  
+			emMOnthYAttributes.add("TotalExpansion");
+			emMOnthYAttributes.add("TotalMaintenance");
+			AbstractBarChartExporter bMonthlyExpMainID = new BarChartExporter(outputFolderWithFigures+"/"+"TotalActivityExpMntncOverMonth.png", this.prjName+":\nExpansion & Maintenance over Month(monthID)", (HashMap)hashmapMonthlySchemaStatsCollection, 
+					"mID",	emMOnthYAttributes, monthlyAttributePositions, stage);
+		//	AbstractBarChartExporter bExpMainID = new BarChartExporter(outputFolderWithFigures+"/"+"TotalActivityExpMntncOverID.png", this.prjName+":\nExpansion & Maintenance over Time(versionID)", (HashMap)hashmapInputTupleCollection, 
+		//	"trID", emYAttributes,	attributePositions, stage);
+			this.barExporters.add( bMonthlyExpMainID);
+			
+			
 		}
 		//*/
 		return launchChartExporters();

@@ -64,8 +64,8 @@ See the [copyright](copyright.md) file
 - [x] Code and tests for inv. gamma table pattern test
 - [ ] Code and tests for comet table pattern test
 - [ ] Code and tests for empty triangle table pattern test
-- [ ] !Code and tests for electrolysis table pattern test
-- [ ] wrap the code in interfaces (at least mainEngine)
+- [/] !Code and tests for electrolysis table pattern test
+- [/] wrap the code in interfaces (at least mainEngine)
 - [ ] client should be able to parameterize what of all extracts is needed
 
 

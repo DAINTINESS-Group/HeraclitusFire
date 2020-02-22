@@ -99,8 +99,12 @@ public class StagelessSchemaChartManagerTest {
 		assertEquals(numOfDataPerSeriesPerChart.get(6).get(0), 4);	// test number of data in TablesInsPerYear chart
 		assertEquals(numOfDataPerSeriesPerChart.get(6).get(1), 4);	// test number of data in TablesDelPerYear chart
 		
-		assertEquals(numOfDataPerSeriesPerChart.get(7).size(), 1);	// test number of series in TotalActivityOvermID chart
-		assertEquals(numOfDataPerSeriesPerChart.get(7).get(0), 33);	// test number of data in TotalActivityOvermID chart
+		//assertEquals(numOfDataPerSeriesPerChart.get(7).size(), 1);	// test number of series in TotalActivityOvermID chart
+		//assertEquals(numOfDataPerSeriesPerChart.get(7).get(0), 33);	// test number of data in TotalActivityOvermID chart
+
+		assertEquals(numOfDataPerSeriesPerChart.get(7).size(), 2);	// test number of series in ExpansionMaintenanceOverMonthID chart
+		assertEquals(numOfDataPerSeriesPerChart.get(7).get(0), 33);	// test number of data in ExpansionOverMonthID chart
+		assertEquals(numOfDataPerSeriesPerChart.get(7).get(1), 33);	// test number of data in MaintenanceOverMonthID chart
 		
 	}
 
