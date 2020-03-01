@@ -44,6 +44,13 @@ public class GroupedBarChartExporter extends AbstractBarChartExporter{// extends
 		if(RYFV0KeySet.size() < 1)
 			return;
 			//return this.allSeries;
+		
+		//ATTN: added __all__ the years. Otherwise, if one year is missing, it's not represented at the chart
+		int maxRYFV0 = Collections.max(RYFV0KeySet);
+		for (int i = 0; i < maxRYFV0; i++)
+			if (!RYFV0KeySet.contains(i))
+				RYFV0KeySet.add(i);
+		
 		Collections.sort(RYFV0KeySet);
 		
 		for(int i=0; i<yAttributes.size();i++ ) {
@@ -52,10 +59,12 @@ public class GroupedBarChartExporter extends AbstractBarChartExporter{// extends
 			for(Integer RYFV0value: RYFV0KeySet) {
 				ArrayList<IElement> tuples = inputTupleCollection.get(RYFV0value);
 				Integer yValue = 0;
-				for (IElement tuple: tuples) {
-					Integer yTupleValue = tuple.getIntValueByPosition(yAttributePoss.get(i));
-					if(yTupleValue != IElement._ERROR_CODE)
-						yValue += yTupleValue;
+				if (tuples != null) {
+					for (IElement tuple: tuples) {
+						Integer yTupleValue = tuple.getIntValueByPosition(yAttributePoss.get(i));
+						if(yTupleValue != IElement._ERROR_CODE)
+							yValue += yTupleValue;
+					}
 				}
 				//yValue /= tuples.size();  // if we want avg instead of sum
 				newSeries.getData().add(new XYChart.Data<String,Number>(RYFV0value.toString(), yValue));
