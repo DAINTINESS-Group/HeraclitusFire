@@ -45,7 +45,7 @@ public class TableStatsMainEngine implements IMainEngine<TableDetailedStatsEleme
 	private String inputFolderWithStats;
 	private String _DELIMETER;
 	private int _NUMFIELDS;
-	private Boolean _DEBUGMODE = true;
+	private Boolean _DEBUGMODE = false;
 	protected Boolean _DATEMODE;
 
 	//protected, because at testing level, where we want to avoid using stages, we will subclass it with a Stageless tablesChartManager

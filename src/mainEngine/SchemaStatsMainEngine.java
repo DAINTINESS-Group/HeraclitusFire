@@ -43,7 +43,7 @@ public class SchemaStatsMainEngine implements IMainEngine<SchemaHeartbeatElement
 	private String projectFolder;
 	private String inputFolderWithStats;
 	private String outputFolderWithTestResults;
-//	private String globalStatsOutputFolder;
+	private String outputFolderWithSummaries;
 	private String _DELIMETER;
 	private int _NUMFIELDS;
 	private Boolean _DEBUGMODE = false;
@@ -111,14 +111,14 @@ public class SchemaStatsMainEngine implements IMainEngine<SchemaHeartbeatElement
 
 		this.organizeTuplesByRYFV0();
 
-		this.extractMonthlySchemaStats(this.prjName, this.inputTupleCollection, this.outputFolderWithTestResults, _DATEMODE);
+		this.extractMonthlySchemaStats(this.prjName, this.inputTupleCollection, this.inputFolderWithStats, _DATEMODE);
 		
 		this.createChartManager();
 		schemaChartManager.extractCharts();
 		
-		this.extractSchemaLevelInfo(this.prjName, this.inputTupleCollection, this.outputFolderWithTestResults, _DATEMODE);
+		this.extractSchemaLevelInfo(this.prjName, this.inputTupleCollection, this.outputFolderWithSummaries, _DATEMODE);
 		
-		this.produceSummaryHTML(this.prjName , this.projectFolder + "/figures", this.outputFolderWithTestResults, this.outputFolderWithTestResults);
+		this.produceSummaryHTML(this.prjName , this.projectFolder + "/figures", this.outputFolderWithSummaries, this.outputFolderWithSummaries);
 		
 		//TODO ###########################################
 		//TEST THAT YOU PROCESSED INPUT FILE CORRECTLY
@@ -163,11 +163,11 @@ public class SchemaStatsMainEngine implements IMainEngine<SchemaHeartbeatElement
 		}
 		this.outputFolderWithFigures = figureOutputFolder.getAbsolutePath();
 		
-//		File globalsOutputFolder = new File("resources/globalStats");
-//		if (!globalsOutputFolder.exists()) {
-//			globalsOutputFolder.mkdir();
-//		}
-//		this.globalStatsOutputFolder = globalsOutputFolder.getAbsolutePath();
+		File summariesOutputFolder = new File(this.projectFolder + File.separator + "summaries");
+		if (!summariesOutputFolder.exists()) {
+			summariesOutputFolder.mkdir();
+		}
+		this.outputFolderWithSummaries = summariesOutputFolder.getAbsolutePath();
 
 		return parentAbsolute;
 	}//end setupFolders
@@ -249,7 +249,7 @@ public class SchemaStatsMainEngine implements IMainEngine<SchemaHeartbeatElement
 		schemaChartManager = new SchemaChartManager(prjName, inputTupleCollection, attributePositions,tuplesPerRYFV0Collection, monthlySchemaStatsCollection, monthlyAttributePositions, outputFolderWithFigures, stage, _DATEMODE);
 	}
 	
-	public SchemaLevelInfo extractSchemaLevelInfo(String prjName, ArrayList<SchemaHeartbeatElement> inputTupleCollection, String outputFolderWithPatterns, boolean dateMode) {
+	public SchemaLevelInfo extractSchemaLevelInfo(String prjName, ArrayList<SchemaHeartbeatElement> inputTupleCollection, String outputFolderWithSummaries, boolean dateMode) {
 		String projectName = prjName;
 		int projectDurationInDays = -1;
 		int projectDurationInMonths = -1;
@@ -328,7 +328,7 @@ public class SchemaStatsMainEngine implements IMainEngine<SchemaHeartbeatElement
 				totalAttrActivityRatePerCommit, totalAttrActivityRatePerMonth,
 				totalAttrActivityRatePeryear, resizingratio);
 		
-		File globalSchemaLevelInfoTSVFile = new File(outputFolderWithPatterns + File.separator + prjName + "_SchemaLevelInfo.tsv");
+		File globalSchemaLevelInfoTSVFile = new File(outputFolderWithSummaries + File.separator + prjName + "_SchemaLevelInfo.tsv");
 		try {
 			//PrintWriter writer = new PrintWriter(globalSchemaLevelInfoTSVFile, StandardCharsets.UTF_8);
 			//boolean fileExists = globalSchemaLevelInfoTSVFile.exists() ? true : false;
@@ -347,16 +347,16 @@ public class SchemaStatsMainEngine implements IMainEngine<SchemaHeartbeatElement
 		return this.schemaLevelInfo;
 	}
 	
-	public int produceSummaryHTML(String prjName, String figuresFolder, String folderWithPatterns, String outputFolder) {
+	public int produceSummaryHTML(String prjName, String figuresFolder, String folderWithSummaries, String outputFolder) {
 		// load schema profile data
 		//File schemaLevelInfoFile = new File(outputFolderWithPatterns + File.separator + prjName + "_SchemaLevelInfo.tsv");
 		Scanner inputStream = null;
 		try {
 			//inputStream = new Scanner(new FileInputStream(outputFolderWithPatterns + File.separator + prjName + "_SchemaLevelInfo.tsv"));
-			inputStream = new Scanner(new FileInputStream(folderWithPatterns + File.separator + prjName + "_SchemaLevelInfo.tsv"));
+			inputStream = new Scanner(new FileInputStream(folderWithSummaries + File.separator + prjName + "_SchemaLevelInfo.tsv"));
 
 		} catch (FileNotFoundException e) {
-			System.out.println("Problem opening file: " + folderWithPatterns + File.separator + prjName + "_SchemaLevelInfo.tsv");
+			System.out.println("Problem opening file: " + folderWithSummaries + File.separator + prjName + "_SchemaLevelInfo.tsv");
 			return -1;
 		}
 		ArrayList<String[]> schemaLevelInfoList = new ArrayList<String[]>();
@@ -446,7 +446,7 @@ public class SchemaStatsMainEngine implements IMainEngine<SchemaHeartbeatElement
 		return 0;
 	}
 	
-	public ArrayList<MonthSchemaStats> extractMonthlySchemaStats(String prjName, ArrayList<SchemaHeartbeatElement> inputTupleCollection, String outputFolderWithPatterns, boolean dateMode) {
+	public ArrayList<MonthSchemaStats> extractMonthlySchemaStats(String prjName, ArrayList<SchemaHeartbeatElement> inputTupleCollection, String outputFolderWithStats, boolean dateMode) {
 		this.monthlySchemaStatsCollection = new ArrayList<MonthSchemaStats>();
 		String mssHeader = "mID\thumanTime\t#numCommits\t#numTables\t#numAttrs\ttablesInssSum\ttablesDelSum\tattrsInsWithTableInsSum"
 				+ "\tattrsbDelWithTableDelSum\tattrsInjectedSum\tattrsEjectedSum\tattrsWithTypeUpdSum\tattrsInPKUpdSum\ttableDeltaSum"
@@ -586,7 +586,7 @@ public class SchemaStatsMainEngine implements IMainEngine<SchemaHeartbeatElement
 				attrBirthsSum,attrDeathsSum,attrUpdsSum,totalExpansion,totalMaintenance,totalAttrActivity));
 		
 		// save to tsv
-		File monthlySchemaStatsTSVFile = new File(outputFolderWithPatterns + File.separator + prjName + "_MonthlySchemaStats.tsv");
+		File monthlySchemaStatsTSVFile = new File(outputFolderWithStats + File.separator + prjName + "_MonthlySchemaStats.tsv");
 		try {
 			PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(monthlySchemaStatsTSVFile, false), StandardCharsets.UTF_8));
 			writer.println(mssHeader);
