@@ -56,22 +56,21 @@ do (
 See the [copyright](copyright.md) file
 
 ## ToDo ( / is for  partially, x for full, ! for important)
-- [x] Code and Tests for code for table figure extraction
-- [x] Code and tests for schema life figure extraction
 - [ ] ! Code and tests for schema size pattern test (logistic equation?)
 - [ ] ! Code and tests for schema heartbeat pattern test (SUPER OPEN)
-- [x] Code and tests for gamma table pattern test 
-- [x] Code and tests for inv. gamma table pattern test
 - [ ] Code and tests for comet table pattern test
 - [ ] Code and tests for empty triangle table pattern test
-- [/] !Code and tests for electrolysis table pattern test
 - [/] wrap the code in interfaces (at least mainEngine)
 - [ ] client should be able to parameterize what of all extracts is needed
-
+- [x] Code and Tests for code for table figure extraction
+- [x] Code and tests for schema life figure extraction
+- [x] Code and tests for gamma table pattern test 
+- [x] Code and tests for inv. gamma table pattern test
+- [x] Code and tests for electrolysis table pattern test
 
 ## History
-### v0.2 [2019 Nov. - ]
-* Alexandros Voulgaris started contributing to charting
+### v0.2 - v0.4.5 [2019 Nov. - 2020 Jan]
+* Alexandros Voulgaris started contributing to reporting, charting and pattern assessment
 * P. Vassiliadis started contributing pattern testing
 
 ### v0.1 [2019 Summer - November]

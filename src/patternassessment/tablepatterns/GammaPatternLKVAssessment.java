@@ -108,7 +108,8 @@ public class GammaPatternLKVAssessment extends PatternAssessmentTemplateMethod {
 		double probSurv = ((double)(survivorsWide + survivorsNotWide)) / (total);
 //System.out.println(" p|Wide: " + probSurvIfWide + "\t p |NotWide: " + probSurvIfNotWide + "\t pSurv" + probSurv);
 
-		double pValueFisher = applyFisherTest(par);
+		double pValueFisher = 1.0;
+		pValueFisher = applyFisherTest(par);
 		Boolean fisherTestPass = pValueFisher < this.alphaAcceptanceLevel;
 		par.setFisherTestPass(fisherTestPass);
 		
@@ -130,15 +131,17 @@ public class GammaPatternLKVAssessment extends PatternAssessmentTemplateMethod {
 	private double applyFisherTest(PatternAssessmentResult par) {
 		int[][] contTable = par.getContingencyTable();
 		
-		double pValueFisher;
+		double pValueFisher = 1.0;
 		FisherExactTestWrapper fet;
 		par.setFisherTestExecuted(true);
 		try {
 			fet = new FisherExactTestWrapper(contTable);
 			pValueFisher = fet.getFisherSingleTailPValue();
+			
 		} catch (IllegalArgumentException e) {
 			par.setFisherTestExecuted(false);
 			pValueFisher = 1.0;
+			par.setFisherTestPValue(pValueFisher);
 		}
 		par.setFisherTestPValue(pValueFisher);
 

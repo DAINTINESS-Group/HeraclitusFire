@@ -154,7 +154,8 @@ public class InverseGammaAssessment extends PatternAssessmentTemplateMethod {
 		if (contTable[1][0] <= _PCT_EMPTY_AREA_THRESHOLD * this.numTables)
 			this.geometricalPatternTrue = true;
 		
-		double pValueFisher = applyFisherTest(par);		
+		double pValueFisher = 1.0;
+		pValueFisher = applyFisherTest(par);		
 		
 		//independently of whether Fisher test has been executed
 		//the decision is the same, as pV is set to 1.0 when the test crashes
@@ -175,7 +176,7 @@ public class InverseGammaAssessment extends PatternAssessmentTemplateMethod {
 	private double applyFisherTest(PatternAssessmentResult par) {
 		int[][] contTable = par.getContingencyTable();
 		
-		double pValueFisher;
+		double pValueFisher = 1.0;
 		FisherExactTestWrapper fet;
 		par.setFisherTestExecuted(true);
 		try {
