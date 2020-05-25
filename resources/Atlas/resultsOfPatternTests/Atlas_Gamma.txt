@@ -4,4 +4,9 @@ Atlas:	Gamma	holds? 	true
 Atlas:	Gamma	Geometry? 	true
 Atlas:	Gamma	FisherExecuted? 	true
 Atlas:	Gamma	p-Value? 	false
+Atlas:	Gamma	Surv.Wide 	12
+Atlas:	Gamma	Surv.NotWide 	61
+Atlas:	Gamma	Dead.Wide 	2
+Atlas:	Gamma	Dead.NotWide 	13
+Atlas:	Gamma	Wide 	14
 ------------------------------------------------

@@ -12,6 +12,10 @@ public class GammaPatternLKVAssessment extends PatternAssessmentTemplateMethod {
 
 	private Boolean geometricalPatternTrue;
 	private Boolean pValuePatternTrue;
+	private int survivorsWide;
+	private int deadWide;
+	private int survivorsNotWide;
+	private int deadNotWide;
 	
 	public GammaPatternLKVAssessment(
 			ArrayList<TableDetailedStatsElement> pInputTupleCollection,
@@ -23,6 +27,7 @@ public class GammaPatternLKVAssessment extends PatternAssessmentTemplateMethod {
 		super(pInputTupleCollection, projectName, pOutputFolderWithPatterns, globalAppendLogPath, alpha);
 		this.geometricalPatternTrue = false;
 		this.pValuePatternTrue = false;
+		this.survivorsWide = 0;this.survivorsNotWide = 0; this.deadWide = 0;  this.deadNotWide = 0;
 	}
 
 	@Override
@@ -96,17 +101,16 @@ public class GammaPatternLKVAssessment extends PatternAssessmentTemplateMethod {
 	@Override
 	public Boolean decideIfPatternHolds(PatternAssessmentResult par) {
 		int[][] contTable = this.result.getContingencyTable();
-		int survivorsWide = contTable[1][1];
-		int deadWide = contTable[1][0];
-		int survivorsNotWide = contTable[0][1];
-		int deadNotWide = contTable[0][0];
+		this.survivorsWide = contTable[1][1];
+		this.deadWide = contTable[1][0];
+		this.survivorsNotWide = contTable[0][1];
+		this.deadNotWide = contTable[0][0];
 		int total = survivorsWide + deadWide + survivorsNotWide + deadNotWide;
 		
 		
 		double probSurvIfWide = ((double)survivorsWide) / (survivorsWide + deadWide);
 		double probSurvIfNotWide = ((double)survivorsNotWide) / (survivorsNotWide + deadNotWide);
 		double probSurv = ((double)(survivorsWide + survivorsNotWide)) / (total);
-//System.out.println(" p|Wide: " + probSurvIfWide + "\t p |NotWide: " + probSurvIfNotWide + "\t pSurv" + probSurv);
 
 		double pValueFisher = 1.0;
 		pValueFisher = applyFisherTest(par);
@@ -162,7 +166,14 @@ public class GammaPatternLKVAssessment extends PatternAssessmentTemplateMethod {
 		String prjNPattern = par.getprjNameAndPattern();
 		String resultString =  prjNPattern + "\t" + "Geometry? \t" + geometricalPatternTrue + "\n" + 
 				prjNPattern + "\t" + "FisherExecuted? \t" + par.getFisherTestExecuted() + "\n" +
-				prjNPattern + "\t" + "p-Value? \t" + pValuePatternTrue;
+				prjNPattern + "\t" + "p-Value? \t" + pValuePatternTrue + "\n" +
+				prjNPattern + "\t" + "Surv.Wide \t" + this.survivorsWide + "\n" +
+				prjNPattern + "\t" + "Surv.NotWide \t" + this.survivorsNotWide + "\n" +
+				prjNPattern + "\t" + "Dead.Wide \t" + this.deadWide + "\n" +
+				prjNPattern + "\t" + "Dead.NotWide \t" + this.deadNotWide + "\n" +
+				prjNPattern + "\t" + "Wide \t" + (this.survivorsWide +  this.deadWide);
+		//System.out.println(" p|Wide: " + probSurvIfWide + "\t p |NotWide: " + probSurvIfNotWide + "\t pSurv" + probSurv);
+
 		return resultString;
 	}
 

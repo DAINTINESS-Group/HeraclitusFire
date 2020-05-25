@@ -4,4 +4,9 @@ Egee:	Gamma	holds? 	true
 Egee:	Gamma	Geometry? 	true
 Egee:	Gamma	FisherExecuted? 	false
 Egee:	Gamma	p-Value? 	true
+Egee:	Gamma	Surv.Wide 	1
+Egee:	Gamma	Surv.NotWide 	9
+Egee:	Gamma	Dead.Wide 	0
+Egee:	Gamma	Dead.NotWide 	2
+Egee:	Gamma	Wide 	1
 ------------------------------------------------
