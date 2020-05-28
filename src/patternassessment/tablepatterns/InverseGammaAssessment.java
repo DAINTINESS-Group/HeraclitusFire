@@ -79,7 +79,7 @@ public class InverseGammaAssessment extends PatternAssessmentTemplateMethod {
 	 * 
 	 * <p>The contingency table is
 	 *  <pre>
-	 *              highUpd | notHighUpd  
+	 *          notSmallUpd | smallUpd  
 	 *            --------------------
 	 *  highDur    |        |        |
 	 *            --------------------
@@ -87,7 +87,7 @@ public class InverseGammaAssessment extends PatternAssessmentTemplateMethod {
 	 *            --------------------	            
 	 * </pre>          
 	 *  The test for duration is that > 90% of max Duration makes you of highDur.
-	 *  The tests for update volume to be considered high is 
+	 *  The tests for update volume to be considered notSmall is 
 	 *  (a) either strictly higher that _ABS_UPD_FOR_ACTIVE or 
 	 *  (b) strictly higher than  _PCT_MAX_UPD_FOR_ACTIVE * maxSumUpd
 	 *  
@@ -121,7 +121,7 @@ public class InverseGammaAssessment extends PatternAssessmentTemplateMethod {
 	/**
 	 * Returns true/false on whether the Inverse Gamma pattern holds.
 	 *
-	 * <p>The geometrical pattern holds if the cell (contTable[1][0]) of lowDuration and highUpdates is empty.
+	 * <p>The geometrical pattern holds if the cell (contTable[1][0]) of lowDuration and notSmallUpdates is empty.
 	 * Remember this holds at least 1 - _PCT_MAX_DUR_FOR_LONGLIVED of the duration range and depending on the test for updates, 
 	 * either 1 - _PCT_MAX_UPD_FOR_ACTIVE of the sumUpd range or, and tables with updates less than  _ABS_UPD_FOR_ACTIVE, 
 	 * i.e., a really large area of the space duration X sumUpd. We consider it empty if it has less than _PCT_EMPTY_AREA_THRESHOLD
@@ -130,7 +130,7 @@ public class InverseGammaAssessment extends PatternAssessmentTemplateMethod {
 	 * <p>The Fisher test is simply the statistical test over the contingency table.
  	 * <p>The contingency table is
 	 *  <pre>
-	 *              highUpd | notHighUpd  
+	 *          notSmallUpd | smallUpd  
 	 *            --------------------
 	 *  highDur    |        |        |
 	 *            --------------------
@@ -139,8 +139,8 @@ public class InverseGammaAssessment extends PatternAssessmentTemplateMethod {
 	 * </pre>    
 	 *  So, the one-tail test has
 	 *  <pre>
-	 *    H0: prob(highUpd|highDur) <= prob(highUpd|notHighDur)
-	 *    Ha: prob(highUpd|highDur) > prob(highUpd|notHighDur)
+	 *    H0: prob(notSmallUpd|highDur) <= prob(notSmallUpd|notHighDur)
+	 *    Ha: prob(notSmallUpd|highDur) > prob(notSmallUpd|notHighDur)
 	 *  </pre>
 	 *  <p>Therefore, we need the one-tail test, and, via a small p-Value, reject the Ho.
 	 *  <p>See page 133 in "Statistics in a Nutshell", 2nd Ed., O'Reilly
