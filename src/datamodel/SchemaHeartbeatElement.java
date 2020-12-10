@@ -1,7 +1,7 @@
 package datamodel;
 
 public class SchemaHeartbeatElement implements IElement{
-//deletethiscomment
+//delete this comment
 	public SchemaHeartbeatElement(int trID, String epochTime, String oldVer, String newVer, String humanTime,
 			int distFromV0InDays, int runningYearFromV0, int runningMonthFromV0, int numOldTables, int numNewTables,
 			int numOldAttrs, int numNewAttrs, int tablesIns, int tablesDel, int attrsInsWithTableIns,
