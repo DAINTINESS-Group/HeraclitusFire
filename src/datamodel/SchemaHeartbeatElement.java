@@ -37,6 +37,12 @@ public class SchemaHeartbeatElement implements IElement{
 		this.expansion = expansion;
 		this.maintenance = maintenance;
 		this.totalAttrActivity = totalAttrActivity;
+		
+		///
+		this.active = isActive();
+		this.turf = isTurf();
+		this.reed = isReed();
+		///
 	}
 	
 	public int getTrID() {
@@ -124,6 +130,21 @@ public class SchemaHeartbeatElement implements IElement{
 		return totalAttrActivity;
 	}
 	
+	///
+	public int getIsActive() {
+		return active;
+	}
+	
+	public int getIsTurf() {
+		return turf;
+	}
+	
+	public int getIsReed() {
+		return reed;
+	}
+	
+	///
+	
 	//TODO: add a test	
 	@Override
 	public int getIntValueByPosition(int position) {
@@ -194,6 +215,43 @@ public class SchemaHeartbeatElement implements IElement{
 			default: return _ERROR_STRING;
 		}//end switch
 	}
+	
+	
+	///
+	public int isActive()
+	{
+		if(this.totalAttrActivity > GlobalThresholds.active_thrld)
+		{
+			return 0;
+		}
+		
+		return 1;
+	}
+	
+	public int isTurf()
+	{
+		if(this.active == 0)	//if is active
+		{
+			if(this.totalAttrActivity < GlobalThresholds.turf_thrld)
+			{
+				return 0;
+			}
+		}
+		return 1;
+	}
+	
+	public int isReed()
+	{
+		if(this.active == 0)	//if is active
+		{
+			if(this.turf == 1) //if is not turf
+			{
+				return 0;
+			}
+		}
+		return 1;
+	}
+	///
 
 	private int trID;
 	private String epochTime;
@@ -228,4 +286,10 @@ public class SchemaHeartbeatElement implements IElement{
 //	final public static int _ERROR_CODE = -1;
 //	final public static String _ERROR_STRING = "";
 
+	
+	///
+	private int active;
+	private int turf;
+	private int reed;
+	///
 }
