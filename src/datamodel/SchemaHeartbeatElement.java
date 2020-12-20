@@ -39,9 +39,9 @@ public class SchemaHeartbeatElement implements IElement{
 		this.totalAttrActivity = totalAttrActivity;
 		
 		///
-		this.active = isActive();
-		this.turf = isTurf();
-		this.reed = isReed();
+		this.active = isActive();	//(0 : Active) 	- 	(1 : INactive)
+		this.turf = isTurf();		//(0 : Turf)	-	(1 : NOT a Turf) 
+		this.reed = isReed();		//(0 : Reed)	-	(1 : NOT a Reed)
 		///
 	}
 	
@@ -177,7 +177,56 @@ public class SchemaHeartbeatElement implements IElement{
 			case 25:	 return getExpansion();// break;
 			case 26:	 return getMaintenance();// break;
 			case 27:	 return getTotalAttrActivity();// break;
+			
+			///
+			case 28:	return getIsActive();//break
+			case 29:	return getIsTurf();//break
+			case 30:	return getIsReed();//break
+			///
+			
 			default: return _ERROR_CODE;
+		}//end switch
+	}
+	
+	@Override 
+	public double getDoubleValueByPosition(int position) {
+		switch(position) {
+		//case 0:	 return getTrID(); //break;
+		//case 1:	 return getEpochTime(); //break;
+		//case 2:	 return getOldVer(); //break;
+		//case 3:	 return getNewVer(); //break;
+		//case 4:	 return getHumanTime(); //break;
+		//case 5:	 return getDistFromV0InDays(); //break;
+		//case 6:	 return getRunningYearFromV0();//break;
+		//case 7:	 return getRunningMonthFromV0();//break;
+		//case 8:	 return getNumOldTables();//break;
+		//case 9:	 return getNumNewTables();//break;
+		//case 10:	 return getNumOldAttrs(); //break;
+		//case 11:	 return getNumNewAttrs(); //break;
+		//case 12:	 return getTablesIns(); //break;
+		//case 13:	 return getTablesDel(); //break;
+		//case 14:	 return getAttrsInsWithTableIns(); //break;
+		//case 15:	 return getAttrsbDelWithTableDel(); //break;
+		//case 16:	 return getAttrsInjected(); //break;
+		//case 17:	 return getAttrsEjected(); //break;
+		//case 18:	 return getAttrsWithTypeUpd(); //break;
+		//case 19:	 return getAttrsInPKUpd();// break;
+		//case 20:	 return getTableDelta();// break;
+		//case 21:	 return getAttrDelta();// break;
+		//case 22:	 return getAttrBirthsSum();// break;
+		//case 23:	 return getAttrDeathsSum();// break;
+		//case 24:	 return getAttrUpdsSum();// break;
+		//case 25:	 return getExpansion();// break;
+		//case 26:	 return getMaintenance();// break;
+		//case 27:	 return getTotalAttrActivity();// break;
+		
+		///
+		//case 28:	return getIsActive();//break
+		//case 29:	return getIsTurf();//break
+		//case 30:	return getIsReed();//break
+		///
+		
+		default: return _ERROR_CODE;
 		}//end switch
 	}
 	
@@ -212,6 +261,13 @@ public class SchemaHeartbeatElement implements IElement{
 			//case 25:	 return getExpansion();// break;
 			//case 26:	 return getMaintenance();// break;
 			//case 27:	 return getTotalAttrActivity();// break;
+			
+			///
+			//case 28:	return getIsActive();//break
+			//case 29:	return getIsTurf();//break
+			//case 30:	return getIsReed();//break
+			///
+			
 			default: return _ERROR_STRING;
 		}//end switch
 	}

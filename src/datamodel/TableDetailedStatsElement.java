@@ -130,6 +130,35 @@ public class TableDetailedStatsElement implements IElement{
 	}
 	
 	@Override
+	public double getDoubleValueByPosition(int position) {
+		switch(position) {
+		//case 0:	 return getTable(); //break;
+		//case 1:	 return getDuration(); //break;
+		//case 2:	 return getBirth(); //break;
+		//case 3:	 return getDeath(); //break;
+		//case 4:	 return getLastKnownVersion(); //break;
+		//case 5:	 return getBirthDate(); //break;
+		//case 6:	 return getLkvDate();//break;
+		//case 7:	 return getYearOfBirth();//break;
+		//case 8:	 return getYearOfLKV();//break;
+		//case 9:	 return getDurationDays();//break;
+		//case 10:	 return getSchemaSizeBirth(); //break;
+		//case 11:	 return getSchemaSizeLKV(); //break;
+		//case 12:	 return getSchemaSizeAvg(); //break;
+		//case 13:	 return getSchemaSizeResizeRatio(); //break;
+		//case 14:	 return getSumupd(); //break;
+		//case 15:	 return getCountvwupd(); //break;
+		//case 16:	 return getATU(); break;
+		//case 17:	 return getUpdRate(); break;
+		//case 18:	 return getAvgUpdVolume(); break;
+		//case 19:	 return getSurvivalClass();// break;
+		//case 20:	 return getActivityClass();// break;
+		//case 21:	 return getLadclass();// break;
+		default: return _ERROR_CODE;
+		}
+	}
+	
+	@Override
 	public String getStringValueByPosition(int position) {
 		switch(position) {
 			case 0:	 return getTable(); //break;
