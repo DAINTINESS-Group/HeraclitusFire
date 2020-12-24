@@ -284,6 +284,40 @@ public class SchemaStatsMainEngine implements IMainEngine<SchemaHeartbeatElement
 		int totalTotalAttrActivity = 0;
 		//int totalTotalAttrActivity = inputTupleCollection.get(0).getIntValueByPosition(27);
 		
+		///
+		int reeds = 0;
+		int reedsPostV0 = 0;
+		double reedRatioAComm = 0.0;
+		double reedRatioTComm = 0.0;
+		int activityDueToReeds = 0;
+		int activityDueToReedsPostV0 = 0;
+		int turfs = 0;
+		int turfsPostV0 = 0;
+		double turfRatioAComm = 0.0;
+		double turfRatioTComm = 0.0;
+		int activityDueToTurf = 0;
+		int activityDueToTurfPostV0 = 0;
+		int activeCommits = 0;
+		double activeCommitRatePerMonth = 0.0;
+		double commitRatePerMonth = 0.0;
+		double activeCommitRatio = 0.0;
+		
+		if(inputTupleCollection.get(0).getIsReed() == 0) //if first commit is reed
+		{
+			reeds = 1;
+			activityDueToReeds += inputTupleCollection.get(0).getTotalAttrActivity(); 
+		}
+		if(inputTupleCollection.get(0).getIsTurf() == 0) //if first commit is turf
+		{
+			turfs = 1;
+			activityDueToTurf += inputTupleCollection.get(0).getTotalAttrActivity();
+		}
+		if(inputTupleCollection.get(0).getIsActive() == 0) //if first commit is active
+		{
+			activeCommits = 1;
+		}
+		///
+		
 		for (int i=1; i < inputTupleCollection.size(); i++) {
 			totalTableInsertions += inputTupleCollection.get(i).getTablesIns();
 			totalTableDeletions += inputTupleCollection.get(i).getTablesDel();
@@ -297,6 +331,27 @@ public class SchemaStatsMainEngine implements IMainEngine<SchemaHeartbeatElement
 			totalExpansion += inputTupleCollection.get(i).getExpansion();
 			totalMaintenance += inputTupleCollection.get(i).getMaintenance();
 			totalTotalAttrActivity += inputTupleCollection.get(i).getTotalAttrActivity();
+			
+			///
+			if(inputTupleCollection.get(i).getIsReed() == 0)
+			{
+				reeds++;
+				reedsPostV0++;
+				activityDueToReeds += inputTupleCollection.get(i).getTotalAttrActivity();
+				activityDueToReedsPostV0 += inputTupleCollection.get(i).getTotalAttrActivity();
+			}
+			if(inputTupleCollection.get(i).getIsTurf() == 0)
+			{
+				turfs++;
+				turfsPostV0++;
+				activityDueToTurf += inputTupleCollection.get(i).getTotalAttrActivity();
+				activityDueToTurfPostV0 += inputTupleCollection.get(i).getTotalAttrActivity();
+			}
+			if(inputTupleCollection.get(i).isActive() == 0)
+			{
+				activeCommits++;
+			}
+			///
 		}
 		
 		double expansionRatePerCommit = totalExpansion / (double)numCommits;
@@ -318,6 +373,39 @@ public class SchemaStatsMainEngine implements IMainEngine<SchemaHeartbeatElement
 		}
 		double resizingratio = numTablesAtEnd / (double)numTablesAtStart;
 		
+		///
+		if(activeCommits != 0)
+		{
+			reedRatioAComm = (double)reeds / activeCommits;
+			reedRatioAComm = Math.round(reedRatioAComm * 100.0) / 100.0;
+			
+			turfRatioAComm = (double)turfs / activeCommits;
+			turfRatioAComm = Math.round(turfRatioAComm * 100.0) / 100.0;
+			
+		}
+		if(numCommits != 0)
+		{
+			reedRatioTComm = (double)reeds / numCommits;
+			reedRatioTComm = Math.round(reedRatioTComm * 100.0) / 100.0;
+			
+			turfRatioTComm = (double)turfs / numCommits;
+			turfRatioTComm = Math.round(turfRatioTComm * 100.0) / 100.0;
+			
+			activeCommitRatio = (double)activeCommits / numCommits;
+			activeCommitRatio = Math.round(activeCommitRatio * 100.0) / 100.0;
+		}
+		
+		if((projectDurationInMonths != -1) && (projectDurationInMonths != 0))	//if dateMode in current project exists	and - is not zero - (maybe zero check not needed)
+		{
+			activeCommitRatePerMonth = (double)activeCommits / projectDurationInMonths;
+			activeCommitRatePerMonth = Math.round(activeCommitRatePerMonth * 100.0) / 100.0;
+			
+			commitRatePerMonth = (double)numCommits / projectDurationInMonths;
+			commitRatePerMonth = Math.round(commitRatePerMonth * 100.0) / 100.0;
+		} 
+		
+		///
+		
 		this.schemaLevelInfo = new SchemaLevelInfo(projectName, projectDurationInDays, projectDurationInMonths,
 				projectDureationInYears, numCommits, numTablesAtStart, numTablesAtEnd, numAttrsAtStart,
 				numAttrsAtEnd, totalTableInsertions, totalTableDeletions, totalAttrInsWithTableIns,
@@ -326,7 +414,9 @@ public class SchemaStatsMainEngine implements IMainEngine<SchemaHeartbeatElement
 				expansionRatePerCommit, expansionRatePerMonth, expansionRatePeryear,
 				maintenanceRatePerCommit, maintenanceRatePerMonth, maintenanceRatePeryear,
 				totalAttrActivityRatePerCommit, totalAttrActivityRatePerMonth,
-				totalAttrActivityRatePeryear, resizingratio);
+				totalAttrActivityRatePeryear, resizingratio, reeds, reedsPostV0, reedRatioAComm, reedRatioTComm,
+				activityDueToReeds, activityDueToReedsPostV0, turfs, turfsPostV0, turfRatioAComm, turfRatioTComm, 
+				activityDueToTurf, activityDueToTurfPostV0, activeCommits, activeCommitRatePerMonth, commitRatePerMonth, activeCommitRatio);
 		
 		File globalSchemaLevelInfoTSVFile = new File(outputFolderWithSummaries + File.separator + prjName + "_SchemaLevelInfo.tsv");
 		try {
@@ -338,7 +428,10 @@ public class SchemaStatsMainEngine implements IMainEngine<SchemaHeartbeatElement
 						+ "\t#Attrs@Start\t#Attrs@End\tTotalTableInsertions\tTotalTableDeletions\tTotalAttrInsWithTableIns\tTotalAttrbDelWithTableDel" 
 						+ "\tTotalAttrInjected\tTotalAttrEjected\tTotalAttrWithTypeUpd\tTotalAttrInPKUpd\tTotalExpansion\tTotalMaintenance\tTotalTotalAttrActivity" 
 						+ "\tExpansionRatePerCommit\tExpansionRatePerMonth\tExpansionRatePeryear\tMaintenanceRatePerCommit\tMaintenanceRatePerMonth\tMaintenanceRatePeryear" 
-						+ "\tTotalAttrActivityRatePerCommit\tTotalAttrActivityRatePerMonth\tTotalAttrActivityRatePeryear\tResizingratio");
+						+ "\tTotalAttrActivityRatePerCommit\tTotalAttrActivityRatePerMonth\tTotalAttrActivityRatePeryear\tResizingratio\tReeds\tReedsPostV0"
+						+ "\tReedRatioAComm\tReedRatioTComm\tActivityDueToReeds\tActivityDueToReedsPostV0\tTurfs\tTurfsPostV0"
+						+ "\tTurfRatioAComm\tTurfRatioTComm\tActivityDueToTurf\tActivityDueToTurfPostV0\tActiveCommits\tActiveCommitRatePerMonth"
+						+ "\tCommitRatePerMonth\tActiveCommitRatio");
 			writer.println(this.schemaLevelInfo.toString());
 			writer.close();
 		} catch (IOException e) {
@@ -559,14 +652,20 @@ public class SchemaStatsMainEngine implements IMainEngine<SchemaHeartbeatElement
 			} else if (humanTime.compareTo(currentRunningMonth) < 0) {
 				
 				///
-				if(numCommits != 0)
+				if(activeCommits != 0)
 				{
 					turfRatioAComm = (double)turfs / activeCommits;
 					turfRatioAComm =  Math.round(turfRatioAComm * 100.0) / 100.0;
+					
+					reedRatioAComm = 1 - turfRatioAComm;
+				}
+				
+				if(numCommits != 0)
+				{
+					
 					turfRatioTComm = (double)turfs / numCommits;
 					turfRatioTComm = Math.round(turfRatioTComm * 100.0) / 100.0;
 					
-					reedRatioAComm = 1 - turfRatioAComm;
 					reedRatioTComm = (double)reeds / numCommits;
 					reedRatioTComm = Math.round(reedRatioTComm * 100.0) / 100.0;
 					
@@ -624,7 +723,8 @@ public class SchemaStatsMainEngine implements IMainEngine<SchemaHeartbeatElement
 					this.monthlySchemaStatsCollection.add(new MonthSchemaStats(mID,humanTime.toString(),numCommits,numTables,numAttrs,
 							tablesInsertionsSum,tablesDeletionsSum,attrsInsWithTableInsSum,attrsbDelWithTableDelSum,
 							attrsInjectedSum,attrsEjectedSum,attrsWithTypeUpdSum,attrsInPKUpdSum,tableDeltaSum,attrDeltaSum,
-							attrBirthsSum,attrDeathsSum,attrUpdsSum,totalExpansion,totalMaintenance,totalAttrActivity,reeds,reedRatioAComm,reedRatioTComm,activityDueToReeds,turfs,turfRatioAComm,turfRatioTComm,activityDueToTurfs,activeCommits,activeCommitRatio));
+							attrBirthsSum,attrDeathsSum,attrUpdsSum,totalExpansion,totalMaintenance,totalAttrActivity,reeds,reedRatioAComm,reedRatioTComm,activityDueToReeds,
+							turfs,turfRatioAComm,turfRatioTComm,activityDueToTurfs,activeCommits,activeCommitRatio));
 					mID ++;
 					humanTime = humanTime.plusMonths(1);
 				}
@@ -679,14 +779,19 @@ public class SchemaStatsMainEngine implements IMainEngine<SchemaHeartbeatElement
 		}
 		
 		///
-		if(numCommits != 0)
+		if(activeCommits != 0)
 		{
 			turfRatioAComm = (double)turfs / activeCommits;
 			turfRatioAComm = Math.round(turfRatioAComm * 100.0) / 100.0;
+			
+			reedRatioAComm = 1 - turfRatioAComm;
+		}
+		
+		if(numCommits != 0)
+		{
 			turfRatioTComm = (double)turfs / numCommits;
 			turfRatioTComm = Math.round(turfRatioTComm * 100.0) / 100.0;
 			
-			reedRatioAComm = 1 - turfRatioAComm;
 			reedRatioTComm = (double)reeds / numCommits;
 			reedRatioTComm = Math.round(reedRatioTComm * 100.0) / 100.0;
 			
