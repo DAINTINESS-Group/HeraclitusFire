@@ -32,7 +32,7 @@ public class StagelessSchemaStatsMainEngineTest {
 				"tablesIns", "tablesDel", "attrsInsWithTableIns", "attrsbDelWithTableDel", "attrsInjected", 
 				"attrsEjected", "attrsWithTypeUpd", "attrsInPKUpd", "tableDelta", "attrDelta", "attrBirthsSum", 
 				"attrDeathsSum", "attrUpdsSum", "Expansion", "Maintenance", "TotalAttrActivity")); 
-		String schemaLevelInfoString = "Egee\t\t\t\t17\t6\t10\t34\t71\t6\t2\t31\t10\t28\t12\t18\t1\t59\t41\t100\t3.471\t\t\t2.412\t\t\t5.882\t\t\t1.667";
+		String schemaLevelInfoString = "Egee\t\t\t\t17\t6\t10\t34\t71\t6\t2\t31\t10\t28\t12\t18\t1\t59\t41\t100\t3.471\t\t\t2.412\t\t\t5.882\t\t\t1.667\t3\t2\t0.19\t0.18\t95\t61\t13\t13\t0.81\t0.76\t39\t39\t16\t0.0\t0.0\t0.94";
 		ArrayList<String> header = new ArrayList<String>();
 		ArrayList<SchemaHeartbeatElement> inputTupleCollection = new ArrayList<SchemaHeartbeatElement>();
 		
@@ -78,7 +78,7 @@ public class StagelessSchemaStatsMainEngineTest {
 				"tablesIns", "tablesDel", "attrsInsWithTableIns", "attrsbDelWithTableDel", "attrsInjected", 
 				"attrsEjected", "attrsWithTypeUpd", "attrsInPKUpd", "tableDelta", "attrDelta", "attrBirthsSum", 
 				"attrDeathsSum", "attrUpdsSum", "Expansion", "Maintenance", "TotalAttrActivity")); 
-		String schemaLevelInfoString = "Atlas\t971\t32\t3\t85\t56\t73\t709\t858\t34\t17\t233\t122\t154\t116\t245\t1\t387\t484\t871\t4.553\t12.094\t129.0\t5.694\t15.125\t161.333\t10.247\t27.219\t290.333\t1.304";
+		String schemaLevelInfoString = "Atlas\t971\t32\t3\t85\t56\t73\t709\t858\t34\t17\t233\t122\t154\t116\t245\t1\t387\t484\t871\t4.553\t12.094\t129.0\t5.694\t15.125\t161.333\t10.247\t27.219\t290.333\t1.304\t19\t18\t0.27\t0.22\t1366\t657\t51\t51\t0.73\t0.6\t214\t214\t70\t2.19\t2.66\t0.82";
 		ArrayList<String> header = new ArrayList<String>();
 		ArrayList<SchemaHeartbeatElement> inputTupleCollection = new ArrayList<SchemaHeartbeatElement>();
 		
@@ -101,6 +101,7 @@ public class StagelessSchemaStatsMainEngineTest {
 		SchemaLevelInfo schemaLevelInfo = stagelessSchemaStatsMainEngine.extractSchemaLevelInfo("Atlas", inputTupleCollection, "resources/test/Profiling", true);
 		assertTrue(schemaLevelInfoString.equals(schemaLevelInfo.toString()));
 		Long newTimeStamp = infoFileProduced.lastModified();
+
 		assertTrue(newTimeStamp > originalTimeStamp);
 		
 		File htmlFileProduced = new File("resources/test/Profiling/Atlas_Summary.html"); 
