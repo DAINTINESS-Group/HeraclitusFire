@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import datamodel.SchemaHeartbeatElement;
 import mainEngine.SchemaStatsMainEngine;
 
-class EgeeSchemaHeartBeatTest {
+class EgeeSchemaHeartbeatTest {
 	private static SchemaStatsMainEngine schemaStatsMainEngine; 
 	private static ArrayList<String> headerExpected; 
 	
