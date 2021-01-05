@@ -102,6 +102,11 @@ public class SchemaStatsMainEngine implements IMainEngine<SchemaHeartbeatElement
 			System.err.println("SchemaStatsMainEngine.processFolder:: did not find any rows in schema heartbeat");
 			System.exit(-1);
 		}
+		
+		///
+		writeUpdatedSchemaHeartBeat(inputFolderWithStats);
+		///
+		
 		if (inputTupleCollection.get(0).getRunningYearFromV0() == -1) {
 			_DATEMODE = false;
 		}
@@ -828,6 +833,25 @@ public class SchemaStatsMainEngine implements IMainEngine<SchemaHeartbeatElement
 			if(_DEBUGMODE) System.out.print(nextAttr + "\t");
 		}
 		if(_DEBUGMODE) System.out.println();
+	}
+	
+	
+	private void writeUpdatedSchemaHeartBeat(String folder) {
+		String mssHeader = "trID\tepochTime\toldVer\tnewVer\thumanTime\tdistFromV0InDays\trunningYearFromV0\trunningMonthFromV0\t#numOldTables\t#numNewTables\t#numOldAttrs\t#numNewAttrs\ttablesIns\ttablesDel\tattrsInsWithTableIns\tattrsbDelWithTableDel\tattrsInjected\tattrsEjected\tattrsWithTypeUpd\tattrsInPKUpd\ttableDelta\tattrDelta\tattrBirthsSum\tattrDeathsSum\tattrUpdsSum\tExpansion\tMaintenance\tTotalAttrActivity\tisReed\tisTurf\tisActive";
+		// save to tsv
+				File monthlySchemaStatsTSVFile = new File(folder + File.separator + prjName + "_SchemaHeartBeat_Updated.tsv");
+				try {
+					PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(monthlySchemaStatsTSVFile, false), StandardCharsets.UTF_8));
+					writer.println(mssHeader);
+					
+					for(SchemaHeartbeatElement tuple: this.inputTupleCollection) {
+						writer.println(tuple.toString());
+					}
+					writer.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+		
 	}
 
 }//end class

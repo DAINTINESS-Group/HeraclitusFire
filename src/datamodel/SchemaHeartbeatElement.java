@@ -309,6 +309,18 @@ public class SchemaHeartbeatElement implements IElement{
 	}
 	///
 
+	
+	///
+	@Override
+	public String toString() {
+		return trID+ "\t" +epochTime+ "\t" +oldVer+ "\t" +newVer+ "\t" +humanTime+ "\t" +distFromV0InDays+ "\t" +runningYearFromV0+ "\t" +runningMonthFromV0+ "\t" +numOldTables+ "\t" +numNewTables+ "\t" +numOldAttrs+ "\t" +
+				numNewAttrs+ "\t" +tablesIns+ "\t" +tablesDel+ "\t" +attrsInsWithTableIns+ "\t" +attrsbDelWithTableDel+ "\t" +attrsInjected+ "\t" +attrsEjected+ "\t" +attrsWithTypeUpd+ "\t" +attrsInPKUpd+ "\t" +tableDelta+ "\t" +
+				attrDelta+ "\t" +attrBirthsSum+ "\t" +attrDeathsSum+ "\t" +attrUpdsSum+ "\t" +expansion+ "\t" +maintenance+ "\t" +totalAttrActivity+ "\t" +reed+ "\t" +turf+ "\t" +active;
+	}
+	///
+	
+	
+	
 	private int trID;
 	private String epochTime;
 	private String oldVer;
