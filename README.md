@@ -69,6 +69,9 @@ See the [copyright](copyright.md) file
 - [x] Code and tests for electrolysis table pattern test
 
 ## History
+### v0.5 [2020 Oct - 2021 Jan]
+* Georgios Kalampokis improved the monthly schema stats
+
 ### v0.2 - v0.4.5 [2019 Nov. - 2020 Jan]
 * Alexandros Voulgaris started contributing to reporting, charting and pattern assessment
 * P. Vassiliadis started contributing pattern testing
