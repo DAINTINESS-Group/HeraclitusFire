@@ -14,7 +14,10 @@ public class SchemaLevelInfo implements IElement{
 			double expansionRatePerCommit, double expansionRatePerMonth, double expansionRatePeryear,
 			double maintenanceRatePerCommit, double maintenanceRatePerMonth, double maintenanceRatePeryear,
 			double totalAttrActivityRatePerCommit, double totalAttrActivityRatePerMonth,
-			double totalAttrActivityRatePeryear, double resizingratio) {
+			double totalAttrActivityRatePeryear, double resizingratio, int reeds, int reedsPostV0, 
+			double reedRatioAComm, double reedRatioTComm, int activityDueToReeds, int activityDueToReedsPostV0,
+			int turfs, int turfsPostV0, double turfRatioAComm, double turfRatioTComm, int activityDueToTurf, 
+			int activityDueToTurfPostV0, int activeCommits, double activeCommitRatePerMonth, double commitRatePerMonth, double activeCommitRatio) {
 		super();
 		this.projectName = projectName;
 		this.projectDurationInDays = projectDurationInDays;
@@ -46,6 +49,25 @@ public class SchemaLevelInfo implements IElement{
 		this.totalAttrActivityRatePerMonth = totalAttrActivityRatePerMonth;
 		this.totalAttrActivityRatePeryear = totalAttrActivityRatePeryear;
 		this.resizingratio = resizingratio;
+		
+		///
+		this.reeds = reeds;
+		this.reedsPostV0 = reedsPostV0;
+		this.turfs = turfs;
+		this.turfsPostV0 = turfsPostV0;
+		this.activeCommits = activeCommits;
+		this.reedRatioAComm = reedRatioAComm;
+		this.reedRatioTComm = reedRatioTComm;
+		this.activityDueToReeds = activityDueToReeds;
+		this.activityDueToReedsPostV0 = activityDueToReedsPostV0;
+		this.turfRatioAComm = turfRatioAComm;
+		this.turfRatioTComm = turfRatioTComm;
+		this.activityDueToTurf = activityDueToTurf;
+		this.activityDueToTurfPostV0 = activityDueToTurfPostV0;
+		this.activeCommitRatePerMonth = activeCommitRatePerMonth;
+		this.commitRatePerMonth = commitRatePerMonth;
+		this.activeCommitRatio = activeCommitRatio;
+		///
 	}
 	
 	public String getProjectName() {
@@ -138,40 +160,106 @@ public class SchemaLevelInfo implements IElement{
 	public double getResizingratio() {
 		return resizingratio;
 	}
+	///
+	public int getReeds() {
+		return reeds;
+	}
+	public int getReedsPostV0() {
+		return reedsPostV0;
+	}
+	public int getTurfs() {
+		return turfs;
+	}
+	public int getTurfsPostV0() {
+		return turfsPostV0;
+	}
+	public int getActiveCommits() {
+		return activeCommits;
+	}
+	public double getReedRatioAComm() {
+		return reedRatioAComm;
+	}
+	public double getReedRatioTComm() {
+		return reedRatioTComm;
+	}
+	public int getActivityDueToReeds() {
+		return activityDueToReeds;
+	}
+	public int getActivityDueToReedsPostV0() {
+		return activityDueToReedsPostV0;
+	}
+	public double getTurfRatioAComm() {
+		return turfRatioAComm;
+	}
+	public double getTurfRatioTComm() {
+		return turfRatioTComm;
+	}
+	public int getActivityDueToTurf() {
+		return activityDueToTurf;
+	}
+	public int getActivityDueToTurfPostV0() {
+		return activityDueToTurfPostV0;
+	}
+	public double getActiveCommitRatePerMonth() {
+		return activeCommitRatePerMonth;
+	}
+	public double getCommitRatePerMonth() {
+		return commitRatePerMonth;
+	}
+	public double getActiveCommitRatio() {
+		return activeCommitRatio;
+	}
+	///
 	
 	@Override
 	public int getIntValueByPosition(int position) {
 		switch(position) {
 			//case 0:	 return getProjectName(); //break;
-			case 1:	 return getProjectDurationInDays(); //break;
-			case 2:	 return getProjectDurationInMonths(); //break;
-			case 3:	 return getProjectDureationInYears(); //break;
-			case 4:	 return getNumCommits(); //break;
-			case 5:	 return getNumTablesAtStart(); //break;
-			case 6:	 return getNumTablesAtEnd();//break;
-			case 7:	 return getNumAttrsAtStart();//break;
-			case 8:	 return getNumAttrsAtEnd();//break;
-			case 9:	 return getTotalTableInsertions();//break;
-			case 10:	 return getTotalTableDeletions(); //break;
-			case 11:	 return getTotalAttrInsWithTableIns(); //break;
-			case 12:	 return getTotalAttrbDelWithTableDel(); //break;
-			case 13:	 return getTotalAttrInjected(); //break;
-			case 14:	 return getTotalAttrEjected(); //break;
-			case 15:	 return getTatalAttrWithTypeUpd(); //break;
-			case 16:	 return getTotalAttrInPKUpd(); //break;
-			case 17:	 return getTotalExpansion(); //break;
-			case 18:	 return getTotalMaintenance(); //break;
-			case 19:	 return getTotalTotalAttrActivity();// break;
-			//case 20:	 return getExpansionRatePerCommit();// break;
-			//case 21:	 return getExpansionRatePerMonth();// break;
-			//case 22:	 return getExpansionRatePeryear();// break;
-			//case 23:	 return getMaintenanceRatePerCommit();// break;
-			//case 24:	 return getMaintenanceRatePerMonth();// break;
-			//case 25:	 return getMaintenanceRatePeryear();// break;
-			//case 26:	 return getTotalAttrActivityRatePerCommit();// break;
-			//case 27:	 return getTotalAttrActivityRatePerMonth();// break;
-			//case 28:	 return getTotalAttrActivityRatePeryear();// break;
-			//case 29:	 return getResizingratio();// break;
+			case 1:	 	return getProjectDurationInDays(); //break;
+			case 2:	 	return getProjectDurationInMonths(); //break;
+			case 3:	 	return getProjectDureationInYears(); //break;
+			case 4:	 	return getNumCommits(); //break;
+			case 5:	 	return getNumTablesAtStart(); //break;
+			case 6:	 	return getNumTablesAtEnd();//break;
+			case 7:	 	return getNumAttrsAtStart();//break;
+			case 8:	 	return getNumAttrsAtEnd();//break;
+			case 9:	 	return getTotalTableInsertions();//break;
+			case 10:	return getTotalTableDeletions(); //break;
+			case 11:	return getTotalAttrInsWithTableIns(); //break;
+			case 12:	return getTotalAttrbDelWithTableDel(); //break;
+			case 13:	return getTotalAttrInjected(); //break;
+			case 14:	return getTotalAttrEjected(); //break;
+			case 15:	return getTatalAttrWithTypeUpd(); //break;
+			case 16:	return getTotalAttrInPKUpd(); //break;
+			case 17:	return getTotalExpansion(); //break;
+			case 18:	return getTotalMaintenance(); //break;
+			case 19:	return getTotalTotalAttrActivity();// break;
+			//case 20:	return getExpansionRatePerCommit();// break;
+			//case 21:	return getExpansionRatePerMonth();// break;
+			//case 22:	return getExpansionRatePeryear();// break;
+			//case 23:	return getMaintenanceRatePerCommit();// break;
+			//case 24:	return getMaintenanceRatePerMonth();// break;
+			//case 25:	return getMaintenanceRatePeryear();// break;
+			//case 26:	return getTotalAttrActivityRatePerCommit();// break;
+			//case 27:	return getTotalAttrActivityRatePerMonth();// break;
+			//case 28:	return getTotalAttrActivityRatePeryear();// break;
+			//case 29:	return getResizingratio();// break;
+			case 30:	return getReeds();
+			case 31:	return getReedsPostV0();
+			case 32:	return getActivityDueToReeds();
+			case 33:	return getActivityDueToReedsPostV0();
+			case 34:	return getTurfs();
+			case 35:	return getTurfsPostV0();
+			case 36:	return getActivityDueToTurf();
+			case 37:	return getActivityDueToTurfPostV0();
+			case 38:	return getActiveCommits();	
+			//case 39:	return getReedRatioAComm();
+			//case 40:	return getReedRatioTComm();
+			//case 41:	return getTurfRatioAComm();
+			//case 42:	return getTurfRatioTComm();
+			//case 43:	return getActiveCommitRatePerMonth();
+			//case 44:	return getCommitRatePerMonth();
+			//case 45:	return getActiveCommitRatio();
 			default: return _ERROR_CODE;
 		}//end switch
 	}
@@ -179,74 +267,106 @@ public class SchemaLevelInfo implements IElement{
 	@Override
 	public String getStringValueByPosition(int position) {
 		switch(position) {
-		case 0:	 return getProjectName(); //break;
-		//case 1:	 return getProjectDurationInDays(); //break;
-		//case 2:	 return getProjectDurationInMonths(); //break;
-		//case 3:	 return getProjectDureationInYears(); //break;
-		//case 4:	 return getNumCommits(); //break;
-		//case 5:	 return getNumTablesAtStart(); //break;
-		//case 6:	 return getNumTablesAtEnd();//break;
-		//case 7:	 return getNumAttrsAtStart();//break;
-		//case 8:	 return getNumAttrsAtEnd();//break;
-		//case 9:	 return getTotalTableInsertions();//break;
-		//case 10:	 return getTotalTableDeletions(); //break;
-		//case 11:	 return getTotalAttrInsWithTableIns(); //break;
-		//case 12:	 return getTotalAttrbDelWithTableDel(); //break;
-		//case 13:	 return getTotalAttrInjected(); //break;
-		//case 14:	 return getTotalAttrEjected(); //break;
-		//case 15:	 return getTatalAttrWithTypeUpd(); //break;
-		//case 16:	 return getTotalAttrInPKUpd(); //break;
-		//case 17:	 return getTotalExpansion(); //break;
-		//case 18:	 return getTotalMaintenance(); //break;
-		//case 19:	 return getTotalTotalAttrActivity();// break;
-		//case 20:	 return getExpansionRatePerCommit();// break;
-		//case 21:	 return getExpansionRatePerMonth();// break;
-		//case 22:	 return getExpansionRatePeryear();// break;
-		//case 23:	 return getMaintenanceRatePerCommit();// break;
-		//case 24:	 return getMaintenanceRatePerMonth();// break;
-		//case 25:	 return getMaintenanceRatePeryear();// break;
-		//case 26:	 return getTotalAttrActivityRatePerCommit();// break;
-		//case 27:	 return getTotalAttrActivityRatePerMonth();// break;
-		//case 28:	 return getTotalAttrActivityRatePeryear();// break;
-		//case 29:	 return getResizingratio();// break;
-		default: return _ERROR_STRING;
+			case 0:	 return getProjectName(); //break;
+			//case 1:	return getProjectDurationInDays(); //break;
+			//case 2:	return getProjectDurationInMonths(); //break;
+			//case 3:	return getProjectDureationInYears(); //break;
+			//case 4:	return getNumCommits(); //break;
+			//case 5:	return getNumTablesAtStart(); //break;
+			//case 6:	return getNumTablesAtEnd();//break;
+			//case 7:	return getNumAttrsAtStart();//break;
+			//case 8:	return getNumAttrsAtEnd();//break;
+			//case 9:	return getTotalTableInsertions();//break;
+			//case 10:	return getTotalTableDeletions(); //break;
+			//case 11:	return getTotalAttrInsWithTableIns(); //break;
+			//case 12:	return getTotalAttrbDelWithTableDel(); //break;
+			//case 13:	return getTotalAttrInjected(); //break;
+			//case 14:	return getTotalAttrEjected(); //break;
+			//case 15:	return getTatalAttrWithTypeUpd(); //break;
+			//case 16:	return getTotalAttrInPKUpd(); //break;
+			//case 17:	return getTotalExpansion(); //break;
+			//case 18:	return getTotalMaintenance(); //break;
+			//case 19:	return getTotalTotalAttrActivity();// break;
+			//case 20:	return getExpansionRatePerCommit();// break;
+			//case 21:	return getExpansionRatePerMonth();// break;
+			//case 22:	return getExpansionRatePeryear();// break;
+			//case 23:	return getMaintenanceRatePerCommit();// break;
+			//case 24:	return getMaintenanceRatePerMonth();// break;
+			//case 25:	return getMaintenanceRatePeryear();// break;
+			//case 26:	return getTotalAttrActivityRatePerCommit();// break;
+			//case 27:	return getTotalAttrActivityRatePerMonth();// break;
+			//case 28:	return getTotalAttrActivityRatePeryear();// break;
+			//case 29:	return getResizingratio();// break;
+			//case 30:	return getReeds();
+			//case 31:	return getReedsPostV0();
+			//case 32:	return getActivityDueToReeds();
+			//case 33:	return getActivityDueToReedsPostV0();
+			//case 34:	return getTurfs();
+			//case 35:	return getTurfsPostV0();
+			//case 36:	return getActivityDueToTurf();
+			//case 37:	return getActivityDueToTurfPostV0();
+			//case 38:	return getActiveCommits();	
+			//case 39:	return getReedRatioAComm();
+			//case 40:	return getReedRatioTComm();
+			//case 41:	return getTurfRatioAComm();
+			//case 42:	return getTurfRatioTComm();
+			//case 43:	return getActiveCommitRatePerMonth();
+			//case 44:	return getCommitRatePerMonth();
+			//case 45:	return getActiveCommitRatio();
+			default: return _ERROR_STRING;
 		}//end switch
 	}
 	
 	// probably not needed and to be deprecated	
 	public double getDoubleValueByPosition(int position) {
 		switch(position) {
-		//case 0:	 return getProjectName(); //break;
-		//case 1:	 return getProjectDurationInDays(); //break;
-		//case 2:	 return getProjectDurationInMonths(); //break;
-		//case 3:	 return getProjectDureationInYears(); //break;
-		//case 4:	 return getNumCommits(); //break;
-		//case 5:	 return getNumTablesAtStart(); //break;
-		//case 6:	 return getNumTablesAtEnd();//break;
-		//case 7:	 return getNumAttrsAtStart();//break;
-		//case 8:	 return getNumAttrsAtEnd();//break;
-		//case 9:	 return getTotalTableInsertions();//break;
-		//case 10:	 return getTotalTableDeletions(); //break;
-		//case 11:	 return getTotalAttrInsWithTableIns(); //break;
-		//case 12:	 return getTotalAttrbDelWithTableDel(); //break;
-		//case 13:	 return getTotalAttrInjected(); //break;
-		//case 14:	 return getTotalAttrEjected(); //break;
-		//case 15:	 return getTatalAttrWithTypeUpd(); //break;
-		//case 16:	 return getTotalAttrInPKUpd(); //break;
-		//case 17:	 return getTotalExpansion(); //break;
-		//case 18:	 return getTotalMaintenance(); //break;
-		//case 19:	 return getTotalTotalAttrActivity();// break;
-		case 20:	 return getExpansionRatePerCommit();// break;
-		case 21:	 return getExpansionRatePerMonth();// break;
-		case 22:	 return getExpansionRatePeryear();// break;
-		case 23:	 return getMaintenanceRatePerCommit();// break;
-		case 24:	 return getMaintenanceRatePerMonth();// break;
-		case 25:	 return getMaintenanceRatePeryear();// break;
-		case 26:	 return getTotalAttrActivityRatePerCommit();// break;
-		case 27:	 return getTotalAttrActivityRatePerMonth();// break;
-		case 28:	 return getTotalAttrActivityRatePeryear();// break;
-		case 29:	 return getResizingratio();// break;
-		default: return _ERROR_CODE;
+			//case 0:	return getProjectName(); //break;
+			//case 1:	return getProjectDurationInDays(); //break;
+			//case 2:	return getProjectDurationInMonths(); //break;
+			//case 3:	return getProjectDureationInYears(); //break;
+			//case 4:	return getNumCommits(); //break;
+			//case 5:	return getNumTablesAtStart(); //break;
+			//case 6:	return getNumTablesAtEnd();//break;
+			//case 7:	return getNumAttrsAtStart();//break;
+			//case 8:	return getNumAttrsAtEnd();//break;
+			//case 9:	return getTotalTableInsertions();//break;
+			//case 10:	return getTotalTableDeletions(); //break;
+			//case 11:	return getTotalAttrInsWithTableIns(); //break;
+			//case 12:	return getTotalAttrbDelWithTableDel(); //break;
+			//case 13:	return getTotalAttrInjected(); //break;
+			//case 14:	return getTotalAttrEjected(); //break;
+			//case 15:	return getTatalAttrWithTypeUpd(); //break;
+			//case 16:	return getTotalAttrInPKUpd(); //break;
+			//case 17:	return getTotalExpansion(); //break;
+			//case 18:	return getTotalMaintenance(); //break;
+			//case 19:	return getTotalTotalAttrActivity();// break;
+			case 20:	return getExpansionRatePerCommit();// break;
+			case 21:	return getExpansionRatePerMonth();// break;
+			case 22:	return getExpansionRatePeryear();// break;
+			case 23:	return getMaintenanceRatePerCommit();// break;
+			case 24:	return getMaintenanceRatePerMonth();// break;
+			case 25:	return getMaintenanceRatePeryear();// break;
+			case 26:	return getTotalAttrActivityRatePerCommit();// break;
+			case 27:	return getTotalAttrActivityRatePerMonth();// break;
+			case 28:	return getTotalAttrActivityRatePeryear();// break;
+			case 29:	return getResizingratio();// break;
+			//case 30:	return getReeds();
+			//case 31:	return getReedsPostV0();
+			//case 32:	return getActivityDueToReeds();
+			//case 33:	return getActivityDueToReedsPostV0();
+			//case 34:	return getTurfs();
+			//case 35:	return getTurfsPostV0();
+			//case 36:	return getActivityDueToTurf();
+			//case 37:	return getActivityDueToTurfPostV0();
+			//case 38:	return getActiveCommits();	
+			case 39:	return getReedRatioAComm();
+			case 40:	return getReedRatioTComm();
+			case 41:	return getTurfRatioAComm();
+			case 42:	return getTurfRatioTComm();
+			case 43:	return getActiveCommitRatePerMonth();
+			case 44:	return getCommitRatePerMonth();
+			case 45:	return getActiveCommitRatio();
+			default: 	return _ERROR_CODE;
 		}//end switch
 	}
 
@@ -260,7 +380,11 @@ public class SchemaLevelInfo implements IElement{
 				+ "\t" + totalMaintenance + "\t" + totalTotalAttrActivity + "\t" + dFormatter.format(expansionRatePerCommit) + "\t"
 				+ FormatString(expansionRatePerMonth) + "\t" + FormatString(expansionRatePeryear) + "\t" + dFormatter.format(maintenanceRatePerCommit) + "\t"
 				+ FormatString(maintenanceRatePerMonth) + "\t" + FormatString(maintenanceRatePeryear) + "\t" + dFormatter.format(totalAttrActivityRatePerCommit) + "\t"
-				+ FormatString(totalAttrActivityRatePerMonth) + "\t" + FormatString(totalAttrActivityRatePeryear) + "\t" + dFormatter.format(resizingratio);
+				+ FormatString(totalAttrActivityRatePerMonth) + "\t" + FormatString(totalAttrActivityRatePeryear) + "\t" + dFormatter.format(resizingratio) + "\t"
+				+ reeds + "\t" + reedsPostV0 + "\t" + reedRatioAComm + "\t" + reedRatioTComm + "\t" + activityDueToReeds + "\t"
+				+ activityDueToReedsPostV0 + "\t" + turfs + "\t" + turfsPostV0 + "\t" + turfRatioAComm + "\t" + turfRatioTComm + "\t" 
+				+ activityDueToTurf + "\t" + activityDueToTurfPostV0 + "\t" + activeCommits + "\t" + activeCommitRatePerMonth + "\t"
+				+ commitRatePerMonth + "\t" + activeCommitRatio;
 	}
 	
 	private String FormatString(Number field) {
@@ -310,4 +434,22 @@ public class SchemaLevelInfo implements IElement{
 //	final public static int _ERROR_CODE = -1;
 //	final public static String _ERROR_STRING = "";
 
+	///
+	private int reeds;
+	private int reedsPostV0;
+	private int turfs;
+	private int turfsPostV0;
+	private int activeCommits;
+	private double reedRatioAComm;
+	private double reedRatioTComm;
+	private int activityDueToReeds;
+	private int activityDueToReedsPostV0;
+	private double turfRatioAComm;
+	private double turfRatioTComm;
+	private int activityDueToTurf;
+	private int activityDueToTurfPostV0;
+	private double activeCommitRatePerMonth;
+	private double commitRatePerMonth;
+	private double activeCommitRatio;
+	///
 }

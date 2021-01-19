@@ -1,7 +1,7 @@
 package datamodel;
 
 public class SchemaHeartbeatElement implements IElement{
-
+//delete this comment
 	public SchemaHeartbeatElement(int trID, String epochTime, String oldVer, String newVer, String humanTime,
 			int distFromV0InDays, int runningYearFromV0, int runningMonthFromV0, int numOldTables, int numNewTables,
 			int numOldAttrs, int numNewAttrs, int tablesIns, int tablesDel, int attrsInsWithTableIns,
@@ -37,6 +37,12 @@ public class SchemaHeartbeatElement implements IElement{
 		this.expansion = expansion;
 		this.maintenance = maintenance;
 		this.totalAttrActivity = totalAttrActivity;
+		
+		///
+		this.active = isActive();	//(0 : Active) 	- 	(1 : INactive)
+		this.turf = isTurf();		//(0 : Turf)	-	(1 : NOT a Turf) 
+		this.reed = isReed();		//(0 : Reed)	-	(1 : NOT a Reed)
+		///
 	}
 	
 	public int getTrID() {
@@ -124,6 +130,21 @@ public class SchemaHeartbeatElement implements IElement{
 		return totalAttrActivity;
 	}
 	
+	///
+	public int getIsActive() {
+		return active;
+	}
+	
+	public int getIsTurf() {
+		return turf;
+	}
+	
+	public int getIsReed() {
+		return reed;
+	}
+	
+	///
+	
 	//TODO: add a test	
 	@Override
 	public int getIntValueByPosition(int position) {
@@ -156,7 +177,56 @@ public class SchemaHeartbeatElement implements IElement{
 			case 25:	 return getExpansion();// break;
 			case 26:	 return getMaintenance();// break;
 			case 27:	 return getTotalAttrActivity();// break;
+			
+			///
+			case 28:	return getIsActive();//break
+			case 29:	return getIsTurf();//break
+			case 30:	return getIsReed();//break
+			///
+			
 			default: return _ERROR_CODE;
+		}//end switch
+	}
+	
+	@Override 
+	public double getDoubleValueByPosition(int position) {
+		switch(position) {
+		//case 0:	 return getTrID(); //break;
+		//case 1:	 return getEpochTime(); //break;
+		//case 2:	 return getOldVer(); //break;
+		//case 3:	 return getNewVer(); //break;
+		//case 4:	 return getHumanTime(); //break;
+		//case 5:	 return getDistFromV0InDays(); //break;
+		//case 6:	 return getRunningYearFromV0();//break;
+		//case 7:	 return getRunningMonthFromV0();//break;
+		//case 8:	 return getNumOldTables();//break;
+		//case 9:	 return getNumNewTables();//break;
+		//case 10:	 return getNumOldAttrs(); //break;
+		//case 11:	 return getNumNewAttrs(); //break;
+		//case 12:	 return getTablesIns(); //break;
+		//case 13:	 return getTablesDel(); //break;
+		//case 14:	 return getAttrsInsWithTableIns(); //break;
+		//case 15:	 return getAttrsbDelWithTableDel(); //break;
+		//case 16:	 return getAttrsInjected(); //break;
+		//case 17:	 return getAttrsEjected(); //break;
+		//case 18:	 return getAttrsWithTypeUpd(); //break;
+		//case 19:	 return getAttrsInPKUpd();// break;
+		//case 20:	 return getTableDelta();// break;
+		//case 21:	 return getAttrDelta();// break;
+		//case 22:	 return getAttrBirthsSum();// break;
+		//case 23:	 return getAttrDeathsSum();// break;
+		//case 24:	 return getAttrUpdsSum();// break;
+		//case 25:	 return getExpansion();// break;
+		//case 26:	 return getMaintenance();// break;
+		//case 27:	 return getTotalAttrActivity();// break;
+		
+		///
+		//case 28:	return getIsActive();//break
+		//case 29:	return getIsTurf();//break
+		//case 30:	return getIsReed();//break
+		///
+		
+		default: return _ERROR_CODE;
 		}//end switch
 	}
 	
@@ -191,10 +261,66 @@ public class SchemaHeartbeatElement implements IElement{
 			//case 25:	 return getExpansion();// break;
 			//case 26:	 return getMaintenance();// break;
 			//case 27:	 return getTotalAttrActivity();// break;
+			
+			///
+			//case 28:	return getIsActive();//break
+			//case 29:	return getIsTurf();//break
+			//case 30:	return getIsReed();//break
+			///
+			
 			default: return _ERROR_STRING;
 		}//end switch
 	}
+	
+	
+	///
+	public int isActive()
+	{
+		if(this.totalAttrActivity > GlobalThresholds.active_thrld)
+		{
+			return 0;
+		}
+		
+		return 1;
+	}
+	
+	public int isTurf()
+	{
+		if(this.active == 0)	//if is active
+		{
+			if(this.totalAttrActivity < GlobalThresholds.turf_thrld)
+			{
+				return 0;
+			}
+		}
+		return 1;
+	}
+	
+	public int isReed()
+	{
+		if(this.active == 0)	//if is active
+		{
+			if(this.turf == 1) //if is not turf
+			{
+				return 0;
+			}
+		}
+		return 1;
+	}
+	///
 
+	
+	///
+	@Override
+	public String toString() {
+		return trID+ "\t" +epochTime+ "\t" +oldVer+ "\t" +newVer+ "\t" +humanTime+ "\t" +distFromV0InDays+ "\t" +runningYearFromV0+ "\t" +runningMonthFromV0+ "\t" +numOldTables+ "\t" +numNewTables+ "\t" +numOldAttrs+ "\t" +
+				numNewAttrs+ "\t" +tablesIns+ "\t" +tablesDel+ "\t" +attrsInsWithTableIns+ "\t" +attrsbDelWithTableDel+ "\t" +attrsInjected+ "\t" +attrsEjected+ "\t" +attrsWithTypeUpd+ "\t" +attrsInPKUpd+ "\t" +tableDelta+ "\t" +
+				attrDelta+ "\t" +attrBirthsSum+ "\t" +attrDeathsSum+ "\t" +attrUpdsSum+ "\t" +expansion+ "\t" +maintenance+ "\t" +totalAttrActivity+ "\t" +reed+ "\t" +turf+ "\t" +active;
+	}
+	///
+	
+	
+	
 	private int trID;
 	private String epochTime;
 	private String oldVer;
@@ -228,4 +354,10 @@ public class SchemaHeartbeatElement implements IElement{
 //	final public static int _ERROR_CODE = -1;
 //	final public static String _ERROR_STRING = "";
 
+	
+	///
+	private int active;
+	private int turf;
+	private int reed;
+	///
 }

@@ -7,5 +7,5 @@ public interface IElement {
 	
 	public abstract int getIntValueByPosition(int position);
 	public abstract String getStringValueByPosition(int position);
-
+	public abstract double getDoubleValueByPosition(int position);
 }

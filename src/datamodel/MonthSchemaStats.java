@@ -6,7 +6,8 @@ public class MonthSchemaStats implements IElement{
 			int tablesInsertionsSum, int tablesDeletionsSum, int attrsInsWithTableInsSum, int attrsbDelWithTableDelSum, 
 			int attrsInjectedSum, int attrsEjectedSum, int attrsWithTypeUpdSum, int attrsInPKUpdSum, int tableDeltaSum, 
 			int attrDeltaSum, int attrBirthsSum, int attrDeathsSum, int attrUpdsSum, int totalExpansion, 
-			int totalMaintenance, int totalAttrActivity) {
+			int totalMaintenance, int totalAttrActivity, int reeds, double reedRatioAComm, double reedRatioTComm, int activityDueToReeds,
+			int turfs,double turfRatioAComm, double turfRatioTComm, int activityDueToTurfs, int activeCommits,double activeCommitRatio) {
 		super();
 		this.mID = mID;
 		this.humanTime = humanTime;
@@ -29,6 +30,19 @@ public class MonthSchemaStats implements IElement{
 		this.totalExpansion = totalExpansion;
 		this.totalMaintenance = totalMaintenance;
 		this.totalAttrActivity = totalAttrActivity;
+		
+		///
+		this.reeds = reeds;
+		this.turfs = turfs;
+		this.turfRatioAComm = turfRatioAComm;
+		this.turfRatioTComm = turfRatioTComm;
+		this.reedRatioAComm = reedRatioAComm;
+		this.reedRatioTComm = reedRatioTComm;
+		this.activeCommits = activeCommits;
+		this.activeCommitRatio = activeCommitRatio;
+		this.activityDueToReeds = activityDueToReeds;
+		this.activityDueToTurfs = activityDueToTurfs;
+		///
 	}
 	
 	public int getmID() {
@@ -95,30 +109,117 @@ public class MonthSchemaStats implements IElement{
 		return totalAttrActivity;
 	}
 	
+	
+	///
+	public int getReeds() {
+		return reeds;
+	}
+	public int getTurfs() {
+		return turfs;
+	}
+	public double getTurfRatioAComm() {
+		return turfRatioAComm;
+	}
+	public double getTurfRatioTComm() {
+		return turfRatioTComm;
+	}
+	public double getReedRatioAComm(){
+		return reedRatioAComm;
+	}
+	public double getReedRatioTComm(){
+		return reedRatioTComm;
+	}
+	public int getActiveCommits() {
+		return activeCommits;
+	}
+	public double getActiveCommitRatio() {
+		return activeCommitRatio;
+	}
+	public int getActivityDueToReeds() {
+		return activityDueToReeds;
+	}
+	public int getActivityDueToTurfs() {
+		return activityDueToTurfs;
+	}
+	///
+	
 	@Override
 	public int getIntValueByPosition(int position) {
 		switch(position) {
-		case 0:	 return getmID(); //break;
+		case 0:	 	return getmID(); //break;
+		//case 1:	return getHumanTime(); //break;
+		case 2:	 	return getNumCommits(); //break;
+		case 3:	 	return getNumTables();//break;
+		case 4:	 	return getNumAttrs(); //break;
+		case 5:	 	return getTablesInsertionsSum(); //break;
+		case 6:	 	return getTablesDeletionsSum(); //break;
+		case 7:	 	return getAttrsInsWithTableInsSum(); //break;
+		case 8:	 	return getAttrsbDelWithTableDelSum(); //break;
+		case 9:	 	return getAttrsInjectedSum(); //break;
+		case 10:	return getAttrsEjectedSum(); //break;
+		case 11:	return getAttrsWithTypeUpdSum(); //break;
+		case 12:	return getAttrsInPKUpdSum();// break;
+		case 13:	return getTableDeltaSum();// break;
+		case 14:	return getAttrDeltaSum();// break;
+		case 15:	return getAttrBirthsSum();// break;
+		case 16:	return getAttrDeathsSum();// break;
+		case 17:	return getAttrUpdsSum();// break;
+		case 18:	return getTotalExpansion();// break;
+		case 19:	return getTotalMaintenance();// break;
+		case 20:	return getTotalAttrActivity();// break;
+		
+		///
+		case 21:	return getReeds();//break;
+		case 22:	return getTurfs();//break
+		case 23:	return getActiveCommits();//break
+		case 24:	return getActivityDueToReeds();//break
+		case 25:	return getActivityDueToTurfs();//break
+		///
+		
+		default: return _ERROR_CODE;
+		}//end switch
+	}
+	
+	
+	@Override 
+	public double getDoubleValueByPosition(int position) {
+		switch(position) {
+		//case 0:	 return getmID(); //break;
 		//case 1:	 return getHumanTime(); //break;
-		case 2:	 return getNumCommits(); //break;
-		case 3:	 return getNumTables();//break;
-		case 4:	 return getNumAttrs(); //break;
-		case 5:	 return getTablesInsertionsSum(); //break;
-		case 6:	 return getTablesDeletionsSum(); //break;
-		case 7:	 return getAttrsInsWithTableInsSum(); //break;
-		case 8:	 return getAttrsbDelWithTableDelSum(); //break;
-		case 9:	 return getAttrsInjectedSum(); //break;
-		case 10:	 return getAttrsEjectedSum(); //break;
-		case 11:	 return getAttrsWithTypeUpdSum(); //break;
-		case 12:	 return getAttrsInPKUpdSum();// break;
-		case 13:	 return getTableDeltaSum();// break;
-		case 14:	 return getAttrDeltaSum();// break;
-		case 15:	 return getAttrBirthsSum();// break;
-		case 16:	 return getAttrDeathsSum();// break;
-		case 17:	 return getAttrUpdsSum();// break;
-		case 18:	 return getTotalExpansion();// break;
-		case 19:	 return getTotalMaintenance();// break;
-		case 20:	 return getTotalAttrActivity();// break;
+		//case 2:	 return getNumCommits(); //break;
+		//case 3:	 return getNumTables();//break;
+		//case 4:	 return getNumAttrs(); //break;
+		//case 5:	 return getTablesInsertionsSum(); //break;
+		//case 6:	 return getTablesDeletionsSum(); //break;
+		//case 7:	 return getAttrsInsWithTableInsSum(); //break;
+		//case 8:	 return getAttrsbDelWithTableDelSum(); //break;
+		//case 9:	 return getAttrsInjectedSum(); //break;
+		//case 10:	 return getAttrsEjectedSum(); //break;
+		//case 11:	 return getAttrsWithTypeUpdSum(); //break;
+		//case 12:	 return getAttrsInPKUpdSum();// break;
+		//case 13:	 return getTableDeltaSum();// break;
+		//case 14:	 return getAttrDeltaSum();// break;
+		//case 15:	 return getAttrBirthsSum();// break;
+		//case 16:	 return getAttrDeathsSum();// break;
+		//case 17:	 return getAttrUpdsSum();// break;
+		//case 18:	 return getTotalExpansion();// break;
+		//case 19:	 return getTotalMaintenance();// break;
+		//case 20:	 return getTotalAttrActivity();// break;
+		
+		///
+		//case 21:	return getReeds();//break;
+		//case 22:	return getTurfs();//break
+		//case 23:	return getActiveCommits();//break
+		//case 24:	return getActivityDueToReeds();//break
+		//case 25:	return getActivityDueToTurfs();//break
+		///
+		
+		case 26:	return getTurfRatioAComm();//break;
+		case 27:	return getTurfRatioTComm();//break;
+		case 28:	return getReedRatioAComm();//break;
+		case 29:	return getReedRatioTComm();//break;
+		case 30:	return getActiveCommitRatio();//break;
+		
 		default: return _ERROR_CODE;
 		}//end switch
 	}
@@ -147,6 +248,15 @@ public class MonthSchemaStats implements IElement{
 		//case 18:	 return getTotalExpansion();// break;
 		//case 19:	 return getTotalMaintenance();// break;
 		//case 20:	 return getTotalAttrActivity();// break;
+		
+		///
+		//case 21:	return getReeds();//break;
+		//case 22:	return getTurfs();//break
+		//case 23:	return getActiveCommits();//break
+		//case 24:	return getActivityDueToReeds();//break
+		//case 25:	return getActivityDueToTurfs();//break
+		///
+		
 		default: return _ERROR_STRING;
 		}//end switch
 	}
@@ -158,7 +268,10 @@ public class MonthSchemaStats implements IElement{
 				+ "\t" + attrsbDelWithTableDelSum + "\t" + attrsInjectedSum + "\t" + attrsEjectedSum 
 				+ "\t" + attrsWithTypeUpdSum + "\t" + attrsInPKUpdSum + "\t" + tableDeltaSum + "\t" 
 				+ attrDeltaSum + "\t" + attrBirthsSum + "\t" + attrDeathsSum + "\t" + attrUpdsSum 
-				+ "\t" + totalExpansion + "\t" + totalMaintenance + "\t" + totalAttrActivity;
+				+ "\t" + totalExpansion + "\t" + totalMaintenance + "\t" + totalAttrActivity + "\t" 
+				+ reeds + "\t" + reedRatioAComm + "\t" + reedRatioTComm + "\t" + activityDueToReeds + "\t"
+				+ turfs + "\t" + turfRatioAComm + "\t" + turfRatioTComm + "\t" + activityDueToTurfs + "\t"
+				+ activeCommits + "\t" + activeCommitRatio;
 	}
 	
 	private int mID;
@@ -188,5 +301,18 @@ public class MonthSchemaStats implements IElement{
 	private int totalAttrActivity;
 //	final public static int _ERROR_CODE = -1;
 //	final public static String _ERROR_STRING = "";
+	
+	///
+	private int reeds;
+	private int turfs;
+	private double turfRatioAComm;
+	private double turfRatioTComm;
+	private double reedRatioAComm;
+	private double reedRatioTComm;
+	private int activeCommits;
+	private double activeCommitRatio;
+	private int activityDueToReeds;
+	private int activityDueToTurfs;
+	///
 
 }
