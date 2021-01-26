@@ -39,9 +39,9 @@ public class SchemaHeartbeatElement implements IElement{
 		this.totalAttrActivity = totalAttrActivity;
 		
 		///
-		this.active = isActive();	//(0 : Active) 	- 	(1 : INactive)
-		this.turf = isTurf();		//(0 : Turf)	-	(1 : NOT a Turf) 
-		this.reed = isReed();		//(0 : Reed)	-	(1 : NOT a Reed)
+		this.active = isActive();	//(1 : Active) 	- 	(0 : inActive)
+		this.turf = isTurf();		//(1 : Turf)	-	(0 : NOT a Turf) 
+		this.reed = isReed();		//(1 : Reed)	-	(0 : NOT a Reed)
 		///
 	}
 	
@@ -278,34 +278,34 @@ public class SchemaHeartbeatElement implements IElement{
 	{
 		if(this.totalAttrActivity > GlobalThresholds.active_thrld)
 		{
-			return 0;
+			return 1;	//is active
 		}
 		
-		return 1;
+		return 0;
 	}
 	
 	public int isTurf()
 	{
-		if(this.active == 0)	//if is active
+		if(this.active == 1)	//if is active
 		{
-			if(this.totalAttrActivity < GlobalThresholds.turf_thrld)
+			if(this.totalAttrActivity < GlobalThresholds.turf_thrld)	
 			{
-				return 0;
+				return 1;	//is turf
 			}
 		}
-		return 1;
+		return 0;
 	}
 	
 	public int isReed()
 	{
-		if(this.active == 0)	//if is active
+		if(this.active == 1)	//if is active
 		{
-			if(this.turf == 1) //if is not turf
+			if(this.turf == 0) //if is not turf
 			{
-				return 0;
+				return 1;	//is reed
 			}
 		}
-		return 1;
+		return 0;
 	}
 	///
 

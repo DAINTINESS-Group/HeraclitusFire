@@ -307,17 +307,17 @@ public class SchemaStatsMainEngine implements IMainEngine<SchemaHeartbeatElement
 		double commitRatePerMonth = 0.0;
 		double activeCommitRatio = 0.0;
 		
-		if(inputTupleCollection.get(0).getIsReed() == 0) //if first commit is reed
+		if(inputTupleCollection.get(0).getIsReed() == 1) //if first commit is reed
 		{
 			reeds = 1;
 			activityDueToReeds += inputTupleCollection.get(0).getTotalAttrActivity(); 
 		}
-		if(inputTupleCollection.get(0).getIsTurf() == 0) //if first commit is turf
+		if(inputTupleCollection.get(0).getIsTurf() == 1) //if first commit is turf
 		{
 			turfs = 1;
 			activityDueToTurf += inputTupleCollection.get(0).getTotalAttrActivity();
 		}
-		if(inputTupleCollection.get(0).getIsActive() == 0) //if first commit is active
+		if(inputTupleCollection.get(0).getIsActive() == 1) //if first commit is active
 		{
 			activeCommits = 1;
 		}
@@ -338,21 +338,21 @@ public class SchemaStatsMainEngine implements IMainEngine<SchemaHeartbeatElement
 			totalTotalAttrActivity += inputTupleCollection.get(i).getTotalAttrActivity();
 			
 			///
-			if(inputTupleCollection.get(i).getIsReed() == 0)
+			if(inputTupleCollection.get(i).getIsReed() == 1)
 			{
 				reeds++;
 				reedsPostV0++;
 				activityDueToReeds += inputTupleCollection.get(i).getTotalAttrActivity();
 				activityDueToReedsPostV0 += inputTupleCollection.get(i).getTotalAttrActivity();
 			}
-			if(inputTupleCollection.get(i).getIsTurf() == 0)
+			if(inputTupleCollection.get(i).getIsTurf() == 1)
 			{
 				turfs++;
 				turfsPostV0++;
 				activityDueToTurf += inputTupleCollection.get(i).getTotalAttrActivity();
 				activityDueToTurfPostV0 += inputTupleCollection.get(i).getTotalAttrActivity();
 			}
-			if(inputTupleCollection.get(i).isActive() == 0)
+			if(inputTupleCollection.get(i).isActive() == 1)
 			{
 				activeCommits++;
 			}
@@ -593,17 +593,17 @@ public class SchemaStatsMainEngine implements IMainEngine<SchemaHeartbeatElement
 		int activityDueToReeds = 0;
 		int activityDueToTurfs = 0;
 		
-		if(inputTupleCollection.get(0).getIsReed() == 0) //if first commit is reed
+		if(inputTupleCollection.get(0).getIsReed() == 1) //if first commit is reed
 		{
 			reeds = 1;
 			activityDueToReeds += inputTupleCollection.get(0).getTotalAttrActivity(); //we may not want to add the first total activity
 		}
-		if(inputTupleCollection.get(0).getIsTurf() == 0) //if first commit is turf
+		if(inputTupleCollection.get(0).getIsTurf() == 1) //if first commit is turf
 		{
 			turfs = 1;
 			activityDueToTurfs += inputTupleCollection.get(0).getTotalAttrActivity();
 		}
-		if(inputTupleCollection.get(0).getIsActive() == 0) //if first commit is active
+		if(inputTupleCollection.get(0).getIsActive() == 1) //if first commit is active
 		{
 			activeCommits = 1;
 		}
@@ -638,17 +638,17 @@ public class SchemaStatsMainEngine implements IMainEngine<SchemaHeartbeatElement
 				totalAttrActivity += element.getTotalAttrActivity();
 				
 				///
-				if(element.getIsReed() == 0)
+				if(element.getIsReed() == 1)
 				{
 					reeds++;
 					activityDueToReeds += element.getTotalAttrActivity();
 				}
-				if(element.getIsTurf() == 0)
+				if(element.getIsTurf() == 1)
 				{
 					turfs++;
 					activityDueToTurfs += element.getTotalAttrActivity();
 				}
-				if(element.getIsActive() == 0)
+				if(element.getIsActive() == 1)
 				{
 					activeCommits++;
 				}
@@ -765,17 +765,17 @@ public class SchemaStatsMainEngine implements IMainEngine<SchemaHeartbeatElement
 				totalAttrActivity += element.getTotalAttrActivity();
 				
 				///
-				if(element.getIsReed() == 0)
+				if(element.getIsReed() == 1)
 				{
 					reeds++;
 					activityDueToReeds += element.getTotalAttrActivity();
 				}
-				if(element.getIsTurf() == 0)
+				if(element.getIsTurf() == 1)
 				{
 					turfs++;
 					activityDueToTurfs += element.getTotalAttrActivity();
 				}
-				if(element.getIsActive() == 0)
+				if(element.getIsActive() == 1)
 				{
 					activeCommits++;
 				}
