@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Random;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -13,37 +12,40 @@ import datamodel.MonthSchemaStats;
 import datamodel.SchemaHeartbeatElement;
 import mainEngine.SchemaStatsMainEngine;
 
-public class Accgit__aclMonthlyStatsTest {
-private static SchemaStatsMainEngine schemaStatsMainEngine; 
+import java.util.Random;
+
+public class Aa_alert_frbcatdbMonthlyStatsUpdatedTest {
+	private static SchemaStatsMainEngine schemaStatsMainEngine; 
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
-		schemaStatsMainEngine = new SchemaStatsMainEngine("resources/accgit__acl", null);
+		schemaStatsMainEngine = new SchemaStatsMainEngine("resources/AA-ALERT__frbcatdb", null);
 	}
+	
 	@Test
-	void testAccgit__aclMonthlySchemaStats() {
+	void testAa_alert_frbcatdbMonthlySchemaStats() {
 		ArrayList<String> header = new ArrayList<String>();
 		ArrayList<SchemaHeartbeatElement> inputTupleCollection = new ArrayList<SchemaHeartbeatElement>();
-		int numRows = schemaStatsMainEngine.loadData("resources/accgit__acl/results/SchemaHeartbeat.tsv", "\t", true, 28, header, inputTupleCollection);
-		assertEquals(numRows - 1, 17);
+		int numRows = schemaStatsMainEngine.loadData("resources/AA-ALERT__frbcatdb/results/AA-ALERT__frbcatdb_SchemaHeartbeat_Updated.tsv", "\t", true, 31, header, inputTupleCollection);
+		assertEquals(numRows - 1, 16);
 		
-		File statsFileProduced = new File("resources/test/Profiling/accgit__acl_MonthlySchemaStats.tsv"); 
+		File statsFileProduced = new File("resources/test/Profiling/AA-ALERT__frbcatdb_MonthlySchemaStats.tsv"); 
 		Long originalTimeStamp = statsFileProduced.lastModified();
 		
-		ArrayList<MonthSchemaStats> monthlySchemaStatsCollection = schemaStatsMainEngine.extractMonthlySchemaStats("accgit__acl", inputTupleCollection, "resources/test/Profiling", true);
-		assertEquals(monthlySchemaStatsCollection.size(), 15);
+		ArrayList<MonthSchemaStats> monthlySchemaStatsCollection = schemaStatsMainEngine.extractMonthlySchemaStats("AA-ALERT__frbcatdb", inputTupleCollection, "resources/test/Profiling", true);
+		assertEquals(monthlySchemaStatsCollection.size(), 12);
 		
 		Long newTimeStamp = statsFileProduced.lastModified();
 		assertTrue(newTimeStamp > originalTimeStamp);
 		
 		//Truth sum-values were manually calculated
-		int truth_active = 3;
-		int truth_turf = 1;
-		int truth_reed = 2;
+		int truth_active = 13;
+		int truth_turf = 9;
+		int truth_reed = 4;
 		
-		int[] truth_reeds = new int[] {1,0,1,0,0,0,0,0,0,0,0,0,0,0,0};
-		int[] truth_turfs = new int[] {0,0,0,0,1,0,0,0,0,0,0,0,0,0,0};
-		int[] truth_actives = new int[] {1,0,1,0,1,0,0,0,0,0,0,0,0,0,0};
+		int[] truth_reeds = new int[] {1,2,0,0,0,0,0,0,0,0,1,0};
+		int[] truth_turfs = new int[] {0,1,0,0,0,0,0,0,0,0,0,8};
+		int[] truth_actives = new int[] {1,3,0,0,0,0,0,0,0,0,1,8};
 		
 		int sum_active = 0;
 		int sum_turf = 0;
@@ -72,8 +74,6 @@ private static SchemaStatsMainEngine schemaStatsMainEngine;
 		assertEquals(sum_active,truth_active);
 		assertEquals(sum_turf,truth_turf);
 		assertEquals(sum_reed,truth_reed);
-		
-		
 	}
 
 }

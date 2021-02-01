@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import datamodel.SchemaHeartbeatElement;
 import mainEngine.SchemaStatsMainEngine;
 
-class EgeeSchemaHeartbeatTest {
+class Cartalyst__sentrySchemaHeartbeatUpdatedTest {
 	private static SchemaStatsMainEngine schemaStatsMainEngine; 
 	private static ArrayList<String> headerExpected; 
 	
@@ -22,39 +22,38 @@ class EgeeSchemaHeartbeatTest {
 				"runningMonthFromV0", "#numOldTables", "#numNewTables", "#numOldAttrs", "#numNewAttrs", 
 				"tablesIns", "tablesDel", "attrsInsWithTableIns", "attrsbDelWithTableDel", "attrsInjected", 
 				"attrsEjected", "attrsWithTypeUpd", "attrsInPKUpd", "tableDelta", "attrDelta", "attrBirthsSum", 
-				"attrDeathsSum", "attrUpdsSum", "Expansion", "Maintenance", "TotalAttrActivity")); 
+				"attrDeathsSum", "attrUpdsSum", "Expansion", "Maintenance", "TotalAttrActivity", "isReed", "isTurf", "isActive")); 
 
-		schemaStatsMainEngine = new SchemaStatsMainEngine("resources/Egee", null);
+
+		schemaStatsMainEngine = new SchemaStatsMainEngine("resources/cartalyst__sentry", null);
 	
 	}
 	@Test
-	void testEgeeLoadHeartBeatElement() {
+	void testCartalyst__sentryLoadHeartBeatElement() {
 		ArrayList<String> header = new ArrayList<String>();
 		ArrayList<SchemaHeartbeatElement> inputTupleCollection = new ArrayList<SchemaHeartbeatElement>();
-		int numRows = schemaStatsMainEngine.loadData("resources/Egee/results/SchemaHeartBeat.tsv", "\t", true, 28, header, inputTupleCollection);
-		assertEquals(numRows,18);
-		assertEquals(inputTupleCollection.size(),17);
+		int numRows = schemaStatsMainEngine.loadData("resources/cartalyst__sentry/results/cartalyst__sentry_SchemaHeartBeat_Updated.tsv", "\t", true, 31, header, inputTupleCollection);
+		assertEquals(numRows,14);
+		assertEquals(inputTupleCollection.size(),13);
 		assertTrue(header.equals(headerExpected));
-		
-		
-		
-		assertEquals(inputTupleCollection.get(7).getAttrsInsWithTableIns(), 21);
+	
+
+		assertEquals(inputTupleCollection.get(5).getAttrDelta(), 2);
 		assertEquals(inputTupleCollection.get(4).getExpansion(), 3);
-		assertEquals(inputTupleCollection.get(15).getMaintenance(), 2);
-		assertEquals(inputTupleCollection.get(2).getTotalAttrActivity(), 21);
-		assertEquals(inputTupleCollection.get(16).getExpansion(), 8);
+		assertEquals(inputTupleCollection.get(5).getMaintenance(), 7);
+		assertEquals(inputTupleCollection.get(5).getAttrsInsWithTableIns(), 2);
+		assertEquals(inputTupleCollection.get(5).getTotalAttrActivity(), 9);
 		
-		//test all numNewTables
-		int[] numNewTablesTruthTable = new int[] {6,6,4,4,4,4,4,8,8,8,8,8,8,8,9,9,10};
+		int[] numNewAttrsTruthTable = new int[] {26,27,27,27,27,29,29,30,32,33,33,33,33};
 		
-		//test isReed, isTurf, isActive
-		int[] isReedTruthTable = new int[] {1,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0};
-		int[] isTurfTruthTable = new int[] {0,1,0,1,1,1,1,0,1,1,1,1,0,1,1,1,1};
-		int[] isActiveTruthTable = new int[] {1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1};
+		int[] isReedTruthTable = new int[] {1,0,0,0,0,0,0,0,0,0,0,0,0};
+		int[] isTurfTruthTable = new int[] {0,1,1,0,1,1,0,1,1,1,0,0,0};
+		int[] isActiveTruthTable = new int[] {1,1,1,0,1,1,0,1,1,1,0,0,0};
 		
 		int i = 0;
 		for(SchemaHeartbeatElement tuple: inputTupleCollection) {
-			assertEquals(tuple.getNumNewTables(), numNewTablesTruthTable[i]);
+			
+			assertEquals(tuple.getNumNewAttrs(), numNewAttrsTruthTable[i]);
 			
 			assertEquals(tuple.getIsReed(), isReedTruthTable[i]);
 			assertEquals(tuple.getIsTurf(), isTurfTruthTable[i]);

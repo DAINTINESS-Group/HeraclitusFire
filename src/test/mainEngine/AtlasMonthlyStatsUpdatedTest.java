@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -13,43 +14,43 @@ import datamodel.MonthSchemaStats;
 import datamodel.SchemaHeartbeatElement;
 import mainEngine.SchemaStatsMainEngine;
 
-public class Accgit__aclMonthlyStatsTest {
-private static SchemaStatsMainEngine schemaStatsMainEngine; 
+public class AtlasMonthlyStatsUpdatedTest {
+	private static SchemaStatsMainEngine schemaStatsMainEngine; 
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
-		schemaStatsMainEngine = new SchemaStatsMainEngine("resources/accgit__acl", null);
+		schemaStatsMainEngine = new SchemaStatsMainEngine("resources/Atlas", null);
 	}
+	
 	@Test
-	void testAccgit__aclMonthlySchemaStats() {
+	void testAtlasMonthlySchemaStats() {
 		ArrayList<String> header = new ArrayList<String>();
 		ArrayList<SchemaHeartbeatElement> inputTupleCollection = new ArrayList<SchemaHeartbeatElement>();
-		int numRows = schemaStatsMainEngine.loadData("resources/accgit__acl/results/SchemaHeartbeat.tsv", "\t", true, 28, header, inputTupleCollection);
-		assertEquals(numRows - 1, 17);
-		
-		File statsFileProduced = new File("resources/test/Profiling/accgit__acl_MonthlySchemaStats.tsv"); 
+		int numRows = schemaStatsMainEngine.loadData("resources/Atlas/results/Atlas_SchemaHeartbeat_Updated.tsv", "\t", true, 31, header, inputTupleCollection);
+		assertEquals(numRows - 1, 85); //check without header (commits)
+	
+		File statsFileProduced = new File("resources/test/Profiling/Atlas_MonthlySchemaStats.tsv"); 
 		Long originalTimeStamp = statsFileProduced.lastModified();
-		
-		ArrayList<MonthSchemaStats> monthlySchemaStatsCollection = schemaStatsMainEngine.extractMonthlySchemaStats("accgit__acl", inputTupleCollection, "resources/test/Profiling", true);
-		assertEquals(monthlySchemaStatsCollection.size(), 15);
-		
+		ArrayList<MonthSchemaStats> monthlySchemaStatsCollection = schemaStatsMainEngine.extractMonthlySchemaStats("Atlas", inputTupleCollection, "resources/test/Profiling", true);
+		assertEquals(monthlySchemaStatsCollection.size(), 33);
 		Long newTimeStamp = statsFileProduced.lastModified();
 		assertTrue(newTimeStamp > originalTimeStamp);
 		
 		//Truth sum-values were manually calculated
-		int truth_active = 3;
-		int truth_turf = 1;
-		int truth_reed = 2;
+		int truth_active = 70;
+		int truth_turf = 51;
+		int truth_reed = 19;
 		
-		int[] truth_reeds = new int[] {1,0,1,0,0,0,0,0,0,0,0,0,0,0,0};
-		int[] truth_turfs = new int[] {0,0,0,0,1,0,0,0,0,0,0,0,0,0,0};
-		int[] truth_actives = new int[] {1,0,1,0,1,0,0,0,0,0,0,0,0,0,0};
+		int[] truth_reeds = new int[] {1,0,0,0,0,0,0,1,0,2,0,0,3,0,1,1,0,0,0,0,1,3,0,1,4,1,0,0,0,0,0,0,0};
+		int[] truth_turfs = new int[] {0,1,4,3,2,0,0,1,3,3,5,1,1,0,1,5,1,0,1,0,1,8,2,1,2,1,0,0,0,2,0,0,2};
+		int[] truth_actives = new int[] {1,1,4,3,2,0,0,2,3,5,5,1,4,0,2,6,1,0,1,0,2,11,2,2,6,2,0,0,0,2,0,0,2};
 		
 		int sum_active = 0;
 		int sum_turf = 0;
 		int sum_reed = 0;
 		Random rand = new Random();
 		int cnt=0;
+		
 		for(MonthSchemaStats mnt: monthlySchemaStatsCollection) {
 			sum_active += mnt.getActiveCommits();
 			sum_turf += mnt.getTurfs();
@@ -72,7 +73,6 @@ private static SchemaStatsMainEngine schemaStatsMainEngine;
 		assertEquals(sum_active,truth_active);
 		assertEquals(sum_turf,truth_turf);
 		assertEquals(sum_reed,truth_reed);
-		
 		
 	}
 

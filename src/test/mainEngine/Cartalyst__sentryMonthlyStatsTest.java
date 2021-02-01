@@ -36,7 +36,7 @@ private static SchemaStatsMainEngine schemaStatsMainEngine;
 		Long newTimeStamp = statsFileProduced.lastModified();
 		assertTrue(newTimeStamp > originalTimeStamp);
 		
-		//Truth sum-values were manually calculated by SchemaHeartBeat.tsv file. 
+		//Truth sum-values were manually calculated
 		int truth_active = 8;
 		int truth_turf = 7;
 		int truth_reed = 1;

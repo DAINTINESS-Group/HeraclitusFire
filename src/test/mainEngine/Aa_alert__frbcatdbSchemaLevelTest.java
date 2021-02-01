@@ -12,49 +12,47 @@ import datamodel.SchemaHeartbeatElement;
 import datamodel.SchemaLevelInfo;
 import mainEngine.SchemaStatsMainEngine;
 
-class EgeeSchemaLevelTest {
-	private static SchemaStatsMainEngine schemaStatsMainEngine; 
+class Aa_alert__frbcatdbSchemaLevelTest {
+private static SchemaStatsMainEngine schemaStatsMainEngine; 
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
-		schemaStatsMainEngine = new SchemaStatsMainEngine("resources/Egee", null);
+		schemaStatsMainEngine = new SchemaStatsMainEngine("resources/AA-ALERT__frbcatdb", null);
 	}
+	
 	@Test
-	void testEgeeSchemaLevelInfo() {
+	void testAa_ALERT__frbcatdbSchemaLevelInfo() {
 		ArrayList<String> header = new ArrayList<String>();
 		ArrayList<SchemaHeartbeatElement> inputTupleCollection = new ArrayList<SchemaHeartbeatElement>();
-		int numRows = schemaStatsMainEngine.loadData("resources/Egee/results/SchemaHeartBeat.tsv", "\t", true, 28, header, inputTupleCollection);
-		assertEquals(numRows - 1, 17); //check without header (commits)
+		int numRows = schemaStatsMainEngine.loadData("resources/AA-ALERT__frbcatdb/results/SchemaHeartBeat.tsv", "\t", true, 28, header, inputTupleCollection);
+		assertEquals(numRows - 1, 16); //check without header (commits)
 		
 		
-
-		File statsFileProduced = new File("resources/test/Profiling/Egee_SchemaLevelInfo.tsv"); 
+		File statsFileProduced = new File("resources/test/Profiling/AA-ALERT__frbcatdb_SchemaLevelInfo.tsv"); 
 		Long originalTimeStamp = statsFileProduced.lastModified();
-		SchemaLevelInfo schemaLevelInfo = schemaStatsMainEngine.extractSchemaLevelInfo("Egee", inputTupleCollection, "resources/test/Profiling", true);
+		SchemaLevelInfo schemaLevelInfo = schemaStatsMainEngine.extractSchemaLevelInfo("AA-ALERT__frbcatdb", inputTupleCollection, "resources/test/Profiling", true);
 		Long newTimeStamp = statsFileProduced.lastModified();
 		assertTrue(newTimeStamp > originalTimeStamp);
 		
+		//Truth sum-values were manually calculated 
+		assertEquals(schemaLevelInfo.getReeds(), 4);
+		assertEquals(schemaLevelInfo.getTurfs(), 9);
+		assertEquals(schemaLevelInfo.getActiveCommits(), 13);
 		
-		//Truth sum-values were manually calculated  
-		assertEquals(schemaLevelInfo.getReeds(), 3);
-		assertEquals(schemaLevelInfo.getTurfs(), 13);
-		assertEquals(schemaLevelInfo.getActiveCommits(), 16);
-		
-				
 		///Truth values and Ratios manually calculated /// path to truth file: resources\test\IsValuesANDSummaries_TRUTH
-		int ReedsPostV0 = 2;
-		double ReedRatioAComm	= 0.19;
-		double ReedRatioTComm	= 0.18;
-		int ActivityDueToReeds	= 95;
-		int ActivityDueToReedsPostV0	= 61;
-		int TurfsPostV0	= 13;
-		double TurfRatioAComm	= 0.81;
-		double TurfRatioTComm	= 0.76;
-		int ActivityDueToTurf	= 39;
-		int ActivityDueToTurfPostV0	= 39;
-		double ActiveCommitRatePerMonth = 0;	
-		double CommitRatePerMonth	= 0;
-		double ActiveCommitRatio = 0.94; 
+		int ReedsPostV0 = 3;
+		double ReedRatioAComm	= 0.31;
+		double ReedRatioTComm	= 0.25;
+		int ActivityDueToReeds	= 269;
+		int ActivityDueToReedsPostV0	= 154;
+		int TurfsPostV0	= 9;
+		double TurfRatioAComm	= 0.69;
+		double TurfRatioTComm	= 0.56;
+		int ActivityDueToTurf	= 20;
+		int ActivityDueToTurfPostV0	= 20;
+		double ActiveCommitRatePerMonth = 1.18;	
+		double CommitRatePerMonth	= 1.45;
+		double ActiveCommitRatio = 0.81; 
 		
 		assertEquals(schemaLevelInfo.getReedsPostV0(), ReedsPostV0);
 		assertEquals(schemaLevelInfo.getReedRatioAComm(), ReedRatioAComm);
@@ -69,6 +67,7 @@ class EgeeSchemaLevelTest {
 		assertEquals(schemaLevelInfo.getActiveCommitRatePerMonth(), ActiveCommitRatePerMonth);
 		assertEquals(schemaLevelInfo.getCommitRatePerMonth(), CommitRatePerMonth);
 		assertEquals(schemaLevelInfo.getActiveCommitRatio(), ActiveCommitRatio);
+		
 	}
 
 }

@@ -13,7 +13,7 @@ import datamodel.MonthSchemaStats;
 import datamodel.SchemaHeartbeatElement;
 import mainEngine.SchemaStatsMainEngine;
 
-public class Accgit__aclMonthlyStatsTest {
+public class Accgit__aclMonthlyStatsUpdatedTest {
 private static SchemaStatsMainEngine schemaStatsMainEngine; 
 	
 	@BeforeAll
@@ -24,7 +24,7 @@ private static SchemaStatsMainEngine schemaStatsMainEngine;
 	void testAccgit__aclMonthlySchemaStats() {
 		ArrayList<String> header = new ArrayList<String>();
 		ArrayList<SchemaHeartbeatElement> inputTupleCollection = new ArrayList<SchemaHeartbeatElement>();
-		int numRows = schemaStatsMainEngine.loadData("resources/accgit__acl/results/SchemaHeartbeat.tsv", "\t", true, 28, header, inputTupleCollection);
+		int numRows = schemaStatsMainEngine.loadData("resources/accgit__acl/results/accgit__acl_SchemaHeartbeat_Updated.tsv", "\t", true, 31, header, inputTupleCollection);
 		assertEquals(numRows - 1, 17);
 		
 		File statsFileProduced = new File("resources/test/Profiling/accgit__acl_MonthlySchemaStats.tsv"); 
@@ -36,7 +36,7 @@ private static SchemaStatsMainEngine schemaStatsMainEngine;
 		Long newTimeStamp = statsFileProduced.lastModified();
 		assertTrue(newTimeStamp > originalTimeStamp);
 		
-		//Truth sum-values were manually calculated
+		//Truth sum-values were manually calculated 
 		int truth_active = 3;
 		int truth_turf = 1;
 		int truth_reed = 2;

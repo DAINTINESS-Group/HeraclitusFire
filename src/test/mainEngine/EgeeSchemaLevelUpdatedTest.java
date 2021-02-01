@@ -12,7 +12,7 @@ import datamodel.SchemaHeartbeatElement;
 import datamodel.SchemaLevelInfo;
 import mainEngine.SchemaStatsMainEngine;
 
-class EgeeSchemaLevelTest {
+class EgeeSchemaLevelUpdatedTest {
 	private static SchemaStatsMainEngine schemaStatsMainEngine; 
 	
 	@BeforeAll
@@ -23,7 +23,7 @@ class EgeeSchemaLevelTest {
 	void testEgeeSchemaLevelInfo() {
 		ArrayList<String> header = new ArrayList<String>();
 		ArrayList<SchemaHeartbeatElement> inputTupleCollection = new ArrayList<SchemaHeartbeatElement>();
-		int numRows = schemaStatsMainEngine.loadData("resources/Egee/results/SchemaHeartBeat.tsv", "\t", true, 28, header, inputTupleCollection);
+		int numRows = schemaStatsMainEngine.loadData("resources/Egee/results/Egee_SchemaHeartBeat_Updated.tsv", "\t", true, 31, header, inputTupleCollection);
 		assertEquals(numRows - 1, 17); //check without header (commits)
 		
 		

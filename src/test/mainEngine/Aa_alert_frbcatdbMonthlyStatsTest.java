@@ -38,7 +38,7 @@ public class Aa_alert_frbcatdbMonthlyStatsTest {
 		Long newTimeStamp = statsFileProduced.lastModified();
 		assertTrue(newTimeStamp > originalTimeStamp);
 		
-		//Truth sum-values were manually calculated by SchemaHeartBeat.tsv file. 
+		//Truth sum-values were manually calculated
 		int truth_active = 13;
 		int truth_turf = 9;
 		int truth_reed = 4;

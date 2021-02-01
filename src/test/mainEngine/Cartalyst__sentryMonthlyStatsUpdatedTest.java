@@ -13,43 +13,45 @@ import datamodel.MonthSchemaStats;
 import datamodel.SchemaHeartbeatElement;
 import mainEngine.SchemaStatsMainEngine;
 
-public class Accgit__aclMonthlyStatsTest {
+class Cartalyst__sentryMonthlyStatsUpdatedTest {
 private static SchemaStatsMainEngine schemaStatsMainEngine; 
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
-		schemaStatsMainEngine = new SchemaStatsMainEngine("resources/accgit__acl", null);
+		schemaStatsMainEngine = new SchemaStatsMainEngine("resources/cartalyst__sentry", null);
 	}
 	@Test
-	void testAccgit__aclMonthlySchemaStats() {
+	void testCartalyst__sentryMonthlySchemaStats() {
 		ArrayList<String> header = new ArrayList<String>();
 		ArrayList<SchemaHeartbeatElement> inputTupleCollection = new ArrayList<SchemaHeartbeatElement>();
-		int numRows = schemaStatsMainEngine.loadData("resources/accgit__acl/results/SchemaHeartbeat.tsv", "\t", true, 28, header, inputTupleCollection);
-		assertEquals(numRows - 1, 17);
+		int numRows = schemaStatsMainEngine.loadData("resources/cartalyst__sentry/results/cartalyst__sentry_SchemaHeartbeat_Updated.tsv", "\t", true, 31, header, inputTupleCollection);
+		assertEquals(numRows - 1, 13);
 		
-		File statsFileProduced = new File("resources/test/Profiling/accgit__acl_MonthlySchemaStats.tsv"); 
+		File statsFileProduced = new File("resources/test/Profiling/cartalyst__sentry_MonthlySchemaStats.tsv"); 
 		Long originalTimeStamp = statsFileProduced.lastModified();
 		
-		ArrayList<MonthSchemaStats> monthlySchemaStatsCollection = schemaStatsMainEngine.extractMonthlySchemaStats("accgit__acl", inputTupleCollection, "resources/test/Profiling", true);
-		assertEquals(monthlySchemaStatsCollection.size(), 15);
+		ArrayList<MonthSchemaStats> monthlySchemaStatsCollection = schemaStatsMainEngine.extractMonthlySchemaStats("cartalyst__sentry", inputTupleCollection, "resources/test/Profiling", true);
+		assertEquals(monthlySchemaStatsCollection.size(), 8);
 		
 		Long newTimeStamp = statsFileProduced.lastModified();
 		assertTrue(newTimeStamp > originalTimeStamp);
 		
 		//Truth sum-values were manually calculated
-		int truth_active = 3;
-		int truth_turf = 1;
-		int truth_reed = 2;
+		int truth_active = 8;
+		int truth_turf = 7;
+		int truth_reed = 1;
 		
-		int[] truth_reeds = new int[] {1,0,1,0,0,0,0,0,0,0,0,0,0,0,0};
-		int[] truth_turfs = new int[] {0,0,0,0,1,0,0,0,0,0,0,0,0,0,0};
-		int[] truth_actives = new int[] {1,0,1,0,1,0,0,0,0,0,0,0,0,0,0};
+		
+		int[] truth_reeds = new int[] {1,0,0,0,0,0,0,0};
+		int[] truth_turfs = new int[] {1,1,3,1,1,0,0,0};
+		int[] truth_actives = new int[] {2,1,3,1,1,0,0,0};
 		
 		int sum_active = 0;
 		int sum_turf = 0;
 		int sum_reed = 0;
 		Random rand = new Random();
 		int cnt=0;
+		
 		for(MonthSchemaStats mnt: monthlySchemaStatsCollection) {
 			sum_active += mnt.getActiveCommits();
 			sum_turf += mnt.getTurfs();
@@ -73,7 +75,7 @@ private static SchemaStatsMainEngine schemaStatsMainEngine;
 		assertEquals(sum_turf,truth_turf);
 		assertEquals(sum_reed,truth_reed);
 		
-		
+	
 	}
 
 }

@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import datamodel.SchemaHeartbeatElement;
 import mainEngine.SchemaStatsMainEngine;
 
-public class AtlasSchemaHeartbeatTest {
+public class AtlasSchemaHeartbeatUpdatedTest {
 	private static SchemaStatsMainEngine schemaStatsMainEngine; 
 	private static ArrayList<String> headerExpected; 
 	
@@ -22,7 +22,7 @@ public class AtlasSchemaHeartbeatTest {
 				"runningMonthFromV0", "#numOldTables", "#numNewTables", "#numOldAttrs", "#numNewAttrs", 
 				"tablesIns", "tablesDel", "attrsInsWithTableIns", "attrsbDelWithTableDel", "attrsInjected", 
 				"attrsEjected", "attrsWithTypeUpd", "attrsInPKUpd", "tableDelta", "attrDelta", "attrBirthsSum", 
-				"attrDeathsSum", "attrUpdsSum", "Expansion", "Maintenance", "TotalAttrActivity"
+				"attrDeathsSum", "attrUpdsSum", "Expansion", "Maintenance", "TotalAttrActivity", "isReed", "isTurf", "isActive"
 )); 
 
 		schemaStatsMainEngine = new SchemaStatsMainEngine("resources/Atlas", null);
@@ -33,7 +33,7 @@ public class AtlasSchemaHeartbeatTest {
 	void testAtlasLoadHeartBeatElement() {
 		ArrayList<String> header = new ArrayList<String>();
 		ArrayList<SchemaHeartbeatElement> inputTupleCollection = new ArrayList<SchemaHeartbeatElement>();
-		int numRows = schemaStatsMainEngine.loadData("resources/Atlas/results/SchemaHeartBeat.tsv", "\t", true, 28, header, inputTupleCollection);
+		int numRows = schemaStatsMainEngine.loadData("resources/Atlas/results/Atlas_SchemaHeartBeat_Updated.tsv", "\t", true, 31, header, inputTupleCollection);
 		assertEquals(numRows,86);
 		assertEquals(inputTupleCollection.size(),85);
 		assertTrue(header.equals(headerExpected));
