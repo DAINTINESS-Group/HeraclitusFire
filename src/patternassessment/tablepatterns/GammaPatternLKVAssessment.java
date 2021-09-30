@@ -99,31 +99,71 @@ public class GammaPatternLKVAssessment extends PatternAssessmentTemplateMethod {
 
 	 */
 	@Override
-	public Boolean decideIfPatternHolds(PatternAssessmentResult par) {
+	public decizion decideIfPatternHolds(PatternAssessmentResult par) {
 		int[][] contTable = this.result.getContingencyTable();
 		this.survivorsWide = contTable[1][1];
 		this.deadWide = contTable[1][0];
 		this.survivorsNotWide = contTable[0][1];
 		this.deadNotWide = contTable[0][0];
 		int total = survivorsWide + deadWide + survivorsNotWide + deadNotWide;
+		double persentageTableLimit = total * 0.05;
+		if(deadWide == 0 && deadNotWide == 0 && survivorsWide == 0) {
+			//return all active and notWide
+			return decizion.ACTIVES_AND_NOT_WIDES;
+		}
+		if(deadWide == 0 && deadNotWide == 0 && survivorsNotWide == 0) {
+			//return all active and wide
+			return decizion.ACTIVES_AND_WIDES;
+		}
+		if(survivorsWide == 0 && survivorsNotWide == 0 && deadWide == 0) {
+			//return all dead and notWide
+			return decizion.DEAD_AND_NOT_WIDES;
+		}
+		if(survivorsWide == 0 && survivorsNotWide == 0 && deadNotWide == 0) {
+			//return all dead and Wide
+			return decizion.DEAD_AND_WIDES;
+		}
+		if(deadWide == 0 && deadNotWide == 0) {
+			//return all active
+			return decizion.ACTIVE;
+		}
+		if(survivorsWide == 0 && survivorsNotWide == 0) {
+			//return all dead
+			return decizion.DEAD;
+		}
+		if(deadWide == 0 && survivorsWide == 0) {
+			//return all notWide
+			return decizion.NOT_WIDE;
+		}
+		if(deadNotWide == 0 && survivorsNotWide == 0) {
+			//return all wide
+			return decizion.WIDE;
+		}
+		if(deadWide > 0 && deadNotWide > 0 && survivorsWide > 0 && survivorsNotWide > 0) {
+			if(deadWide < persentageTableLimit || deadNotWide < persentageTableLimit || survivorsNotWide < persentageTableLimit || survivorsWide < persentageTableLimit) {
+				// start pattern evaluation			
+				double probSurvIfWide = ((double)survivorsWide) / (survivorsWide + deadWide);
+				double probSurvIfNotWide = ((double)survivorsNotWide) / (survivorsNotWide + deadNotWide);
+				double probSurv = ((double)(survivorsWide + survivorsNotWide)) / (total);
 		
-		
-		double probSurvIfWide = ((double)survivorsWide) / (survivorsWide + deadWide);
-		double probSurvIfNotWide = ((double)survivorsNotWide) / (survivorsNotWide + deadNotWide);
-		double probSurv = ((double)(survivorsWide + survivorsNotWide)) / (total);
-
-		double pValueFisher = 1.0;
-		pValueFisher = applyFisherTest(par);
-		Boolean fisherTestPass = pValueFisher < this.alphaAcceptanceLevel;
-		par.setFisherTestPass(fisherTestPass);
-		
-		if(par.getFisherTestExecuted())
-			this.pValuePatternTrue = (probSurvIfWide > probSurvIfNotWide) && fisherTestPass;
-		else
-			this.pValuePatternTrue = (probSurvIfWide > probSurvIfNotWide);
-		this.geometricalPatternTrue = (survivorsWide > deadWide) && (deadWide <= MAX_ACCEPTABLE_NUM_WIDE_DEAD_FOR_PATTERN_TO_HOLD);
+				double pValueFisher = 1.0;
+				pValueFisher = applyFisherTest(par);
+				Boolean fisherTestPass = pValueFisher < this.alphaAcceptanceLevel;
+				par.setFisherTestPass(fisherTestPass);
 				
-		return (geometricalPatternTrue || pValuePatternTrue);
+				if(par.getFisherTestExecuted())
+					this.pValuePatternTrue = (probSurvIfWide > probSurvIfNotWide) && fisherTestPass;
+				else
+					this.pValuePatternTrue = (probSurvIfWide > probSurvIfNotWide);
+				this.geometricalPatternTrue = (survivorsWide > deadWide) && (deadWide <= MAX_ACCEPTABLE_NUM_WIDE_DEAD_FOR_PATTERN_TO_HOLD);
+				
+				if(geometricalPatternTrue || pValuePatternTrue ) {
+					//return patternIsValid
+					return decizion.VALID;
+				}
+			}
+		}
+		return decizion.VALID;
 	}
 
 	/**

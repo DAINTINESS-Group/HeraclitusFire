@@ -22,14 +22,14 @@ public abstract class PatternAssessmentTemplateMethod {
 	protected String globalAppendLogPath;
 	protected PatternAssessmentResult result;
 	protected double alphaAcceptanceLevel;
-	protected Boolean patternIsValid;
+	protected decizion patternIsValid;
 	protected String projectName;
 
 
 	public abstract String getTestName();
 	public abstract PatternAssessmentResult constructResult();
 	public abstract int[][] computeContingencyTable(PatternAssessmentResult par);
-	public abstract Boolean decideIfPatternHolds(PatternAssessmentResult par);
+	public abstract decizion decideIfPatternHolds(PatternAssessmentResult par);
 	public abstract String constructResultDescription(PatternAssessmentResult par);
 	
 	public PatternAssessmentTemplateMethod(
@@ -45,8 +45,38 @@ public abstract class PatternAssessmentTemplateMethod {
 		this.outputFolderWithPatterns = pOutputFolderWithPatterns;
 		this.globalAppendLogPath = globalAppendLogPath;
 		this.alphaAcceptanceLevel = alpha;
-		this.patternIsValid = false;
+		this.patternIsValid = decizion.VALID;
 	}//end constructor
+	
+	public enum decizion {
+		VALID("Valid"),
+		NOT_VALID("Not valid"),
+		ACTIVES_AND_WIDES("Not valid, all tables are actives and wides"),
+		DEAD_AND_WIDES("Not valid, the tables are all dead and not wides"),
+		ACTIVES_AND_NOT_WIDES("Not valid, the tables are all actives and not wides"),
+		DEAD_AND_NOT_WIDES("Not valid, the tables are all dead ant not wides"),
+		WIDE("Not valid, the tables are all wide"),
+		NOT_WIDE("Not valid, the tables are all narrow"),
+		DEAD("Not valid, the tables are all dead"),
+		ACTIVE("Not valid, the tables are all active"),
+		TABLES_HAVE_MAX_DURATION("Not valid, all the tables have max duration"),
+		NO_ACTIVITY("Not valid, there are no activity"),
+		NOT_ACTIVE_PROJECT("Not valid, inactive project "),
+		SMALL_DURATION("Not valid, all the tables have small duration"),
+		SHORT_RANGE_OF_VALUES("Not valid, short range of values");
+		
+		private String status;
+		
+		private decizion(String status) {
+			this.status = status;
+		}
+		
+		
+		public String toString()
+		{
+			return this.status;
+		}
+	}
 
 	/**
 	 * Returns true of the pattern holds, false otherwise
@@ -63,7 +93,7 @@ public abstract class PatternAssessmentTemplateMethod {
 	 * 
 	 * @return true of the pattern holds, false otherwise
 	 */
-	public Boolean assessPatternTemplateMethod() {
+	public decizion assessPatternTemplateMethod() {
 		//prepare matrixes -- customized for the base contingency table
 		this.result = constructResult(); //child classes must have attributes for descr, #cols, #rows
 		

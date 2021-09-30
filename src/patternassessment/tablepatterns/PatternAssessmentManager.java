@@ -31,7 +31,7 @@ public class PatternAssessmentManager {
 		//TODO: Don;t like it. Maybe it's better to update the PAResult
 		//and return the result?
 		for(PatternAssessmentTemplateMethod pa: assessmentsToRun) {
-			Boolean resultFlag = pa.assessPatternTemplateMethod();
+			pa.assessPatternTemplateMethod();
 		}
 		
 		return patternsToAssess;

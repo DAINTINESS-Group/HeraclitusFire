@@ -148,23 +148,44 @@ public class InverseGammaAssessment extends PatternAssessmentTemplateMethod {
  	 * @param par  a PatternAssessmentResult that will be populated with the contingency table and the test results
  	 * @return a Boolean flag that is true if the pattern holds; false otherwise
 	 */
-	@Override public Boolean decideIfPatternHolds(PatternAssessmentResult par) {
+	@Override public decizion decideIfPatternHolds(PatternAssessmentResult par) {
 		int[][] contTable = this.result.getContingencyTable();
-		
-		if (contTable[1][0] <= _PCT_EMPTY_AREA_THRESHOLD * this.numTables)
-			this.geometricalPatternTrue = true;
-		
-		double pValueFisher = 1.0;
-		pValueFisher = applyFisherTest(par);		
-		
-		//independently of whether Fisher test has been executed
-		//the decision is the same, as pV is set to 1.0 when the test crashes
-		Boolean fisherTestPass = pValueFisher < this.alphaAcceptanceLevel;
-		this.pValuePatternTrue = fisherTestPass;
-		par.setFisherTestPass(fisherTestPass);
-
-		
-		return (geometricalPatternTrue || pValuePatternTrue);
+		if (maxSumUpd == 0) {
+			//return no activity
+			return decizion.NO_ACTIVITY;
+		}
+		if (maxSumUpd <= 5) {
+			//return short range of values
+			return decizion.SHORT_RANGE_OF_VALUES;
+		}
+		if (contTable[0][0] > 0 && contTable[1][0] == 0 && contTable[1][1] == 0 && contTable[0][1] == 0) {
+			//return all tables have max duration
+			return decizion.TABLES_HAVE_MAX_DURATION;
+		}
+		if (contTable[0][0] == 0 && contTable[1][0] == 0) {
+			//return not active project
+			return decizion.NOT_ACTIVE_PROJECT;
+		}
+		if (contTable[0][0] == 0 && contTable[0][1] == 0) {
+			//return everyone small duration
+			return decizion.SMALL_DURATION;
+		}
+		if(contTable[0][0] > 0 && contTable[0][1] > 0 && contTable[1][0] > 0 && contTable[1][1] > 0) {
+			
+			double pValueFisher = 1.0;
+			pValueFisher = applyFisherTest(par);		
+			
+			//independently of whether Fisher test has been executed
+			//the decision is the same, as pV is set to 1.0 when the test crashes
+			Boolean fisherTestPass = pValueFisher < this.alphaAcceptanceLevel;
+			this.pValuePatternTrue = fisherTestPass;
+			par.setFisherTestPass(fisherTestPass);
+			if (contTable[1][0] <= _PCT_EMPTY_AREA_THRESHOLD * this.numTables || fisherTestPass) {
+				//return pattern holds
+				return decizion.VALID;
+			}
+		}			
+		return decizion.NOT_VALID;
 	}
 
 	/**
