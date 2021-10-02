@@ -107,38 +107,37 @@ public class GammaPatternLKVAssessment extends PatternAssessmentTemplateMethod {
 		this.deadNotWide = contTable[0][0];
 		int total = survivorsWide + deadWide + survivorsNotWide + deadNotWide;
 		double persentageTableLimit = total * 0.05;
-		if(deadWide == 0 && deadNotWide == 0 && survivorsWide == 0) {
-			//return all active and notWide
+		if(deadWide == 0 && deadNotWide == 0 && survivorsWide == 0)
+			//all active and notWide
 			return decizion.ACTIVES_AND_NOT_WIDES;
-		}
-		if(deadWide == 0 && deadNotWide == 0 && survivorsNotWide == 0) {
-			//return all active and wide
+		
+		if(deadWide == 0 && deadNotWide == 0 && survivorsNotWide == 0)
+			//all active and wide
 			return decizion.ACTIVES_AND_WIDES;
-		}
-		if(survivorsWide == 0 && survivorsNotWide == 0 && deadWide == 0) {
+		if(survivorsWide == 0 && survivorsNotWide == 0 && deadWide == 0)
 			//return all dead and notWide
 			return decizion.DEAD_AND_NOT_WIDES;
-		}
-		if(survivorsWide == 0 && survivorsNotWide == 0 && deadNotWide == 0) {
-			//return all dead and Wide
+
+		if(survivorsWide == 0 && survivorsNotWide == 0 && deadNotWide == 0)
+			//all dead and Wide
 			return decizion.DEAD_AND_WIDES;
-		}
-		if(deadWide == 0 && deadNotWide == 0) {
-			//return all active
+
+		if(deadWide == 0 && deadNotWide == 0)
+			//all active
 			return decizion.ACTIVE;
-		}
-		if(survivorsWide == 0 && survivorsNotWide == 0) {
-			//return all dead
+
+		if(survivorsWide == 0 && survivorsNotWide == 0)
+			//all dead
 			return decizion.DEAD;
-		}
-		if(deadWide == 0 && survivorsWide == 0) {
-			//return all notWide
+
+		if(deadWide == 0 && survivorsWide == 0)
+			//all notWide
 			return decizion.NOT_WIDE;
-		}
-		if(deadNotWide == 0 && survivorsNotWide == 0) {
-			//return all wide
+
+		if(deadNotWide == 0 && survivorsNotWide == 0)
+			//all wide
 			return decizion.WIDE;
-		}
+
 		if(deadWide > 0 && deadNotWide > 0 && survivorsWide > 0 && survivorsNotWide > 0) {
 			if(deadWide < persentageTableLimit || deadNotWide < persentageTableLimit || survivorsNotWide < persentageTableLimit || survivorsWide < persentageTableLimit) {
 				// start pattern evaluation			
@@ -158,12 +157,12 @@ public class GammaPatternLKVAssessment extends PatternAssessmentTemplateMethod {
 				this.geometricalPatternTrue = (survivorsWide > deadWide) && (deadWide <= MAX_ACCEPTABLE_NUM_WIDE_DEAD_FOR_PATTERN_TO_HOLD);
 				
 				if(geometricalPatternTrue || pValuePatternTrue ) {
-					//return patternIsValid
+					//pattern holds
 					return decizion.VALID;
 				}
 			}
 		}
-		return decizion.VALID;
+		return decizion.NOT_VALID;
 	}
 
 	/**
