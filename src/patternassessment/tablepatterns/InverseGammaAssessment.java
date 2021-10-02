@@ -150,26 +150,26 @@ public class InverseGammaAssessment extends PatternAssessmentTemplateMethod {
 	 */
 	@Override public decizion decideIfPatternHolds(PatternAssessmentResult par) {
 		int[][] contTable = this.result.getContingencyTable();
-		if (maxSumUpd == 0) {
-			//return no activity
+		if (maxSumUpd == 0)
+			//no activity
 			return decizion.NO_ACTIVITY;
-		}
-		if (maxSumUpd <= 5) {
-			//return short range of values
+
+		if (maxSumUpd <= 5)
+			//short range of values
 			return decizion.SHORT_RANGE_OF_VALUES;
-		}
-		if (contTable[0][0] > 0 && contTable[1][0] == 0 && contTable[1][1] == 0 && contTable[0][1] == 0) {
-			//return all tables have max duration
+
+		if (contTable[0][0] > 0 && contTable[1][0] == 0 && contTable[1][1] == 0 && contTable[0][1] == 0)
+			//all tables have max duration
 			return decizion.TABLES_HAVE_MAX_DURATION;
-		}
-		if (contTable[0][0] == 0 && contTable[1][0] == 0) {
-			//return not active project
+
+		if (contTable[0][0] == 0 && contTable[1][0] == 0)
+			//not active project
 			return decizion.NOT_ACTIVE_PROJECT;
-		}
-		if (contTable[0][0] == 0 && contTable[0][1] == 0) {
-			//return everyone small duration
+
+		if (contTable[0][0] == 0 && contTable[0][1] == 0)
+			//everyone small duration
 			return decizion.SMALL_DURATION;
-		}
+
 		if(contTable[0][0] > 0 && contTable[0][1] > 0 && contTable[1][0] > 0 && contTable[1][1] > 0) {
 			
 			double pValueFisher = 1.0;
@@ -180,10 +180,10 @@ public class InverseGammaAssessment extends PatternAssessmentTemplateMethod {
 			Boolean fisherTestPass = pValueFisher < this.alphaAcceptanceLevel;
 			this.pValuePatternTrue = fisherTestPass;
 			par.setFisherTestPass(fisherTestPass);
-			if (contTable[1][0] <= _PCT_EMPTY_AREA_THRESHOLD * this.numTables || fisherTestPass) {
-				//return pattern holds
+			if (contTable[1][0] <= _PCT_EMPTY_AREA_THRESHOLD * this.numTables || fisherTestPass)
+				//pattern holds
 				return decizion.VALID;
-			}
+
 		}			
 		return decizion.NOT_VALID;
 	}
