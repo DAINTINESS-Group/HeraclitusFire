@@ -29,7 +29,7 @@ public class GammaPatternLKVAssessment extends PatternAssessmentTemplateMethod {
 		this.pValuePatternTrue = false;
 		this.survivorsWide = 0;this.survivorsNotWide = 0; this.deadWide = 0;  this.deadNotWide = 0;
 	}
-
+	
 	@Override
 	public String getTestName() {
 		return "Gamma";
@@ -99,7 +99,7 @@ public class GammaPatternLKVAssessment extends PatternAssessmentTemplateMethod {
 
 	 */
 	@Override
-	public decizion decideIfPatternHolds(PatternAssessmentResult par) {
+	public decision decideIfPatternHolds(PatternAssessmentResult par) {
 		int[][] contTable = this.result.getContingencyTable();
 		this.survivorsWide = contTable[1][1];
 		this.deadWide = contTable[1][0];
@@ -107,37 +107,46 @@ public class GammaPatternLKVAssessment extends PatternAssessmentTemplateMethod {
 		this.deadNotWide = contTable[0][0];
 		int total = survivorsWide + deadWide + survivorsNotWide + deadNotWide;
 		double persentageTableLimit = total * 0.05;
-		if(deadWide == 0 && deadNotWide == 0 && survivorsWide == 0)
+		if(deadWide == 0 && deadNotWide == 0 && survivorsWide == 0) {
 			//all active and notWide
-			return decizion.ACTIVES_AND_NOT_WIDES;
-		
-		if(deadWide == 0 && deadNotWide == 0 && survivorsNotWide == 0)
+			decision.NOT_APPLICABLE.details = "not applicable, the tables are all actives and not wides";
+			return decision.NOT_APPLICABLE;
+		}
+		if(deadWide == 0 && deadNotWide == 0 && survivorsNotWide == 0) {
 			//all active and wide
-			return decizion.ACTIVES_AND_WIDES;
-		if(survivorsWide == 0 && survivorsNotWide == 0 && deadWide == 0)
+			decision.NOT_APPLICABLE.details = "not applicable, all tables are actives and wides";
+			return decision.NOT_APPLICABLE;
+		}
+		if(survivorsWide == 0 && survivorsNotWide == 0 && deadWide == 0) {
 			//return all dead and notWide
-			return decizion.DEAD_AND_NOT_WIDES;
-
-		if(survivorsWide == 0 && survivorsNotWide == 0 && deadNotWide == 0)
+			decision.NOT_APPLICABLE.details = "not applicable, the tables are all dead ant not wides";
+			return decision.NOT_APPLICABLE;
+		}
+		if(survivorsWide == 0 && survivorsNotWide == 0 && deadNotWide == 0) {
 			//all dead and Wide
-			return decizion.DEAD_AND_WIDES;
-
-		if(deadWide == 0 && deadNotWide == 0)
+			decision.NOT_APPLICABLE.details = "not applicable, the tables are all dead and not wides";
+			return decision.NOT_APPLICABLE;
+		}
+		if(deadWide == 0 && deadNotWide == 0) {
 			//all active
-			return decizion.ACTIVE;
-
-		if(survivorsWide == 0 && survivorsNotWide == 0)
+			decision.NOT_APPLICABLE.details = "not applicable, the tables are all active";
+			return decision.NOT_APPLICABLE;
+		}
+		if(survivorsWide == 0 && survivorsNotWide == 0) {
 			//all dead
-			return decizion.DEAD;
-
-		if(deadWide == 0 && survivorsWide == 0)
+			decision.NOT_APPLICABLE.details = "not applicable, the tables are all dead";
+			return decision.NOT_APPLICABLE;
+		}
+		if(deadWide == 0 && survivorsWide == 0) {
 			//all notWide
-			return decizion.NOT_WIDE;
-
-		if(deadNotWide == 0 && survivorsNotWide == 0)
+			decision.NOT_APPLICABLE.details = "not applicable, the tables are all narrow";
+			return decision.NOT_APPLICABLE;
+		}
+		if(deadNotWide == 0 && survivorsNotWide == 0) {
 			//all wide
-			return decizion.WIDE;
-
+			decision.NOT_APPLICABLE.details = "not applicable, the tables are all wide";
+			return decision.NOT_APPLICABLE;
+		}
 		if(deadWide > 0 && deadNotWide > 0 && survivorsWide > 0 && survivorsNotWide > 0) {
 			if(deadWide < persentageTableLimit || deadNotWide < persentageTableLimit || survivorsNotWide < persentageTableLimit || survivorsWide < persentageTableLimit) {
 				// start pattern evaluation			
@@ -157,12 +166,13 @@ public class GammaPatternLKVAssessment extends PatternAssessmentTemplateMethod {
 				this.geometricalPatternTrue = (survivorsWide > deadWide) && (deadWide <= MAX_ACCEPTABLE_NUM_WIDE_DEAD_FOR_PATTERN_TO_HOLD);
 				
 				if(geometricalPatternTrue || pValuePatternTrue ) {
-					//pattern holds
-					return decizion.VALID;
+					decision.SUCCESS.details = "success, the Gamma pattern holds";
+					return decision.SUCCESS;
 				}
 			}
 		}
-		return decizion.NOT_VALID;
+		decision.FAILURE.details = "failure, the Gamma pattern doesn't holds";
+		return decision.FAILURE;
 	}
 
 	/**

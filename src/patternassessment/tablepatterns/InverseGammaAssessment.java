@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import datamodel.TableDetailedStatsElement;
 import patternassessment.fisher.exact.test.FisherExactTestWrapper;
+import patternassessment.tablepatterns.PatternAssessmentTemplateMethod.decision;
 
 
 public class InverseGammaAssessment extends PatternAssessmentTemplateMethod {
@@ -148,28 +149,33 @@ public class InverseGammaAssessment extends PatternAssessmentTemplateMethod {
  	 * @param par  a PatternAssessmentResult that will be populated with the contingency table and the test results
  	 * @return a Boolean flag that is true if the pattern holds; false otherwise
 	 */
-	@Override public decizion decideIfPatternHolds(PatternAssessmentResult par) {
+	@Override public decision decideIfPatternHolds(PatternAssessmentResult par) {
 		int[][] contTable = this.result.getContingencyTable();
-		if (maxSumUpd == 0)
+		if (maxSumUpd == 0) {
 			//no activity
-			return decizion.NO_ACTIVITY;
-
-		if (maxSumUpd <= 5)
+			decision.NOT_APPLICABLE.details = "not applicable, there are no activity";
+			return decision.NOT_APPLICABLE;
+		}
+		if (maxSumUpd <= 5) {
 			//short range of values
-			return decizion.SHORT_RANGE_OF_VALUES;
-
-		if (contTable[0][0] > 0 && contTable[1][0] == 0 && contTable[1][1] == 0 && contTable[0][1] == 0)
+			decision.NOT_APPLICABLE.details = "not applicable, short range of values";
+			return decision.NOT_APPLICABLE;
+		}
+		if (contTable[0][0] > 0 && contTable[1][0] == 0 && contTable[1][1] == 0 && contTable[0][1] == 0) {
 			//all tables have max duration
-			return decizion.TABLES_HAVE_MAX_DURATION;
-
-		if (contTable[0][0] == 0 && contTable[1][0] == 0)
+			decision.NOT_APPLICABLE.details = "not applicable, all the tables have max duration";
+			return decision.NOT_APPLICABLE;
+		}
+		if (contTable[0][0] == 0 && contTable[1][0] == 0) {
 			//not active project
-			return decizion.NOT_ACTIVE_PROJECT;
-
-		if (contTable[0][0] == 0 && contTable[0][1] == 0)
+			decision.NOT_APPLICABLE.details = "not applicable, inactive project";
+			return decision.NOT_APPLICABLE;
+		}
+		if (contTable[0][0] == 0 && contTable[0][1] == 0) {
 			//everyone small duration
-			return decizion.SMALL_DURATION;
-
+			decision.NOT_APPLICABLE.details = "not applicable, all the tables have small duration";
+			return decision.NOT_APPLICABLE;
+		}
 		if(contTable[0][0] > 0 && contTable[0][1] > 0 && contTable[1][0] > 0 && contTable[1][1] > 0) {
 			
 			double pValueFisher = 1.0;
@@ -182,10 +188,12 @@ public class InverseGammaAssessment extends PatternAssessmentTemplateMethod {
 			par.setFisherTestPass(fisherTestPass);
 			if (contTable[1][0] <= _PCT_EMPTY_AREA_THRESHOLD * this.numTables || fisherTestPass)
 				//pattern holds
-				return decizion.VALID;
+				decision.SUCCESS.details = "success, the Inverse Gamma pattern holds";
+				return decision.SUCCESS;
 
-		}			
-		return decizion.NOT_VALID;
+		}
+		decision.FAILURE.details = "failure, the Inverse Gamma pattern doesn't holds";
+		return decision.FAILURE;
 	}
 
 	/**

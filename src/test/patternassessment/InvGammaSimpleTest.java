@@ -12,6 +12,7 @@ import datamodel.TableDetailedStatsElement;
 import mainEngine.TableStatsMainEngine;
 import patternassessment.tablepatterns.InverseGammaAssessment;
 import patternassessment.tablepatterns.PatternAssessmentResult;
+import patternassessment.tablepatterns.PatternAssessmentTemplateMethod.decision;
 
 public class InvGammaSimpleTest {
 	private static  InverseGammaAssessment invGammaAssessment;
@@ -54,19 +55,13 @@ public class InvGammaSimpleTest {
 		assertEquals(contingencyTable[0][1], 12);
 		assertEquals(contingencyTable[1][0], 7);
 		assertEquals(contingencyTable[1][1], 34);
-
-//Pasted from xls
-//Row Labels	HIGHUPD	LOWUPD	Grand Total
-//HIGHDUR		35		12		47
-//LOWDUR		7		34		41
-//Grand Total	42		46		88
-
-
 	}
 
 	@Test
 	final void testDecideIfPatternHolds() {
-		assertTrue(invGammaAssessment.decideIfPatternHolds(result));
+		if (invGammaAssessment.decideIfPatternHolds(result) == decision.SUCCESS)
+			assertTrue(true);
+		assertTrue(false);
 	}
 
 	  @Test 
@@ -76,7 +71,9 @@ public class InvGammaSimpleTest {
 		  
 		  assertEquals(numRows,89, "Atlas tables are 88 + 1 line header");
 		  assertEquals(inputTupleCollection.size(),88);
-		  assertTrue(invGammaAssessment.assessPatternTemplateMethod()); 
+		  if (invGammaAssessment.assessPatternTemplateMethod() == decision.SUCCESS)
+				assertTrue(true);
+			assertTrue(false);
 		  Long newTimeStamp = fileProduced.lastModified();
 		  assertTrue(newTimeStamp > originalTimeStamp);
 	  }

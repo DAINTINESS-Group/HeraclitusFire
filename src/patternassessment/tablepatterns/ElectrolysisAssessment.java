@@ -169,7 +169,7 @@ public class ElectrolysisAssessment extends PatternAssessmentTemplateMethod {
  	 * @return a Boolean flag that is true if the pattern holds; false otherwise
 	 */
 	@Override
-	public patternStatus decideIfPatternHolds(PatternAssessmentResult par) {
+	public decision decideIfPatternHolds(PatternAssessmentResult par) {
 		int[][] contTable = this.result.getContingencyTable();
 		int survHigh = contTable[2][3] + contTable[2][4] + contTable[2][5];
 		int survMed = contTable[1][3] + contTable[1][4] + contTable[1][5];
@@ -230,8 +230,8 @@ public class ElectrolysisAssessment extends PatternAssessmentTemplateMethod {
 		this.geometricalPatternTrue = areRigidDeadMajority && areMostSurvHighDur && 
 				areMostRigidDeadLowDur && areMostActiveSurvHighDur; 
 		if(geometricalPatternTrue || pValuePatternTrue)
-			return patternStatus.VALID;
-		return patternStatus.NOT_VALID;
+			return decision.SUCCESS;
+		return decision.FAILURE;
 	}
 	
 	/**
