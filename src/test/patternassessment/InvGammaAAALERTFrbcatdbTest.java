@@ -12,7 +12,7 @@ import datamodel.TableDetailedStatsElement;
 import mainEngine.TableStatsMainEngine;
 import patternassessment.tablepatterns.InverseGammaAssessment;
 import patternassessment.tablepatterns.PatternAssessmentResult;
-import patternassessment.tablepatterns.PatternAssessmentTemplateMethod.decision;
+import patternassessment.tablepatterns.PatternAssessmentTemplateMethod.PatternAssessmentDecision;
 
 class InvGammaAAALERTFrbcatdbTest {
 
@@ -60,7 +60,7 @@ class InvGammaAAALERTFrbcatdbTest {
 
 	@Test
 	final void testDecideIfPatternHolds() {
-		if (invGammaAssessment.decideIfPatternHolds(result) == decision.SUCCESS)
+		if (invGammaAssessment.decideIfPatternHolds(result) == PatternAssessmentDecision.SUCCESS)
 			assertTrue(true);
 		assertTrue(false);
 	}
@@ -72,7 +72,7 @@ class InvGammaAAALERTFrbcatdbTest {
 		  
 		  assertEquals(numRows,17, "AA-ALERT__frbcatdb tables are 16 + 1 line header");
 		  assertEquals(inputTupleCollection.size(),16);
-		  if (invGammaAssessment.assessPatternTemplateMethod() == decision.SUCCESS)
+		  if (invGammaAssessment.assessPatternTemplateMethod() == PatternAssessmentDecision.SUCCESS)
 				assertTrue(true);
 			assertTrue(false);
 		  Long newTimeStamp = fileProduced.lastModified();

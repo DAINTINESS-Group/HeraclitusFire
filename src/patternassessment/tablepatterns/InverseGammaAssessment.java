@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 import datamodel.TableDetailedStatsElement;
 import patternassessment.fisher.exact.test.FisherExactTestWrapper;
-import patternassessment.tablepatterns.PatternAssessmentTemplateMethod.decision;
+import patternassessment.tablepatterns.PatternAssessmentTemplateMethod.PatternAssessmentDecision;
 
 
 public class InverseGammaAssessment extends PatternAssessmentTemplateMethod {
@@ -52,6 +52,24 @@ public class InverseGammaAssessment extends PatternAssessmentTemplateMethod {
 	private int numTables;
 	private Boolean geometricalPatternTrue;
 	private Boolean pValuePatternTrue;
+	
+	public enum InverseGammaInvalidityReasons{
+		TABLES_HAVE_MAX_DURATION("Not applicable, all the tables have max duration"),
+		NO_ACTIVITY("Not applicable, there are no activity"), 
+		DEAD_PROJECT("Not applicable, inactive project"), 
+		SMALL_DURATION("Not applicable, all the tables have small duration"),
+		SHORT_RANGE_OF_VALUES("Not applicable, short range of values");
+		//MUST ADD ALL THE POSSIBLE REASONS OF INVALIDITY
+		
+		public String inverseGammaInvalidityDetails;
+		
+		InverseGammaInvalidityReasons(String inverseGammaInvalidityDetails) {this.inverseGammaInvalidityDetails = inverseGammaInvalidityDetails;}
+				
+		public String toString()
+		{
+			return this.inverseGammaInvalidityDetails;
+		}
+	}
 	
 	public InverseGammaAssessment(ArrayList<TableDetailedStatsElement> pInputTupleCollection, String projectName,
 			String pOutputFolderWithPatterns, String globalAppendLogPath, double alpha) {
@@ -149,32 +167,32 @@ public class InverseGammaAssessment extends PatternAssessmentTemplateMethod {
  	 * @param par  a PatternAssessmentResult that will be populated with the contingency table and the test results
  	 * @return a Boolean flag that is true if the pattern holds; false otherwise
 	 */
-	@Override public decision decideIfPatternHolds(PatternAssessmentResult par) {
+	@Override public PatternAssessmentDecision decideIfPatternHolds(PatternAssessmentResult par) {
 		int[][] contTable = this.result.getContingencyTable();
 		if (maxSumUpd == 0) {
 			//no activity
-			decision.NOT_APPLICABLE.details = "not applicable, there are no activity";
-			return decision.NOT_APPLICABLE;
+			PatternAssessmentDecision.NOT_APPLICABLE.details = InverseGammaInvalidityReasons.NO_ACTIVITY.toString();
+			return PatternAssessmentDecision.NOT_APPLICABLE;
 		}
 		if (maxSumUpd <= 5) {
 			//short range of values
-			decision.NOT_APPLICABLE.details = "not applicable, short range of values";
-			return decision.NOT_APPLICABLE;
+			PatternAssessmentDecision.NOT_APPLICABLE.details = InverseGammaInvalidityReasons.SHORT_RANGE_OF_VALUES.toString();
+			return PatternAssessmentDecision.NOT_APPLICABLE;
 		}
 		if (contTable[0][0] > 0 && contTable[1][0] == 0 && contTable[1][1] == 0 && contTable[0][1] == 0) {
 			//all tables have max duration
-			decision.NOT_APPLICABLE.details = "not applicable, all the tables have max duration";
-			return decision.NOT_APPLICABLE;
+			PatternAssessmentDecision.NOT_APPLICABLE.details = InverseGammaInvalidityReasons.TABLES_HAVE_MAX_DURATION.toString();
+			return PatternAssessmentDecision.NOT_APPLICABLE;
 		}
 		if (contTable[0][0] == 0 && contTable[1][0] == 0) {
 			//not active project
-			decision.NOT_APPLICABLE.details = "not applicable, inactive project";
-			return decision.NOT_APPLICABLE;
+			PatternAssessmentDecision.NOT_APPLICABLE.details = InverseGammaInvalidityReasons.DEAD_PROJECT.toString();
+			return PatternAssessmentDecision.NOT_APPLICABLE;
 		}
 		if (contTable[0][0] == 0 && contTable[0][1] == 0) {
 			//everyone small duration
-			decision.NOT_APPLICABLE.details = "not applicable, all the tables have small duration";
-			return decision.NOT_APPLICABLE;
+			PatternAssessmentDecision.NOT_APPLICABLE.details = InverseGammaInvalidityReasons.SMALL_DURATION.toString();
+			return PatternAssessmentDecision.NOT_APPLICABLE;
 		}
 		if(contTable[0][0] > 0 && contTable[0][1] > 0 && contTable[1][0] > 0 && contTable[1][1] > 0) {
 			
@@ -188,12 +206,12 @@ public class InverseGammaAssessment extends PatternAssessmentTemplateMethod {
 			par.setFisherTestPass(fisherTestPass);
 			if (contTable[1][0] <= _PCT_EMPTY_AREA_THRESHOLD * this.numTables || fisherTestPass)
 				//pattern holds
-				decision.SUCCESS.details = "success, the Inverse Gamma pattern holds";
-				return decision.SUCCESS;
+				PatternAssessmentDecision.SUCCESS.details = "success, the Inverse Gamma pattern holds";
+				return PatternAssessmentDecision.SUCCESS;
 
 		}
-		decision.FAILURE.details = "failure, the Inverse Gamma pattern doesn't holds";
-		return decision.FAILURE;
+		PatternAssessmentDecision.FAILURE.details = "failure, the Inverse Gamma pattern doesn't holds";
+		return PatternAssessmentDecision.FAILURE;
 	}
 
 	/**

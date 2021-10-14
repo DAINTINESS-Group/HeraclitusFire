@@ -13,7 +13,7 @@ import datamodel.TableDetailedStatsElement;
 import mainEngine.TableStatsMainEngine;
 import patternassessment.tablepatterns.GammaPatternLKVAssessment;
 import patternassessment.tablepatterns.PatternAssessmentResult;
-import patternassessment.tablepatterns.PatternAssessmentTemplateMethod.decision;
+import patternassessment.tablepatterns.PatternAssessmentTemplateMethod.PatternAssessmentDecision;
 
 class GammaAaALERTFrbcatdbTest {
 
@@ -57,7 +57,7 @@ final void testComputeContingencyTable() {
 
 	@Test
 	final void testDecideIfPatternHolds() {
-		if (gammaAssessment.decideIfPatternHolds(result) == decision.SUCCESS)
+		if (gammaAssessment.decideIfPatternHolds(result) == PatternAssessmentDecision.SUCCESS)
 			assertTrue(true);
 		assertTrue(false);
 	}
@@ -70,7 +70,7 @@ final void testComputeContingencyTable() {
 		  
 		  assertEquals(numRows,17, "AA-ALERT__frbcatdb tables are 16 + 1 line header");
 		  assertEquals(inputTupleCollection.size(),16);
-		  if (gammaAssessment.assessPatternTemplateMethod() == decision.SUCCESS)
+		  if (gammaAssessment.assessPatternTemplateMethod() == PatternAssessmentDecision.SUCCESS)
 				assertTrue(true);
 			assertTrue(false);
 		  Long newTimeStamp = fileProduced.lastModified();

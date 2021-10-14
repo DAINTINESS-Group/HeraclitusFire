@@ -22,14 +22,14 @@ public abstract class PatternAssessmentTemplateMethod {
 	protected String globalAppendLogPath;
 	protected PatternAssessmentResult result;
 	protected double alphaAcceptanceLevel;
-	protected decision patternIsValid;
+	protected PatternAssessmentDecision patternIsValid;
 	protected String projectName;
 
 
 	public abstract String getTestName();
 	public abstract PatternAssessmentResult constructResult();
 	public abstract int[][] computeContingencyTable(PatternAssessmentResult par);
-	public abstract decision decideIfPatternHolds(PatternAssessmentResult par);
+	public abstract PatternAssessmentDecision decideIfPatternHolds(PatternAssessmentResult par);
 	public abstract String constructResultDescription(PatternAssessmentResult par);
 	
 	public PatternAssessmentTemplateMethod(
@@ -45,17 +45,17 @@ public abstract class PatternAssessmentTemplateMethod {
 		this.outputFolderWithPatterns = pOutputFolderWithPatterns;
 		this.globalAppendLogPath = globalAppendLogPath;
 		this.alphaAcceptanceLevel = alpha;
-		this.patternIsValid = decision.SUCCESS;
+		this.patternIsValid = PatternAssessmentDecision.SUCCESS;
 	}//end constructor
 	
-	public enum decision {
+	public enum PatternAssessmentDecision {
 		SUCCESS("success"),
 		FAILURE("failure"),
 		NOT_APPLICABLE("not applicable");
 		
 		public String details;
 	
-		decision(String details) {this.details = details;}
+		PatternAssessmentDecision(String details) {this.details = details;}
 				
 		public String toString()
 		{
@@ -78,7 +78,7 @@ public abstract class PatternAssessmentTemplateMethod {
 	 * 
 	 * @return true of the pattern holds, false otherwise
 	 */
-	public decision assessPatternTemplateMethod() {
+	public PatternAssessmentDecision assessPatternTemplateMethod() {
 		//prepare matrixes -- customized for the base contingency table
 		this.result = constructResult(); //child classes must have attributes for descr, #cols, #rows
 		

@@ -12,7 +12,7 @@ import datamodel.TableDetailedStatsElement;
 import mainEngine.TableStatsMainEngine;
 import patternassessment.tablepatterns.InverseGammaAssessment;
 import patternassessment.tablepatterns.PatternAssessmentResult;
-import patternassessment.tablepatterns.PatternAssessmentTemplateMethod.decision;
+import patternassessment.tablepatterns.PatternAssessmentTemplateMethod.PatternAssessmentDecision;
 
 class InvGammaCartalystSentryTest {
 
@@ -63,7 +63,7 @@ private static  InverseGammaAssessment invGammaAssessment;
 
 	@Test
 	final void testDecideIfPatternHolds() {
-		if (invGammaAssessment.decideIfPatternHolds(result) == decision.SUCCESS)
+		if (invGammaAssessment.decideIfPatternHolds(result) == PatternAssessmentDecision.SUCCESS)
 			assertTrue(true);
 		assertTrue(false);
 	}
@@ -75,7 +75,7 @@ private static  InverseGammaAssessment invGammaAssessment;
 		  
 		  assertEquals(numRows,6, "cartalyst__sentry tables are 5 + 1 line header");
 		  assertEquals(inputTupleCollection.size(),5);
-		  if (invGammaAssessment.assessPatternTemplateMethod() == decision.SUCCESS)
+		  if (invGammaAssessment.assessPatternTemplateMethod() == PatternAssessmentDecision.SUCCESS)
 				assertTrue(true);
 			assertTrue(false);
 		  Long newTimeStamp = fileProduced.lastModified();

@@ -12,7 +12,7 @@ import datamodel.TableDetailedStatsElement;
 import mainEngine.TableStatsMainEngine;
 import patternassessment.tablepatterns.InverseGammaAssessment;
 import patternassessment.tablepatterns.PatternAssessmentResult;
-import patternassessment.tablepatterns.PatternAssessmentTemplateMethod.decision;
+import patternassessment.tablepatterns.PatternAssessmentTemplateMethod.PatternAssessmentDecision;
 
 class InvGammaEgeeTest {
 	private static  InverseGammaAssessment invGammaAssessment;
@@ -60,7 +60,7 @@ class InvGammaEgeeTest {
 
 	@Test
 	final void testDecideIfPatternHolds() {
-		if (invGammaAssessment.decideIfPatternHolds(result) == decision.SUCCESS)
+		if (invGammaAssessment.decideIfPatternHolds(result) == PatternAssessmentDecision.SUCCESS)
 			assertTrue(true);
 		assertTrue(false);
 	}
@@ -72,7 +72,7 @@ class InvGammaEgeeTest {
 		  
 		  assertEquals(numRows,13, "Egee tables are 12 + 1 line header");
 		  assertEquals(inputTupleCollection.size(),12);
-		  if (invGammaAssessment.assessPatternTemplateMethod() == decision.SUCCESS)
+		  if (invGammaAssessment.assessPatternTemplateMethod() == PatternAssessmentDecision.SUCCESS)
 				assertTrue(true);
 			assertTrue(false);
 		  Long newTimeStamp = fileProduced.lastModified();

@@ -17,6 +17,27 @@ public class GammaPatternLKVAssessment extends PatternAssessmentTemplateMethod {
 	private int survivorsNotWide;
 	private int deadNotWide;
 	
+	public enum GammaInvalidityReasons{
+		NO_DEAD("Not applicable, the tables are all survivors"),
+		NO_SURVIVORS("Not applicable, the tables are all dead"), 
+		NO_WIDE("Not applicable, the tables are all naroow"), 
+		NO_NARROW("Not applicable, the tables are all wide"),
+		NEITHER_DEAD_OR_WIDE("Not applicable, the tables are all survivors and narrow"),
+		NEITHER_DEAD_OR_NARROW("Not applicable, the tables are all survivors and wide"),
+		NEITHER_SURVIVORS_OR_WIDE("Not applicable, all tables are dead and narrow"),
+		NEITHER_SURVIVORS_OR_NARROW("Not applicable, the tables are all dead and wide");
+		//MUST ADD ALL THE POSSIBLE REASONS OF INVALIDITY
+		
+		public String gammaInvalidityDetails;
+		
+		GammaInvalidityReasons(String gammaInvalidityDetails) {this.gammaInvalidityDetails = gammaInvalidityDetails;}
+				
+		public String toString()
+		{
+			return this.gammaInvalidityDetails;
+		}
+	}
+	
 	public GammaPatternLKVAssessment(
 			ArrayList<TableDetailedStatsElement> pInputTupleCollection,
 			String projectName,
@@ -99,7 +120,7 @@ public class GammaPatternLKVAssessment extends PatternAssessmentTemplateMethod {
 
 	 */
 	@Override
-	public decision decideIfPatternHolds(PatternAssessmentResult par) {
+	public PatternAssessmentDecision decideIfPatternHolds(PatternAssessmentResult par) {
 		int[][] contTable = this.result.getContingencyTable();
 		this.survivorsWide = contTable[1][1];
 		this.deadWide = contTable[1][0];
@@ -108,44 +129,44 @@ public class GammaPatternLKVAssessment extends PatternAssessmentTemplateMethod {
 		int total = survivorsWide + deadWide + survivorsNotWide + deadNotWide;
 		double persentageTableLimit = total * 0.05;
 		if(deadWide == 0 && deadNotWide == 0 && survivorsWide == 0) {
-			//all active and notWide
-			decision.NOT_APPLICABLE.details = "not applicable, the tables are all actives and not wides";
-			return decision.NOT_APPLICABLE;
+			//all survivors and narrow
+			PatternAssessmentDecision.NOT_APPLICABLE.details = GammaInvalidityReasons.NEITHER_DEAD_OR_WIDE.toString();
+			return PatternAssessmentDecision.NOT_APPLICABLE;
 		}
 		if(deadWide == 0 && deadNotWide == 0 && survivorsNotWide == 0) {
-			//all active and wide
-			decision.NOT_APPLICABLE.details = "not applicable, all tables are actives and wides";
-			return decision.NOT_APPLICABLE;
+			//all survivors and wide
+			PatternAssessmentDecision.NOT_APPLICABLE.details = GammaInvalidityReasons.NEITHER_DEAD_OR_NARROW.toString();
+			return PatternAssessmentDecision.NOT_APPLICABLE;
 		}
 		if(survivorsWide == 0 && survivorsNotWide == 0 && deadWide == 0) {
-			//return all dead and notWide
-			decision.NOT_APPLICABLE.details = "not applicable, the tables are all dead ant not wides";
-			return decision.NOT_APPLICABLE;
+			//return all dead and narrow
+			PatternAssessmentDecision.NOT_APPLICABLE.details = GammaInvalidityReasons.NEITHER_SURVIVORS_OR_WIDE.toString();
+			return PatternAssessmentDecision.NOT_APPLICABLE;
 		}
 		if(survivorsWide == 0 && survivorsNotWide == 0 && deadNotWide == 0) {
 			//all dead and Wide
-			decision.NOT_APPLICABLE.details = "not applicable, the tables are all dead and not wides";
-			return decision.NOT_APPLICABLE;
+			PatternAssessmentDecision.NOT_APPLICABLE.details = GammaInvalidityReasons.NEITHER_SURVIVORS_OR_NARROW.toString();
+			return PatternAssessmentDecision.NOT_APPLICABLE;
 		}
 		if(deadWide == 0 && deadNotWide == 0) {
-			//all active
-			decision.NOT_APPLICABLE.details = "not applicable, the tables are all active";
-			return decision.NOT_APPLICABLE;
+			//all Survivors
+			PatternAssessmentDecision.NOT_APPLICABLE.details = GammaInvalidityReasons.NO_DEAD.toString();
+			return PatternAssessmentDecision.NOT_APPLICABLE;
 		}
 		if(survivorsWide == 0 && survivorsNotWide == 0) {
 			//all dead
-			decision.NOT_APPLICABLE.details = "not applicable, the tables are all dead";
-			return decision.NOT_APPLICABLE;
+			PatternAssessmentDecision.NOT_APPLICABLE.details = GammaInvalidityReasons.NO_SURVIVORS.toString();
+			return PatternAssessmentDecision.NOT_APPLICABLE;
 		}
 		if(deadWide == 0 && survivorsWide == 0) {
-			//all notWide
-			decision.NOT_APPLICABLE.details = "not applicable, the tables are all narrow";
-			return decision.NOT_APPLICABLE;
+			//all narrow
+			PatternAssessmentDecision.NOT_APPLICABLE.details = GammaInvalidityReasons.NO_WIDE.toString();
+			return PatternAssessmentDecision.NOT_APPLICABLE;
 		}
 		if(deadNotWide == 0 && survivorsNotWide == 0) {
 			//all wide
-			decision.NOT_APPLICABLE.details = "not applicable, the tables are all wide";
-			return decision.NOT_APPLICABLE;
+			PatternAssessmentDecision.NOT_APPLICABLE.details = GammaInvalidityReasons.NO_NARROW.toString();
+			return PatternAssessmentDecision.NOT_APPLICABLE;
 		}
 		if(deadWide > 0 && deadNotWide > 0 && survivorsWide > 0 && survivorsNotWide > 0) {
 			if(deadWide < persentageTableLimit || deadNotWide < persentageTableLimit || survivorsNotWide < persentageTableLimit || survivorsWide < persentageTableLimit) {
@@ -166,13 +187,13 @@ public class GammaPatternLKVAssessment extends PatternAssessmentTemplateMethod {
 				this.geometricalPatternTrue = (survivorsWide > deadWide) && (deadWide <= MAX_ACCEPTABLE_NUM_WIDE_DEAD_FOR_PATTERN_TO_HOLD);
 				
 				if(geometricalPatternTrue || pValuePatternTrue ) {
-					decision.SUCCESS.details = "success, the Gamma pattern holds";
-					return decision.SUCCESS;
+					PatternAssessmentDecision.SUCCESS.details = "success, the Gamma pattern holds";
+					return PatternAssessmentDecision.SUCCESS;
 				}
 			}
 		}
-		decision.FAILURE.details = "failure, the Gamma pattern doesn't holds";
-		return decision.FAILURE;
+		PatternAssessmentDecision.FAILURE.details = "failure, the Gamma pattern doesn't holds";
+		return PatternAssessmentDecision.FAILURE;
 	}
 
 	/**

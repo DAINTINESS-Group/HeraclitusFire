@@ -12,7 +12,7 @@ import datamodel.TableDetailedStatsElement;
 import mainEngine.TableStatsMainEngine;
 import patternassessment.tablepatterns.InverseGammaAssessment;
 import patternassessment.tablepatterns.PatternAssessmentResult;
-import patternassessment.tablepatterns.PatternAssessmentTemplateMethod.decision;
+import patternassessment.tablepatterns.PatternAssessmentTemplateMethod.PatternAssessmentDecision;
 
 class InvGammaByteballByteballcoreTest {
 	private static  InverseGammaAssessment invGammaAssessment;
@@ -59,7 +59,7 @@ class InvGammaByteballByteballcoreTest {
 
 	@Test
 	final void testDecideIfPatternHolds() {
-		if (invGammaAssessment.decideIfPatternHolds(result) == decision.SUCCESS)
+		if (invGammaAssessment.decideIfPatternHolds(result) == PatternAssessmentDecision.SUCCESS)
 			assertTrue(true);
 		assertTrue(false);
 	}
@@ -71,7 +71,7 @@ class InvGammaByteballByteballcoreTest {
 		  
 		  assertEquals(numRows,69, "byteball__byteballcore tables are 68 + 1 line header");
 		  assertEquals(inputTupleCollection.size(),68);
-		  if (invGammaAssessment.assessPatternTemplateMethod() == decision.SUCCESS)
+		  if (invGammaAssessment.assessPatternTemplateMethod() == PatternAssessmentDecision.SUCCESS)
 				assertTrue(true);
 			assertTrue(false);
 		  Long newTimeStamp = fileProduced.lastModified();
