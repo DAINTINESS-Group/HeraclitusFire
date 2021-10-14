@@ -12,7 +12,7 @@ import datamodel.TableDetailedStatsElement;
 import mainEngine.TableStatsMainEngine;
 import patternassessment.tablepatterns.ElectrolysisAssessment;
 import patternassessment.tablepatterns.PatternAssessmentResult;
-import patternassessment.tablepatterns.PatternAssessmentTemplateMethod.decision;
+import patternassessment.tablepatterns.PatternAssessmentTemplateMethod.PatternAssessmentDecision;
 
 public class ElectrolysisSimpleTest {
 	private static ElectrolysisAssessment electrolysisAssessment;
@@ -79,7 +79,7 @@ public class ElectrolysisSimpleTest {
 	
 	@Test
 	final void testDecideIfPatternHolds() {
-		assertFalse(electrolysisAssessment.decideIfPatternHolds(result) == decision.SUCCESS);
+		assertFalse(electrolysisAssessment.decideIfPatternHolds(result) == PatternAssessmentDecision.SUCCESS);
 	}
 	
 	@Test 
@@ -89,7 +89,7 @@ public class ElectrolysisSimpleTest {
 		
 		assertEquals(numRows,89, "Atlas tables are 88 + 1 line header");
 		assertEquals(inputTupleCollection.size(),88);
-		assertTrue(electrolysisAssessment.assessPatternTemplateMethod() == decision.FAILURE); 
+		assertTrue(electrolysisAssessment.assessPatternTemplateMethod() == PatternAssessmentDecision.FAILURE); 
 		Long newTimeStamp = fileProduced.lastModified();
 		assertTrue(newTimeStamp > originalTimeStamp);
 	}

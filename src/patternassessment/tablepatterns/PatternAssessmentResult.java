@@ -1,6 +1,6 @@
 package patternassessment.tablepatterns;
 
-import patternassessment.tablepatterns.PatternAssessmentTemplateMethod.decision;
+import patternassessment.tablepatterns.PatternAssessmentTemplateMethod.PatternAssessmentDecision;
 
 public class PatternAssessmentResult {
 	private String prjNameAndPattern;
@@ -15,7 +15,7 @@ public class PatternAssessmentResult {
 	private Boolean chiSquareTestPass;
 	private Boolean fisherTestPass;
 	private Boolean fisherTestExecuted;
-	private decision patternHolds;
+	private PatternAssessmentDecision patternHolds;
 	//TODO: possibly add one or two more Boolean/double fields for "otherTestsPass"
 	
 	public PatternAssessmentResult(String text, int rows, int cols) {
@@ -31,7 +31,7 @@ public class PatternAssessmentResult {
 		this.fisherTestPValue = Double.MAX_VALUE;
 		this.fisherTestExecuted = true;
 		this.fisherTestPass = null;
-		this.patternHolds = decision.SUCCESS;
+		this.patternHolds = PatternAssessmentDecision.SUCCESS;
 	}//end constructor
 
 	public String getprjNameAndPattern() {
@@ -78,7 +78,7 @@ public class PatternAssessmentResult {
 		return fisherTestPass;
 	}
 
-	public decision getPatternHolds() {
+	public PatternAssessmentDecision getPatternHolds() {
 		return patternHolds;
 	}
 	
@@ -106,7 +106,7 @@ public class PatternAssessmentResult {
 		this.fisherTestPass = fisherTestPass;
 	}
 
-	public void setPatternHolds(decision patternHolds) {
+	public void setPatternHolds(PatternAssessmentDecision patternHolds) {
 		this.patternHolds = patternHolds;
 	}
 

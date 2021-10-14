@@ -13,7 +13,7 @@ import datamodel.TableDetailedStatsElement;
 import mainEngine.TableStatsMainEngine;
 import patternassessment.tablepatterns.PatternAssessmentResult;
 import patternassessment.tablepatterns.GammaPatternLKVAssessment;
-import patternassessment.tablepatterns.PatternAssessmentTemplateMethod.decision;
+import patternassessment.tablepatterns.PatternAssessmentTemplateMethod.PatternAssessmentDecision;
 
 
 public class GammaSimpleTest {
@@ -57,7 +57,7 @@ public class GammaSimpleTest {
 
 	@Test
 	final void testDecideIfPatternHolds() {
-		if (gammaAssessment.decideIfPatternHolds(result) == decision.SUCCESS)
+		if (gammaAssessment.decideIfPatternHolds(result) == PatternAssessmentDecision.SUCCESS)
 			assertTrue(true);
 		assertTrue(false);
 	}
@@ -70,7 +70,7 @@ public class GammaSimpleTest {
 		  
 		  assertEquals(numRows,89, "Atlas tables are 88 + 1 line header");
 		  assertEquals(inputTupleCollection.size(),88);
-		  if (gammaAssessment.assessPatternTemplateMethod() == decision.SUCCESS)
+		  if (gammaAssessment.assessPatternTemplateMethod() == PatternAssessmentDecision.SUCCESS)
 				assertTrue(true);
 			assertTrue(false);
 		  Long newTimeStamp = fileProduced.lastModified();

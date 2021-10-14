@@ -13,7 +13,7 @@ import datamodel.TableDetailedStatsElement;
 import mainEngine.TableStatsMainEngine;
 import patternassessment.tablepatterns.PatternAssessmentResult;
 import patternassessment.tablepatterns.GammaPatternLKVAssessment;
-import patternassessment.tablepatterns.PatternAssessmentTemplateMethod.decision;
+import patternassessment.tablepatterns.PatternAssessmentTemplateMethod.PatternAssessmentDecision;
 
 class GammaEgeeTest {
 	private static TableStatsMainEngine tableStatsMainEngine; 
@@ -56,7 +56,7 @@ final void testComputeContingencyTable() {
 
 	@Test
 	final void testDecideIfPatternHolds() {
-		if (gammaAssessment.decideIfPatternHolds(result) == decision.SUCCESS)
+		if (gammaAssessment.decideIfPatternHolds(result) == PatternAssessmentDecision.SUCCESS)
 			assertTrue(true);
 		assertTrue(false);
 	}
@@ -69,7 +69,7 @@ final void testComputeContingencyTable() {
 		  
 		  assertEquals(numRows,13, "Egee tables are 12 + 1 line header");
 		  assertEquals(inputTupleCollection.size(),12);
-		  if (gammaAssessment.assessPatternTemplateMethod() == decision.SUCCESS)
+		  if (gammaAssessment.assessPatternTemplateMethod() == PatternAssessmentDecision.SUCCESS)
 				assertTrue(true);
 			assertTrue(false);
 		  Long newTimeStamp = fileProduced.lastModified();
