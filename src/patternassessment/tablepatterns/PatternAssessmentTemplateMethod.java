@@ -94,7 +94,7 @@ public abstract class PatternAssessmentTemplateMethod {
 //		boolean passedChiSq = this.runChiSquareTests(this.result, this.alphaAcceptanceLevel);
 //		boolean passedFisher = this.runFisherExactTest(this.result, this.alphaAcceptanceLevel);
 
-		//take a customized decision
+		//take a customized PatternAssessmentDecision
 		this.patternIsValid = this.decideIfPatternHolds(this.result);
 		this.result.setPatternHolds(this.patternIsValid);
 		
